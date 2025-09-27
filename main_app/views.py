@@ -4,6 +4,6 @@ from datetime import datetime
 
 def home(request):
     context = {
-        'current_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        'current_time': datetime.now().strftime(f"%Y / %m / %d %H:%M:%S")
     }
-    return render(request, 'main.html', context)
+    return render(request, 'base.html', context)
