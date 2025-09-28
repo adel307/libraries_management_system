@@ -6,4 +6,4 @@ def home(request):
     context = {
         'current_time': datetime.now().strftime(f"%Y / %m / %d %H:%M:%S")
     }
-    return render(request, 'base.html', context)
+    return render(request, 'django_template/frontend_abdelrahmanGamal/books.html', context)
