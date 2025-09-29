@@ -3,5 +3,5 @@ from . import views  # Import your views
 
 urlpatterns = [
     # Add your URL patterns here
-    path('', views.my_books, name='books'),  # Example pattern
+    path('', views.my_books, name='my_books'),  # Example pattern
 ]
