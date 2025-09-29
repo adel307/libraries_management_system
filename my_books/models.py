@@ -2,6 +2,9 @@ from django.db import models
 
 # Create your models here.
 
+class Catigory(models.Model):
+    name =  models.CharField(max_length = 100)
+
 class Book (models.Model):
     book_status =[
         ('availble','availble'),
@@ -15,10 +18,8 @@ class Book (models.Model):
     price           =models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     status          =models.CharField(max_length = 100,choices=book_status,null=True,blank=True)
     pages           =models.IntegerField(null=True,blank=True)
-    active          =models.BooleanField(defult=True)
+    active          =models.BooleanField(default=True)
     retal_price_day =models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     retal_proid     =models.IntegerField(null=True,blank=True)
-    catigery        =models.Foreignkey(Catigory,on_delete=models.PRODUCT)
+    catigery        =models.ForeignKey(Catigory,on_delete=models.PROTECT)
     
-class Catigory(models.Model):
-    name =  models.CharField(max_length = 100)
