@@ -1,167 +1,187 @@
-      {%load static%}
-      <!-- REQUIRED SCRIPTS -->
-      <script src="{% static 'plugins/jquery_datepacker/jquery_ui.js'%}"></script>
+{% load static %}
+<!-- jQuery from CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-      <!-- jQuery -->
-      <script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
-      <!-- Bootstrap -->
-      <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-      <!-- AdminLTE -->
-      <script src="{% static 'dist/js/adminlte.js'%}"></script>
-      <!-- OPTIONAL SCRIPTS -->
+<!-- Bootstrap from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-      <script src="{% static 'plugins/chart.js/Chart.min.js'%}"></script>
+<!-- AdminLTE from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 
-      <script src="{% static 'dist/js/demo.js'%}"></script>
-      <!--<script src="dist/js/pages/dashboard3.js'"></script>
-      -->
-      <script>
-        $(document).ready(function(){
-          $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-          });
-      /*here i will make loop for get id category and status for contact with books */
-      /*حساب اجمالي الارباح و هي عبارة عن حاصل جمع سعر الكتب عند البيع بالاضافة الى سعر استعارة الكتاب*/
-        });
-      </script>
-      <script>
-      
-        
+<!-- Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+$(document).ready(function(){
+    // Initialize modal functionality
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus');
+    });
 
-      $(function () {
-        'use strict'
-      
-        var ticksStyle = {
-          fontColor: '#495057',
-          fontStyle: 'bold'
-        }
+    // Initialize charts only if they exist on the page
+    initializeCharts();
+});
 
-        var mode      = 'index'
-        var intersect = true
-
-        var $salesChart = $('#sales-chart')
-
-        var salesChart  = new Chart($salesChart, {
-
-          type   : 'bar',
-          
-          data   : {
-
-            labels  : [
-                
-
-              'تفاصيل الارباح',
-
-            ],
-
-
-            datasets: [
-              {
-                backgroundColor: '#007bff',
-                borderColor    : '#007bff',
-                data           : [ 
-                    '50',
-                ]
-              },
-              {
-                backgroundColor: '#ced4da',
-                borderColor    : '#ced4da',
-                data           : [ 
-                      '30',
-                ]
-              }
-            ]
-          },
-
-        
-        
-        options: {
-            maintainAspectRatio: false,
-            tooltips           : {
-              mode     : mode,
-              intersect: intersect
-            },
-            hover              : {
-              mode     : mode,
-              intersect: intersect
-            },
-            legend             : {
-              display: false
-            },
-            scales             : {
-              yAxes: [{
-                // display: false,
-                gridLines: {
-                  display      : true,
-                  lineWidth    : '4px',
-                  color        : 'rgba(0, 0, 0, .2)',
-                  zeroLineColor: 'transparent'
+function initializeCharts() {
+    // Sales Chart - only initialize if element exists
+    var $salesChart = $('#sales-chart');
+    if ($salesChart.length > 0) {
+        try {
+            var salesChart = new Chart($salesChart, {
+                type: 'bar',
+                data: {
+                    labels: ['تفاصيل الارباح'],
+                    datasets: [
+                        {
+                            label: 'المبيعات',
+                            backgroundColor: '#007bff',
+                            borderColor: '#007bff',
+                            data: [50]
+                        },
+                        {
+                            label: 'التكاليف',
+                            backgroundColor: '#ced4da',
+                            borderColor: '#ced4da',
+                            data: [30]
+                        }
+                    ]
                 },
-                ticks    : $.extend({
-                  beginAtZero: true,
-
-                  // Include a dollar sign in the ticks
-                  callback: function (value, index, values) {
-                    if (value >= 1000) {
-                      value /= 1000
-                      value += 'k'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
                     }
-                    return '$' + value
-                  }
-                }, ticksStyle)
-              }],
-              xAxes: [{
-                display  : true,
-                gridLines: {
-                  display: false
+                }
+            });
+        } catch (error) {
+            console.log('Sales chart initialization skipped:', error);
+        }
+    }
+
+    // Pie Chart - only initialize if element exists
+    var $visitorsChart = $('#visitors-chart');
+    if ($visitorsChart.length > 0) {
+        try {
+            var pieChart = new Chart($visitorsChart, {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: [35, 25, 40],
+                        backgroundColor: ["#27c100", "#f3545d", "#fdaf4b"],
+                        borderWidth: 2
+                    }],
+                    labels: ['متاح', 'مباع', 'مستعار']
                 },
-                ticks    : ticksStyle
-              }]
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.log('Pie chart initialization skipped:', error);
+        }
+    }
+}
+
+// Utility functions for library management
+function deleteBook(bookId) {
+    if (confirm('هل أنت متأكد من حذف هذا الكتاب؟')) {
+        // AJAX call to delete book
+        $.ajax({
+            url: '/books/delete/' + bookId + '/',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('تم حذف الكتاب بنجاح');
+                    location.reload();
+                } else {
+                    alert('حدث خطأ أثناء حذف الكتاب');
+                }
+            },
+            error: function() {
+                alert('حدث خطأ أثناء حذف الكتاب');
             }
-          }
         });
+    }
+}
+
+function renewBook(bookId) {
+    if (confirm('هل تريد تجديد استعارة هذا الكتاب؟')) {
+        // AJAX call to renew book
+        $.ajax({
+            url: '/books/renew/' + bookId + '/',
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('تم تجديد الكتاب بنجاح');
+                    location.reload();
+                } else {
+                    alert('حدث خطأ أثناء تجديد الكتاب');
+                }
+            },
+            error: function() {
+                alert('حدث خطأ أثناء تجديد الكتاب');
+            }
+        });
+    }
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Search functionality
+function searchBooks() {
+    var searchTerm = $('#searchInput').val().toLowerCase();
+    $('.book-card').each(function() {
+        var bookTitle = $(this).find('.book-title').text().toLowerCase();
+        var bookAuthor = $(this).find('.book-author').text().toLowerCase();
         
-      var pieChart = document.getElementById('visitors-chart').getContext('2d')
+        if (bookTitle.includes(searchTerm) || bookAuthor.includes(searchTerm) || searchTerm === '') {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+}
 
-        var myPieChart = new Chart(pieChart, {
-          type: 'pie',
-          data: {
-            datasets: [{
-              data: ['35','25','40'],
-              backgroundColor :["#27c100","#f3545d","#fdaf4b"],
-              borderWidth: 10,
-              
-            }],
-            labels: ['Available', 'Sold', 'Rented'] 
-          },
-          options : {
-            responsive: true, 
-            maintainAspectRatio: false,
-            legend: {
-              position : 'bottom',
-              labels : {
-                fontColor: '#000',
-                fontSize: 15,
-                usePointStyle : true,
-                padding:30
-              }
-            },
-            pieceLabel: {
-              render: 'percentage',
-              fontColor: 'white',
-              fontSize: 14,
-            },
-
-
-          }
-        })
-
-      })
-
-      let books_list = document.querySelectorAll('.col-12 col-sm-6 col-md-4 d-flex align-items-stretch ')
-      console.log(books_list)
-
-
-      
-      </script>
+// Initialize tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
