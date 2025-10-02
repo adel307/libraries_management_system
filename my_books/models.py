@@ -25,4 +25,5 @@ class Book (models.Model):
     retal_proid     =models.IntegerField(null=True,blank=True)
     catigery        =models.ForeignKey(Catigory,on_delete=models.PROTECT)
     def __str__ (self):
+        
         return self.title
