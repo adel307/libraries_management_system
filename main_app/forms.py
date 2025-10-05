@@ -16,6 +16,7 @@ class new_book (forms.ModelForm):
             'retal_price_day',
             'retal_proid',
             'catigery',
+            'total_rental',
         ]
 
         widgets = {
@@ -27,8 +28,9 @@ class new_book (forms.ModelForm):
             'status': forms.Select(attrs={'class':'form-control'}),
             'pages': forms.NumberInput(attrs={'class':'form-control'}),
             'active': forms.TextInput(attrs={'class':'form-control'}),
-            'retal_price_day': forms.NumberInput(attrs={'class':'form-control'}),
-            'retal_proid': forms.NumberInput(attrs={'class':'form-control'}),
+            'retal_price_day': forms.NumberInput(attrs={'class':'form-control','id':'RetalPriceDay'}),
+            'retal_proid': forms.NumberInput(attrs={'class':'form-control','id':'RetalProid'}),
+            'total_rental': forms.NumberInput(attrs={'class':'form-control','id':'TotalRental'}),
             'catigery': forms.Select(attrs={'class':'form-control'}),
         }
 

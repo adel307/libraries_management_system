@@ -23,6 +23,7 @@ class Book (models.Model):
     active          =models.BooleanField(default=True)
     retal_price_day =models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     retal_proid     =models.IntegerField(null=True,blank=True)
+    total_rental    =models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     catigery        =models.ForeignKey(Catigory,on_delete=models.PROTECT)
     def __str__ (self):
         

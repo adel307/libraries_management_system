@@ -8,12 +8,37 @@ from .forms import *
 
 def home(request):
 
+    
+
+    totalPay = 0
+    for book in Book.objects.all() :
+        if book.price :
+            if book.status == 'solid':
+                totalPay += book.price
+    
+    totalRental = 0
+    for book in Book.objects.all() :
+        if book.total_rental :
+            if book.status == 'rental':
+                totalRental += book.total_rental
+    
+
+    totalsalarys = totalRental + totalPay
+
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
         'books'        : Book.objects.all(),
         'catigories'   : Catigory.objects.all(),
         'forms'        : new_book(),
-        'add_category' : new_category()
+        'add_category' : new_category(),
+        'books_num'    : Book.objects.filter(active=True).count(),
+        'avl_books'    : Book.objects.filter(status='availble').count(),
+        'rental_books' : Book.objects.filter(status='rental').count(),
+        'solid_books'  : Book.objects.filter(status='solid').count(),
+        'totalsalarys' : totalsalarys,
+        'totalPay'     : totalPay,
+        'totalRental'  : totalRental,
+        
     }
 
     if request.method == 'POST':
