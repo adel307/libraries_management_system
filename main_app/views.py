@@ -45,16 +45,16 @@ def home(request):
         save_new_book = new_book(request.POST,request.FILES)
         if save_new_book.is_valid():
             save_new_book.save()
-            return render(request, 'django_template/frontend_abdelrahmanGamal/index.html', context)
+            return render(request, 'main_app/index.html', context)
 
     if request.method == 'POST':
         save_new_category = new_category(request.POST,request.FILES)
         if save_new_category.is_valid():
             save_new_category.save()
-            return render(request, 'django_template/frontend_abdelrahmanGamal/index.html', context)
+            return render(request, 'main_app/index.html', context)
 
     
-    return render(request, 'django_template/frontend_abdelrahmanGamal/index.html', context)    
+    return render(request, 'main_app/index.html', context)    
 
 def update(request,id):
 
@@ -71,7 +71,7 @@ def update(request,id):
         'update_form' : update_book,
     }
 
-    return render(request,'django_template/frontend_abdelrahmanGamal/update.html',context)
+    return render(request,'main_app/update.html',context)
 
 def delete(request,id):
 
@@ -79,5 +79,5 @@ def delete(request,id):
     if request.method == 'POST':
         delete_book.delete()
         return redirect('/')
-    return render(request,'django_template/frontend_abdelrahmanGamal/delete.html')
+    return render(request,'main_app/delete.html')
 

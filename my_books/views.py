@@ -28,9 +28,9 @@ def my_books(request):
         save_new_category = new_category(request.POST,request.FILES)
         if save_new_category.is_valid():
             save_new_category.save()
-            return render(request, 'django_template/frontend_abdelrahmanGamal/books.html',context)
+            return render(request, 'my_book/books.html',context)
     if 'horror-category' in request.GET:
         print(True)
 
-    return render(request, 'django_template/frontend_abdelrahmanGamal/books.html',context)    
+    return render(request, 'my_book/books.html',context)    
 
