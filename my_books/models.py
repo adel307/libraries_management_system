@@ -4,8 +4,9 @@ from django.db import models
 
 class Catigory(models.Model):
     name =  models.CharField(max_length = 100)
-    def __str__ (self):
-        return self.name
+    class Meta :
+        ordering = ['-id']
+
 
 class Book (models.Model):
     book_status =[
@@ -25,6 +26,5 @@ class Book (models.Model):
     retal_proid     =models.IntegerField(null=True,blank=True)
     total_rental    =models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     catigery        =models.ForeignKey(Catigory,on_delete=models.PROTECT)
-    def __str__ (self):
-        
-        return self.title
+    class Meta :
+        ordering = ['-id']

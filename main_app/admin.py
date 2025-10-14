@@ -13,44 +13,10 @@ class admin_Catigory(admin.ModelAdmin):
     # list_filter = ['cotegory','active']
 
 class admin_Book(admin.ModelAdmin):
-    list_display = [
-        'id',
-        'title',
-        'auther',
-        'price',
-        'status',
-        'pages',
-        'catigery',
-        'active',
-        'retal_proid',
-        'retal_price_day',
-        'total_rental',
-    ]
-    list_editable = [
-        'title',
-        'auther',
-        'price',
-        'status',
-        'pages',
-        'catigery',
-        'active',
-        'retal_proid',
-        'retal_price_day',
-        'total_rental',
-    ]
+    list_display = ['id','title','auther','price','status','pages','catigery','active','retal_proid','retal_price_day','total_rental',]
+    list_editable = ['title','auther','price','status','pages','catigery','active','retal_proid','retal_price_day','total_rental',]
     list_display_links = ['id']
-    search_fields = [
-        'title',
-        'auther',
-        'price',
-        'status',
-        'pages',
-        'catigery',
-        'active',
-        'retal_proid',
-        'retal_price_day',
-        'total_rental',
-    ]
+    search_fields = ['title','auther','price','status','pages','active','retal_proid','retal_price_day','total_rental',]
     # list_filter = ['moment']
 
 admin.site.register(Catigory , admin_Catigory)
