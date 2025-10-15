@@ -2,77 +2,102 @@
 
 {% block content%}
     <div style="direction: rtl;" class="wrapper">
-      <!-- Content Wrapper. Contains page content -->
-      <div   class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div  class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title"> {{selected_book.title}}</h3>
-          </div>
-
-          <!-- بداية الكتاب -->
-          <div   class="col-12 col-sm-6 col-md-4  hide_books book{{book.category.id}} book{{book.status}}">
-            <div  id="" class="card bg-light">
-              <div  class="card-header text-muted border-bottom-0">
-                {{selected_book.title}}
-              </div>
-              <div class="card-body pt-0">
-                <div class="row">
-                  <div class="col-7">
-                    <h2 class="lead"><b>{{selected_book.title}}</b></h2>
-                    <ul class="  fa-ul text-muted">
-                      <li class="small"><span class="fa-li"></span>الحالة:  {{selected_book.status}}</li>
-                      {% if selected_book.price %}
-                        <li class="small"><span class="fa-li"></span>السعر:  {{selected_book.price}}</li>
-                      {% elif selected_book.retal_price_day %}
-                        <li class="small"><span class="fa-li"></span> سعر الإيجار لليوم :  {{selected_book.retal_price_day}}</li>
-                      {% endif %}
-                    </ul>
-                  </div>
-                  {% if selected_book.auther_image %}
-                    <div class="col-5 text-center">
-                      <img style="height: 120px; width: 120px;"  src="{{selected_book.auther_image.url}}" alt="" class="img-circle img-fluid">
-                    </div>
-                  {% else %}
-                    <div class="col-5 text-center">
-                      <img style="height: 120px; width: 120px;"  src="" alt="" class="img-circle img-fluid">
-                    </div>
-                  {% endif %}
+        <!-- Content Wrapper. Contains page content -->
+        <div   class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div  class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"> {{selected_book.title}}</h3>
                 </div>
-              </div>
-              <div class="card-footer">
-                <div class="text-right">
-                  <a href="#" class="btn btn-sm bg-danger">
-                    <i class="fas fa-trash"></i>
-                  </a>
-                  <a href="#" class="btn btn-sm btn-primary">
-                    <i class="fas fa-book"></i> فحص
-                  </a>
+
+                <!-- بداية الكتاب -->
+                <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ book.category.id }} book{{ book.status }}">
+                    <div class="card bg-light">
+                        <!-- رأس البطاقة -->
+                        <div class="card-header text-muted border-bottom-0 text-center">
+                            <h5 class="mb-0">الكتاب</h5>
+                        </div>
+                        
+                        <!-- جسم البطاقة -->
+                        <div class="card-body pt-0">
+                            <div class="row align-items-center">
+                                <!-- صورة المؤلف على اليمين - حجم أكبر -->
+                                <div class="col-6 col-md-5 text-center">
+                                    {% if selected_book.auther_image %}
+                                        <img style="height: 180px; width: 180px; object-fit: cover;" 
+                                            src="{{ selected_book.auther_image.url }}" 
+                                            alt="صورة المؤلف" 
+                                            class="img-fluid rounded shadow-sm"
+                                        >
+                                        {% csrf_token %}
+                                        {{ description_form.book_image }}
+                                    {% else %}
+                                        <img style="height: 180px; width: 180px;" 
+                                            src="" 
+                                            alt="لا توجد صورة" 
+                                            class="img-fluid rounded bg-secondary"
+                                        >
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- معلومات الكتاب على اليسار - حجم أكبر -->
+                                <div class="col-6 col-md-7">
+                                    {% csrf_token %}
+                                    <h2 class="h4 mb-3"><b>{{ description_form.title }}</b></h2>
+                                    <ul class="fa-ul text-muted list-unstyled">
+                                        <li class="mb-2">
+                                            <span class="fa-li"></span>
+                                            {% csrf_token %}
+                                            <strong>المؤلف:</strong> {{ description_form.auther }}
+                                        </li>
+                                        <li class="mb-2">
+                                            <span class="fa-li"></span>
+                                            {% csrf_token %}
+                                            <strong>الحالة:</strong> {{ description_form.status }}
+                                        </li>
+                                        {% if selected_book.price %}
+                                        <li class="mb-2">
+                                            {% csrf_token %}
+                                            <span class="fa-li"></span>
+                                            <strong>السعر:</strong> {{ description_form.price }}
+                                        </li>
+                                        {% elif selected_book.retal_price_day %}
+                                        <li class="mb-2">
+                                            {% csrf_token %}
+                                            <span class="fa-li"></span>
+                                            <strong>سعر الإيجار لليوم:</strong> {{ description_form.retal_price_day }}
+                                        </li>
+                                        <li class="mb-2">
+                                            {% csrf_token %}
+                                            <span class="fa-li"></span>
+                                            <strong>مدة الإيجار :</strong> {{ description_form.retal_proid }}
+                                        </li>
+                                        {% endif %}
+                                        <li class="mb-2">
+                                            <span class="fa-li"></span>
+                                            {% csrf_token %}
+                                            <strong>عدد الصفحات:</strong> {{ description_form.pages }}
+                                        </li>
+                                        <li class="mb-2">
+                                            <span class="fa-li"></span>
+                                            {% csrf_token %}
+                                            <strong>التصنيف:</strong> {{ description_form.catigery }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- تذييل البطاقة - حجم أكبر -->
+                        <div class="card-footer py-3">
+                            البتننمسمنسءننميءمسءمسوسمسءنةءي
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            
-          </div>
-          <!-- نهاية الكتاب -->
+                <!-- نهاية الكتاب -->
 
-          <!-- /.card-header -->
-          <!-- form start -->
-          <form  method="POST" enctype="multipart/form-data">
-          
-            <div class="card-body">
-              
-              {% csrf_token %}
-              {{description_form}}
-
-              <small id='totalrente' class="form-text text-muted"></small>
+                <!-- /.card-header -->
             </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">حفظ</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
 {% endblock %}
