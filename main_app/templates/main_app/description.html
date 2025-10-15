@@ -12,7 +12,7 @@
 
                 <!-- بداية الكتاب -->
                 <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ book.category.id }} book{{ book.status }}">
-                    <div class="card bg-light">
+                    <form method="POST" enctype="multipart/form-data">
                         <!-- رأس البطاقة -->
                         <div class="card-header text-muted border-bottom-0 text-center">
                             <h5 class="mb-0">الكتاب</h5>
@@ -24,15 +24,15 @@
                                 <!-- صورة المؤلف على اليمين - حجم أكبر -->
                                 <div class="col-6 col-md-5 text-center">
                                     {% if selected_book.auther_image %}
-                                        <img style="height: 180px; width: 180px; object-fit: cover;" 
-                                            src="{{ selected_book.auther_image.url }}" 
-                                            alt="صورة المؤلف" 
+                                        <img style=" object-fit: cover;" 
+                                            src="{{ selected_book.book_image.url }}" 
+                                            alt="صورة الكتاب" 
                                             class="img-fluid rounded shadow-sm"
                                         >
                                         {% csrf_token %}
                                         {{ description_form.book_image }}
                                     {% else %}
-                                        <img style="height: 180px; width: 180px;" 
+                                        <img
                                             src="" 
                                             alt="لا توجد صورة" 
                                             class="img-fluid rounded bg-secondary"
@@ -89,10 +89,15 @@
                         </div>
                         
                         <!-- تذييل البطاقة - حجم أكبر -->
-                        <div class="card-footer py-3">
-                            البتننمسمنسءننميءمسءمسوسمسءنةءي
+                        <div class="">
+                            
+                            {% csrf_token %}
+                            {{ description_form.discription }}
                         </div>
-                    </div>
+                        <div class="card-footer py-3">
+                            <button type="submit" class="btn btn-primary">حفظ</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- نهاية الكتاب -->
 

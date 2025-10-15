@@ -17,6 +17,7 @@ class new_book (forms.ModelForm):
             'retal_proid',
             'catigery',
             'total_rental',
+            'discription',
         ]
 
         widgets = {
@@ -32,6 +33,7 @@ class new_book (forms.ModelForm):
             'retal_proid': forms.NumberInput(attrs={'class':'form-control','id':'RetalProid'}),
             'total_rental': forms.NumberInput(attrs={'class':'form-control','id':'TotalRental'}),
             'catigery': forms.Select(attrs={'class':'form-control'}),
+            'discription': forms.TextInput(attrs={'class':'form-control'}),
         }
 
 
