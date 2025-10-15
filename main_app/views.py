@@ -56,22 +56,23 @@ def home(request):
     
     return render(request, 'main_app/index.html', context)    
 
-def update(request,id):
+def description(request,id):
 
     book_id = Book.objects.get(id = id)
     if request.method == 'POST':
-        update_book = new_book(request.POST,request.FILES,instance = book_id)
-        if update_book.is_valid():
-            update_book.save()
+        description_book = new_book(request.POST,request.FILES,instance = book_id)
+        if description_book.is_valid():
+            description_book.save()
             return redirect('/')
     else:
-        update_book = new_book(instance = book_id)
+        description_book = new_book(instance = book_id)
 
     context = {
-        'update_form' : update_book,
+        'description_form' : description_book,
+        'selected_book'    : Book.objects.get(id = id),
     }
 
-    return render(request,'main_app/update.html',context)
+    return render(request,'main_app/description.html',context)
 
 def delete(request,id):
 
