@@ -1,238 +1,238 @@
 {% extends 'base.html'%}
 
 {% block content%}
-    <div style="direction: rtl;" class="wrapper">
-      <!-- Content Wrapper. Contains page content -->
-      <div   class="content-wrapper">
-        <!-- Content Header (Page header) -->
+        <div style="direction: rtl;" class="wrapper">
+            <!-- Content Wrapper. Contains page content -->
+            <div   class="content-wrapper">
+                <!-- Content Header (Page header) -->
 
-        <!--الاحصائيات-->
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header border-0">
-                    <div class="d-flex justify-content-between">
-                      <h3 class="card-title">اجمالي عدد الكتب</h3>                    
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="d-flex">
-                      <p class="d-flex flex-column">
-                        <span class="text-bold text-lg">{{books_num}}</span>
-                      </p>  
-                    </div>
-                    <!-- /.d-flex -->
+                <!--الاحصائيات-->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="card-title">اجمالي عدد الكتب</h3>                    
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <p class="d-flex flex-column">
+                                                <span class="text-bold text-lg">{{books_num}}</span>
+                                            </p>  
+                                        </div>
+                                        <!-- /.d-flex -->
 
-                    <div class="position-relative mb-4">
-                      <canvas id="visitors-chart" height="200"></canvas>
-                    </div>  
-                  </div>
-                </div>
-                <!-- /.card -->
-              </div>
-              <!-- /.col-md-6 -->
-              
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header border-0">
-                    <div class="d-flex justify-content-between">
-                      <h3 class="card-title">الارباح</h3>   
-                    </div>
-                  </div>
-
-                  <div class="card-body">
-                    <div class="d-flex">
-                      <p class="d-flex flex-column">
-                        <span id="totalsalarys" class="text-bold text-lg">${{totalsalarys}}</span><br>
-                      </p>
-                    </div>
-                    <!-- /.d-flex -->
-    
-                    <div class="position-relative mb-4">
-                      <canvas id="sales-chart" height="160"></canvas>
-                    </div>
-    
-                    <div class="d-flex flex-row justify-content-end">
-                      <span class="mr-2">
-                        <i class="fas fa-square text-primary"></i> الارباح من بيع الكتب
-                        <p id="soldtotals"></p>     
-                      </span>
-                      <span>
-                        <i class="fas fa-square text-gray"></i> الارباح من استعارة الكتب
-                        <p id="rentedtotals"></p>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          
-              <!-- /.col-md-6 -->
-            </div>
-            <!-- /.row -->
-    
-            <!-- form add books -->
-            <!-- Button to show/hide the form -->
-            <div class="row m-1 mb-3">   
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#bookform" aria-expanded="false" aria-controls="bookform">
-                    <i class="fas fa-plus"></i> اضافة كتاب
-                </button>
-            </div>
-
-            <!-- The form (initially hidden) -->
-            <div id="bookform" class="card card-primary collapse">
-                <div class="card-header">
-                    <h3 class="card-title">اضافة كتاب</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="card-body">
-                        {{ forms }}
-                        <small id='totalrente' class="form-text text-muted"></small>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">اضافة</button>
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#bookform">إلغاء</button>
-                    </div>
-                </form>
-            </div>
-    
-            <!-- /.card -->
-          </div>
-          <!-- end form add books -->
-
-          
-          <!-- books -->
-
-          <div class="row">
-
-            {% for book in books %}
-              <!-- الكتاب -->
-                <div id="" class="col-md-4 hide_books book{{book.category.id}} book{{book.status}}">
-                  <!-- Widget: user widget style 1 -->
-                  <div id="" class="card card-widget widget-user ">
-                    <!-- قائمة منسدلة -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" 
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'description' book.id %}"><i class="fas fa-edit mr-2"></i> التفاصيل</a>
-                            <a class="dropdown-item text-danger" href="{% url 'delete' book.id %}"><i class="fas fa-trash mr-2"></i> حذف</a>
-                        </div>
-                    </div>
-
-                    <div class="widget-user-header bg-info">
-                      <h3 class="widget-user-username">{{book.title}}</h3>
-                    </div>
-
-                    {% if book.auther_image %}
-                      <div class="widget-user-image">
-                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.auther_image.url}}" alt="User Avatar">
-                      </div>
-                    {% else %}
-                      <div class="widget-user-image">
-                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="" alt="User Avatar">
-                      </div>
-                    {% endif %}
-
-                    <div class="card-footer">
-                      <div class="row">
-                        <div class="col-sm-4 border-right">
-                          <div class="description-block">
-                            <span class="description-text">صفحة</span>
-                            <h5 class="description-header">{{book.pages}}</h5>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                            <!-- /.col -->
-                        {% if book.price %}
-                          <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                              <span class="description-text">السعر</span>
-                              <h5 class="description-header">${{book.price}}</h5>
+                                        <div class="position-relative mb-4">
+                                            <canvas id="visitors-chart" height="200"></canvas>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <!-- /.card -->
                             </div>
-                            <!-- /.description-block -->
-                          </div>
-                        {% elif book.retal_price_day %}
-                          <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                              <span class="description-text"> سعر الإيجار  </span>
-                              <h5 class="description-header">${{book.retal_price_day}} لليوم</h5>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
+                            <!-- /.col-md-6 -->
+                            
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="card-title">الارباح</h3>   
+                                        </div>
+                                    </div>
 
-                          <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                              <span class="description-text">مدة الإيجار </span>
-                              <h5 class="description-header">{{book.retal_proid}} يوم </h5>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                        {% endif %}
-                            <!-- /.col -->
-                        {% if book.status == "availble" %}
-                          <div class="col-sm-4">
-                            <div class="description-block">
-                              <span class="description-text ">الحالة</span>
-                              <h5 class="description-header text-success">متاح</h5>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                        {% elif book.status == "rental"%}
-                          <div class="col-sm-4">
-                            <div class="description-block">
-                              <span class="description-text ">الحالة</span>
-                              <h5 class="description-header text-warning">مستأجر</h5>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                        {% elif book.status == "solid"%}
-                          <div class="col-sm-4">
-                            <div class="description-block">
-                              <span class="description-text ">الحالة</span>
-                              <h5 class="description-header text-danger">بيع</h5>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                        {% endif %}
-                        <!-- /.col -->
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <p class="d-flex flex-column">
+                                                <span id="totalsalarys" class="text-bold text-lg">${{totalsalarys}}</span><br>
+                                            </p>
+                                        </div>
+                                        <!-- /.d-flex -->
                         
-                        <div class="col-sm-4">
-                          <div class="description-block">
-                            <span class="description-text ">المؤلف</span>
-                            <h5 class="description-header text-success">{{book.auther}}</h5>
-                          </div>
-                          <!-- /.description-block -->
+                                        <div class="position-relative mb-4">
+                                            <canvas id="sales-chart" height="160"></canvas>
+                                        </div>
+                        
+                                        <div class="d-flex flex-row justify-content-end">
+                                            <span class="mr-2">
+                                                <i class="fas fa-square text-primary"></i> الارباح من بيع الكتب
+                                                <p id="soldtotals"></p>     
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-square text-gray"></i> الارباح من استعارة الكتب
+                                                <p id="rentedtotals"></p>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <!-- /.col-md-6 -->
+                        </div>
+                        <!-- /.row -->
+                
+                        <!-- form add books -->
+                        <!-- Button to show/hide the form -->
+                        <div class="row m-1 mb-3">   
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#bookform" aria-expanded="false" aria-controls="bookform">
+                                <i class="fas fa-plus"></i> اضافة كتاب
+                            </button>
                         </div>
 
-                      </div>
-                      <!-- /.row -->
+                        <!-- The form (initially hidden) -->
+                        <div id="bookform" class="card card-primary collapse">
+                            <div class="card-header">
+                                <h3 class="card-title">اضافة كتاب</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    {{ forms }}
+                                    <small id='totalrente' class="form-text text-muted"></small>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">اضافة</button>
+                                    <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#bookform">إلغاء</button>
+                                </div>
+                            </form>
+                        </div>
+                
+                        <!-- /.card -->
                     </div>
+                    <!-- end form add books -->
 
-                  </div>
-                  <!-- /.widget-user -->
+                    
+                    <!-- books -->
+
+                    <div class="row">
+
+                        {% for book in books %}
+                            <!-- الكتاب -->
+                            <div id="" class="col-md-4 hide_books book{{book.category.id}} book{{book.status}}">
+                                <!-- Widget: user widget style 1 -->
+                                <div id="" class="card card-widget widget-user ">
+                                    <!-- قائمة منسدلة -->
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" 
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="{% url 'description' book.id %}"><i class="fas fa-edit mr-2"></i> التفاصيل</a>
+                                            <a class="dropdown-item text-danger" href="{% url 'delete' book.id %}"><i class="fas fa-trash mr-2"></i> حذف</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-user-header bg-info">
+                                        <h3 class="widget-user-username">{{book.title}}</h3>
+                                    </div>
+
+                                    {% if book.auther_image %}
+                                        <div class="widget-user-image">
+                                            <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.auther_image.url}}" alt="User Avatar">
+                                        </div>
+                                    {% else %}
+                                        <div class="widget-user-image">
+                                            <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="" alt="User Avatar">
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-sm-4 border-right">
+                                                <div class="description-block">
+                                                    <span class="description-text">صفحة</span>
+                                                    <h5 class="description-header">{{book.pages}}</h5>
+                                                </div>
+                                                <!-- /.description-block -->
+                                            </div>
+                                            <!-- /.col -->
+                                            {% if book.price %}
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <span class="description-text">السعر</span>
+                                                        <h5 class="description-header">${{book.price}}</h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                            {% elif book.retal_price_day %}
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <span class="description-text"> سعر الإيجار  </span>
+                                                        <h5 class="description-header">${{book.retal_price_day}} لليوم</h5>
+                                                    </div>
+                                                <!-- /.description-block -->
+                                                </div>
+
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <span class="description-text">مدة الإيجار </span>
+                                                        <h5 class="description-header">{{book.retal_proid}} يوم </h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                            {% endif %}
+                                            <!-- /.col -->
+                                            {% if book.status == "availble" %}
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text ">الحالة</span>
+                                                        <h5 class="description-header text-success">متاح</h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                            {% elif book.status == "rental"%}
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text ">الحالة</span>
+                                                        <h5 class="description-header text-warning">مستأجر</h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                            {% elif book.status == "solid"%}
+                                                <div class="col-sm-4">
+                                                <div class="description-block">
+                                                    <span class="description-text ">الحالة</span>
+                                                    <h5 class="description-header text-danger">بيع</h5>
+                                                </div>
+                                                <!-- /.description-block -->
+                                                </div>
+                                            {% endif %}
+                                            <!-- /.col -->
+                                        
+                                            <div class="col-sm-4">
+                                                <div class="description-block">
+                                                    <span class="description-text ">المؤلف</span>
+                                                    <h5 class="description-header text-success">{{book.auther}}</h5>
+                                                </div>
+                                                <!-- /.description-block -->
+                                            </div>
+
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+
+                                </div>
+                                <!-- /.widget-user -->
+                            </div>
+                            <!-- نهاية الكتاب -->
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col text-center">
+                                <!--اضف صورة هنا في حالة عدم وجود كتب-->   
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              <!-- نهاية الكتاب -->
-            {% endfor %}
-
-            <div class="row">
-              <div class="col text-center">
-                <!--اضف صورة هنا في حالة عدم وجود كتب-->   
-              </div>
             </div>
-          </div>
+            <!-- /.container-fluid -->
         </div>
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-      <!-- /.content -->
-    
-    <!-- /.content-wrapper -->
+        <!-- /.content -->
+        
+        <!-- /.content-wrapper -->
 {% endblock %}
