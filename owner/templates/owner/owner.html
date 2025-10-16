@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'owner_base.html'%}
 
 {% block content%}
     <div style="direction: rtl;" class="wrapper">
@@ -122,7 +122,7 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{% url 'description' book.id %}"><i class="fas fa-edit mr-2"></i> التفاصيل</a>
+                                        <a class="dropdown-item" href="{% url 'update_book' book.id %}"><i class="fas fa-edit mr-2"></i> التفاصيل</a>
                                         <a class="dropdown-item text-danger" href="{% url 'delete' book.id %}"><i class="fas fa-trash mr-2"></i> حذف</a>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@
 
                                 {% if book.auther_image %}
                                     <div class="widget-user-image">
-                                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.auther_image.url}}" alt="User Avatar">
+                                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.book_image.url}}" alt="User Avatar">
                                     </div>
                                 {% else %}
                                     <div class="widget-user-image">

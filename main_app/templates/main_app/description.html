@@ -30,7 +30,7 @@
                                             class="img-fluid rounded shadow-sm"
                                         >
                                         {% csrf_token %}
-                                        {{ description_form.book_image }}
+                                        {{ selected_book.book_image }}
                                     {% else %}
                                         <img
                                             src="" 
@@ -43,45 +43,45 @@
                                 <!-- معلومات الكتاب على اليسار - حجم أكبر -->
                                 <div class="col-6 col-md-7">
                                     {% csrf_token %}
-                                    <h2 class="h4 mb-3"><b>{{ description_form.title }}</b></h2>
+                                    <h2 class="h4 mb-3"><b>{{ selected_book.title }}</b></h2>
                                     <ul class="fa-ul text-muted list-unstyled">
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
                                             {% csrf_token %}
-                                            <strong>المؤلف:</strong> {{ description_form.auther }}
+                                            <strong>المؤلف:</strong> {{ selected_book.auther }}
                                         </li>
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
                                             {% csrf_token %}
-                                            <strong>الحالة:</strong> {{ description_form.status }}
+                                            <strong>الحالة:</strong> {{ selected_book.status }}
                                         </li>
                                         {% if selected_book.price %}
                                         <li class="mb-2">
                                             {% csrf_token %}
                                             <span class="fa-li"></span>
-                                            <strong>السعر:</strong> {{ description_form.price }}
+                                            <strong>السعر:</strong> {{ selected_book.price }}
                                         </li>
                                         {% elif selected_book.retal_price_day %}
                                         <li class="mb-2">
                                             {% csrf_token %}
                                             <span class="fa-li"></span>
-                                            <strong>سعر الإيجار لليوم:</strong> {{ description_form.retal_price_day }}
+                                            <strong>سعر الإيجار لليوم:</strong> {{ selected_book.retal_price_day }}
                                         </li>
                                         <li class="mb-2">
                                             {% csrf_token %}
                                             <span class="fa-li"></span>
-                                            <strong>مدة الإيجار :</strong> {{ description_form.retal_proid }}
+                                            <strong>مدة الإيجار :</strong> {{ selected_book.retal_proid }}
                                         </li>
                                         {% endif %}
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
                                             {% csrf_token %}
-                                            <strong>عدد الصفحات:</strong> {{ description_form.pages }}
+                                            <strong>عدد الصفحات:</strong> {{ selected_book.pages }}
                                         </li>
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
                                             {% csrf_token %}
-                                            <strong>التصنيف:</strong> {{ description_form.catigery }}
+                                            <strong>التصنيف:</strong> {{ selected_book.catigery }}
                                         </li>
                                     </ul>
                                 </div>
@@ -92,10 +92,12 @@
                         <div class="">
                             
                             {% csrf_token %}
-                            {{ description_form.discription }}
+                            {{ selected_book.discription }}
                         </div>
                         <div class="card-footer py-3">
-                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <button type="submit" class="btn btn-primary">
+                                <a href="{% url 'main' %}"> عودة </a>
+                            </button>
                         </div>
                     </form>
                 </div>

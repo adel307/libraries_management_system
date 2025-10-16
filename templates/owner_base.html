@@ -123,15 +123,6 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{% url 'my_books' %}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                كتبي
-                                </p>
-                            </a>
-                        </li>
-
                         <li style="cursor: pointer;" class="nav-item showall">
                             <a id="" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
@@ -366,26 +357,25 @@
             $('#RetalProid').keyup(function(){
                 $('#TotalRental').val( $('#RetalProid').val()*$('#RetalPriceDay').val() )
             })
-        
-            {% for category in catigories %}
-                
-                    $('.cat{{category.name}}').click(function(){
-                    
-                        $('.hide_books').hide()
-                        $('.book{{book.category.id}}}').show()
-                    });
-
-                    $('.status{{book.status}}').click(function(){
-                        $('.hide_books').hide()
-                        $('.book{{book.status}}').show()
-                    });
-
-                    $('.showall').click(function(){
-                        $('.hide_books').show()
-                    });
-
-            
-            {% endfor %}
         </script>
+        {% for category in catigories %}
+            <script>
+                $('.cat{{category.name}}').click(function(){
+                   
+                    $('.hide_books').hide()
+                    $('.book{{book.category.id}}}').show()
+                });
+
+                $('.status{{book.status}}').click(function(){
+                    $('.hide_books').hide()
+                    $('.book{{book.status}}').show()
+                });
+
+                $('.showall').click(function(){
+                    $('.hide_books').show()
+                });
+
+            </script>
+        {% endfor %} 
     </body>
 </html>

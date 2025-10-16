@@ -82,3 +82,20 @@ def delete(request,id):
         return redirect('/')
     return render(request,'main_app/delete.html')
 
+def buy(request,id):
+
+    book_id = Book.objects.get(id = id)
+    if request.method == 'POST':
+        description_book = new_book(request.POST,request.FILES,instance = book_id)
+        if description_book.is_valid():
+            description_book.save()
+            return redirect('/')
+    else:
+        description_book = new_book(instance = book_id)
+
+    context = {
+        'description_form' : description_book,
+        'selected_book'    : Book.objects.get(id = id),
+    }
+
+    return render(request,'main_app/buy.html',context)

@@ -6,8 +6,13 @@ from main_app.forms import *
 
 # Create your views here.
 
-def owner_func(request):
+def owner_login_func(request):
 
+    
+
+    return render(request, 'login_owner/login_owner.html')
+
+def owner_func (request):
     totalPay = 0
     for book in Book.objects.all() :
         if book.price :
@@ -49,5 +54,23 @@ def owner_func(request):
             save_new_category.save()
             return render(request, 'main_app/index.html', context)
 
-    return render(request, 'login_owner/login_owner.html',context)    
+    
+    return render(request, 'owner/owner.html',context)
 
+def update_book(request,id):
+
+    book_id = Book.objects.get(id = id)
+    if request.method == 'POST':
+        update_book = new_book(request.POST,request.FILES,instance = book_id)
+        if update_book.is_valid():
+            update_book.save()
+            return redirect('/')
+    else:
+        update_book = new_book(instance = book_id)
+
+    context = {
+        'update_form'      : update_book,
+        'selected_book'    : Book.objects.get(id = id),
+    }
+
+    return render(request,'update_book/update_book.html',context)
