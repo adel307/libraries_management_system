@@ -53,7 +53,7 @@ def home(request):
             save_new_category.save()
             return render(request, 'main_app/index.html', context)
 
-    
+    print(request)
     return render(request, 'main_app/index.html', context)    
 
 def description(request,id):
@@ -82,26 +82,23 @@ def delete(request,id):
         return redirect('/')
     return render(request,'main_app/delete.html')
 
-def buy(request,id):
-
-    book_id = Book.objects.get(id = id)
+def buy(request, id):
+    # استخدم get_object_or_404 لأمان أكثر
+    book = get_object_or_404(Book, id=id)
+    
     if request.method == 'POST':
-        description_book = new_book(request.POST,request.FILES,instance = book_id)
-        if description_book.is_valid():
-            description_book.save()
-            return redirect('/')
-    else:
-        description_book = new_book(instance = book_id)
-
-    Book.objects.get(id = id).book_status = 'solid' ,
-    print(Book.objects.get(id = id).book_status)
-
+        
+            # تغيير حالة الكتاب إلى solid
+            book.book_status = 'solid'
+            book.save()
+            print(book.book_status)
+            
+            # إعادة توجيه إلى الصفحة الرئيسية
+            return redirect('main')
+            
+    
+    # إذا كان الطلب GET، اعرض صفحة الشراء
     context = {
-        'description_form' : description_book,
-        'selected_book'    : Book.objects.get(id = id),
-        'selected_book_status':Book.objects.get(id = id).status,
+        'selected_book': book,
     }
-
-
-
-    return render(request,'main_app/buy.html',context)
+    return render(request, 'main_app/buy.html', context)

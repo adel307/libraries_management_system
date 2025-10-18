@@ -74,13 +74,21 @@
         <!-- Main Sidebar Container -->
         <aside style="position: fixed;" class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{% url 'owner_login_page' %}" class="brand-link">
+            <a href="#" class="brand-link">
                 <span class="brand-text font-weight-light">Library managment system </span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
-                
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                    </div>
+                    <div class="info">
+                        <a href="{% url 'owner_login_page' %}" >
+                            <span class="brand-text font-weight-light"> admin page </span>
+                        </a>
+                    </div>
+                </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
