@@ -185,7 +185,7 @@
                                                 </div>
                                                 <!-- /.description-block -->
                                             </div>
-                                        {% elif book.status == "rental"%}
+                                        {% elif book.status == "rented"%}
                                             <div class="col-sm-4">
                                                 <div class="description-block">
                                                     <span class="description-text ">الحالة</span>
@@ -193,11 +193,11 @@
                                                 </div>
                                                 <!-- /.description-block -->
                                             </div>
-                                        {% elif book.status == "solid"%}
+                                        {% elif book.status == "availble_for_rent"%}
                                             <div class="col-sm-4">
                                             <div class="description-block">
                                                 <span class="description-text ">الحالة</span>
-                                                <h5 class="description-header text-danger">بيع</h5>
+                                                <h5 class="description-header text-warning">متاح للإيجار</h5>
                                             </div>
                                             <!-- /.description-block -->
                                             </div>

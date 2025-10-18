@@ -22,7 +22,7 @@ def owner_func (request):
     totalRental = 0
     for book in Book.objects.all() :
         if book.total_rental :
-            if book.status == 'rental':
+            if book.status == 'rented':
                 totalRental += book.total_rental
     
     totalsalarys = totalRental + totalPay
@@ -35,7 +35,7 @@ def owner_func (request):
         'add_category' : new_category(),
         'books_num'    : Book.objects.filter(active=True).count(),
         'avl_books'    : Book.objects.filter(status='availble').count(),
-        'rental_books' : Book.objects.filter(status='rental').count(),
+        'rented_books' : Book.objects.filter(status='rented').count(),
         'solid_books'  : Book.objects.filter(status='solid').count(),
         'totalsalarys' : totalsalarys,
         'totalPay'     : totalPay,

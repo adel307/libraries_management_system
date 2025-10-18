@@ -154,7 +154,7 @@
                             </a>
                         </li>
 
-                        <li style="cursor: pointer;" class="nav-item statusrental">
+                        <li style="cursor: pointer;" class="nav-item statusavailble_for_rent">
                             <a id="" class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>تم استعارته</p>
@@ -267,7 +267,7 @@
                             type: 'pie',
                             data: {
                                 datasets: [{
-                                    data: ['{{avl_books}}', '{{solid_books}}', '{{rental_books}}'],
+                                    data: ['{{avl_books}}', '{{solid_books}}', '{{rented_books}}'],
                                     backgroundColor: ["#27c100", "#f3545d", "#fdaf4b"],
                                     borderWidth: 2
                                 }],
@@ -395,9 +395,7 @@
             
             {% endfor %}
 
-            $('#buy-book').click(function(){
-                console.log({{selected_book_status}})
-            });
+            
         </script>
     </body>
 </html>

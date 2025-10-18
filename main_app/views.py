@@ -17,14 +17,14 @@ def home(request):
             if book.status == 'solid':
                 totalPay += book.price
     
-    totalRental = 0
+    totalRented = 0
     for book in Book.objects.all() :
         if book.total_rental :
-            if book.status == 'rental':
-                totalRental += book.total_rental
+            if book.status == 'rented':
+                totalRented += book.total_rental
     
 
-    totalsalarys = totalRental + totalPay
+    totalsalarys = totalRented + totalPay
 
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
@@ -34,11 +34,11 @@ def home(request):
         'add_category' : new_category(),
         'books_num'    : Book.objects.filter(active=True).count(),
         'avl_books'    : Book.objects.filter(status='availble').count(),
-        'rental_books' : Book.objects.filter(status='rental').count(),
+        'rented_books' : Book.objects.filter(status='rented').count(),
         'solid_books'  : Book.objects.filter(status='solid').count(),
         'totalsalarys' : totalsalarys,
         'totalPay'     : totalPay,
-        'totalRental'  : totalRental,
+        'totalRented'  : totalRented,
         
     }
 
