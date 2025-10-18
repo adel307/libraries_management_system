@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+{% block content%}
+        <div style="direction: rtl;" class="wrapper">
+            <!-- Content Wrapper. Contains page content -->
+            <div   class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div  class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">إزالة الكتاب</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form  method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <p class="p-3">هل تريد حقاً إزالة الكتاب من قائمة كتبك؟</p>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <form method="post">
+                                <button type="submit" class="btn btn-danger">إزالة</button>
+                                <a href="{% url 'main' %}" type="submit" class="btn btn-success">تراجع</a>
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}

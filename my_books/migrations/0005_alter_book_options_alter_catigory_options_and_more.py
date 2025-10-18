@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='book',
             name='discription',
-            field=models.CharField(blank=True, choices=[('availble', 'availble'), ('rental', 'rental'), ('solid', 'solid')], max_length=100, null=True),
+            field=models.CharField(blank=True, choices=[('availble', 'availble'), ('rental', 'rental'), ('sold', 'sold')], max_length=100, null=True),
         ),
     ]

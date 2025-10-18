@@ -14,7 +14,7 @@
                     <div class="row">
 
                         {% for book in books %}
-                            {% if book.status != "solid"%}
+                            {% if book.status != "sold"%}
                                 <!-- الكتاب -->
                                 <div id="" class="col-md-4 hide_books book{{book.category.id}} book{{book.status}}">
                                     <!-- Widget: user widget style 1 -->
@@ -29,7 +29,7 @@
                                                 {% if book.price %}
                                                     <a class="dropdown-item text-success" href="{% url 'buy' book.id %}"><i class="fas fa-university mr-2"></i> شراء </a>
                                                 {% elif book.retal_price_day %}
-                                                    <a class="dropdown-item text-warning" href="{% url 'description' book.id %}"><i class="fas fa-clock mr-2"></i> استئجار </a>
+                                                    <a class="dropdown-item text-warning" href="{% url 'rental' book.id %}"><i class="fas fa-clock mr-2"></i> استئجار </a>
                                                 {% endif %}
                                                 <a class="dropdown-item text-info"    href="{% url 'description' book.id %}"><i class="fas fa-file mr-2"></i> التفاصيل </a>
                                             </div>
@@ -39,7 +39,7 @@
                                             <h3 class="widget-user-username">{{book.title}}</h3>
                                         </div>
 
-                                        {% if book.auther_image %}
+                                        {% if book.book_image %}
                                             <div class="widget-user-image">
                                                 <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.book_image.url}}" alt="book image">
                                             </div>
@@ -101,14 +101,21 @@
                                                         </div>
                                                         <!-- /.description-block -->
                                                     </div>
-                                                
+                                                {% elif book.status == "rented"%}
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text ">الحالة</span>
+                                                            <h5 class="description-header text-danger">  مستأجر </h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
                                                 {% endif %}
                                                 <!-- /.col -->
                                             
                                                 <div class="col-sm-4">
                                                     <div class="description-block">
                                                         <span class="description-text ">المؤلف</span>
-                                                        <h5 class="description-header text-success">{{book.auther}}</h5>
+                                                        <h5 class="description-header text-info">{{book.auther}}</h5>
                                                     </div>
                                                     <!-- /.description-block -->
                                                 </div>

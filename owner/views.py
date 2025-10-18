@@ -16,7 +16,7 @@ def owner_func (request):
     totalPay = 0
     for book in Book.objects.all() :
         if book.price :
-            if book.status == 'solid':
+            if book.status == 'sold':
                 totalPay += book.price
     
     totalRental = 0
@@ -36,7 +36,7 @@ def owner_func (request):
         'books_num'    : Book.objects.filter(active=True).count(),
         'avl_books'    : Book.objects.filter(status='availble').count(),
         'rented_books' : Book.objects.filter(status='rented').count(),
-        'solid_books'  : Book.objects.filter(status='solid').count(),
+        'sold_books'  : Book.objects.filter(status='sold').count(),
         'totalsalarys' : totalsalarys,
         'totalPay'     : totalPay,
         'totalRental'  : totalRental,   

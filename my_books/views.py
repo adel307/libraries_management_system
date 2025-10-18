@@ -14,8 +14,7 @@ def my_books(request):
         if search:
             search_value = search_value.filter(title__icontains = search)
     
-    if 'cat_filter' in request.GET:
-        print(1)
+    
 
 
     context = {
@@ -29,8 +28,7 @@ def my_books(request):
         if save_new_category.is_valid():
             save_new_category.save()
             return render(request, 'my_book/books.html',context)
-    if 'horror-category' in request.GET:
-        print(True)
+    
 
     return render(request, 'my_book/books.html',context)    
 

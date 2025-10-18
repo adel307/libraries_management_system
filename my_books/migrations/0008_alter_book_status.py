@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='book',
             name='status',
-            field=models.CharField(choices=[('availble', 'availble'), ('rented', 'rented'), ('solid', 'solid'), ('availble_for_rent', 'availble_for_rent')], default='availble', max_length=100),
+            field=models.CharField(choices=[('availble', 'availble'), ('rented', 'rented'), ('sold', 'sold'), ('availble_for_rent', 'availble_for_rent')], default='availble', max_length=100),
         ),
     ]

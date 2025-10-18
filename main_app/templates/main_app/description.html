@@ -21,16 +21,13 @@
                         <!-- جسم البطاقة -->
                         <div class="card-body pt-0">
                             <div class="row align-items-center">
-                                <!-- صورة المؤلف على اليمين - حجم أكبر -->
                                 <div class="col-6 col-md-5 text-center">
-                                    {% if selected_book.auther_image %}
+                                    {% if selected_book.book_image %}
                                         <img style=" object-fit: cover;" 
                                             src="{{ selected_book.book_image.url }}" 
                                             alt="صورة الكتاب" 
                                             class="img-fluid rounded shadow-sm"
                                         >
-                                        {% csrf_token %}
-                                        {{ selected_book.book_image }}
                                     {% else %}
                                         <img
                                             src="" 
@@ -95,9 +92,9 @@
                             {{ selected_book.discription }}
                         </div>
                         <div class="card-footer py-3">
-                            <button type="submit" class="btn btn-primary">
-                                <a href="{% url 'main' %}"> عودة </a>
-                            </button>
+                            <a href="{% url 'main' %}" class="btn btn-primary text-light text-decoration-none">
+                                <i class="fas fa-arrow-right me-2"></i> عودة
+                            </a>
                         </div>
                     </form>
                 </div>

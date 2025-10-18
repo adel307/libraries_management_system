@@ -22,14 +22,8 @@
                             <div class="row align-items-center">
                                 <!-- صورة المؤلف على اليمين -->
                                 <div class="col-6 col-md-5 text-center">
-                                    {% if selected_book.auther_image %}
-                                        <img style="height: 200px; width: 200px; object-fit: cover;" 
-                                            src="{{ selected_book.auther_image.url }}" 
-                                            alt="صورة المؤلف" 
-                                            class="img-fluid rounded shadow-sm"
-                                        >
-                                    {% elif selected_book.book_image %}
-                                        <img style="height: 200px; width: 200px; object-fit: cover;" 
+                                    {% if selected_book.book_image %}
+                                        <img style=" object-fit: cover;" 
                                             src="{{ selected_book.book_image.url }}" 
                                             alt="صورة الكتاب" 
                                             class="img-fluid rounded shadow-sm"
@@ -86,7 +80,7 @@
 
                         <!-- زر الشراء - نموذج منفصل -->
                         <div class="card-footer">
-                            {% if selected_book.status != 'solid' %}
+                            {% if selected_book.status != 'sold' %}
                             <form method="POST" action="{% url 'buy' selected_book.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary btn-lg">
