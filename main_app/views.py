@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.http import HttpResponse
+from django.contrib import messages
 from datetime import datetime
 from my_books.models import *
 from .forms import *
@@ -83,19 +84,27 @@ def delete(request,id):
     return render(request,'main_app/delete.html')
 
 def buy(request, id):
-    # استخدم get_object_or_404 لأمان أكثر
+    # الحصول على الكتاب
     book = get_object_or_404(Book, id=id)
     
     if request.method == 'POST':
-        
-            # تغيير حالة الكتاب إلى solid
-            book.book_status = 'solid'
-            book.save()
-            print(book.book_status)
-            
-            # إعادة توجيه إلى الصفحة الرئيسية
+        try:
+            # التحقق من أن الكتاب لم يباع بالفعل
+            if book.status != 'solid':
+                # تغيير حالة الكتاب إلى solid
+                book.status = 'solid'
+                book.save()
+                
+                messages.success(request, f'تم شراء الكتاب "{book.title}" بنجاح!')
+            else:
+                messages.warning(request, 'هذا الكتاب مباع بالفعل!')
+                
             return redirect('main')
             
+        except Exception as e:
+            print(f"Error: {e}")
+            messages.error(request, 'حدث خطأ أثناء عملية الشراء')
+            return redirect('main')
     
     # إذا كان الطلب GET، اعرض صفحة الشراء
     context = {

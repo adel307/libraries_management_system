@@ -2,9 +2,7 @@
 
 {% block content%}
     <div style="direction: rtl;" class="wrapper">
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">{{ selected_book.title }}</h3>
@@ -12,8 +10,8 @@
 
                 <!-- بداية الكتاب -->
                 <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ selected_book.category.id }} book{{ selected_book.status }}">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
+                    <!-- نموذج عرض المعلومات فقط -->
+                    <div class="card">
                         <!-- رأس البطاقة -->
                         <div class="card-header text-muted border-bottom-0 text-center">
                             <h5 class="mb-0">الكتاب</h5>
@@ -22,7 +20,7 @@
                         <!-- جسم البطاقة -->
                         <div class="card-body pt-0">
                             <div class="row align-items-center">
-                                <!-- صورة المؤلف على اليمين - حجم أكبر -->
+                                <!-- صورة المؤلف على اليمين -->
                                 <div class="col-6 col-md-5 text-center">
                                     {% if selected_book.auther_image %}
                                         <img style="height: 200px; width: 200px; object-fit: cover;" 
@@ -45,39 +43,32 @@
                                     {% endif %}
                                 </div>
                                 
-                                <!-- معلومات الكتاب على اليسار - حجم أكبر -->
+                                <!-- معلومات الكتاب على اليسار -->
                                 <div class="col-6 col-md-7">
                                     <h2 class="h4 mb-3"><b>{{ selected_book.title }}</b></h2>
                                     <ul class="fa-ul text-muted list-unstyled">
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>المؤلف:</strong> {{ selected_book.auther }}
                                         </li>
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>الحالة:</strong> {{ selected_book.status }}
                                         </li>
                                         {% if selected_book.price %}
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>السعر:</strong> {{ selected_book.price }}
                                         </li>
                                         {% elif selected_book.retal_price_day %}
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>سعر الإيجار لليوم:</strong> {{ selected_book.retal_price_day }}
                                         </li>
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>مدة الإيجار:</strong> {{ selected_book.retal_proid }}
                                         </li>
                                         {% endif %}
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>عدد الصفحات:</strong> {{ selected_book.pages }}
                                         </li>
                                         <li class="mb-2">
-                                            <span class="fa-li"></span>
                                             <strong>التصنيف:</strong> {{ selected_book.catigery }}
                                         </li>
                                     </ul>
@@ -85,7 +76,7 @@
                             </div>
                         </div>
                         
-                        <!-- تذييل البطاقة -->
+                        <!-- وصف الكتاب -->
                         <div class="card-body">
                             {% if selected_book.discription %}
                                 <h5>وصف الكتاب:</h5>
@@ -93,7 +84,7 @@
                             {% endif %}
                         </div>
 
-                        <!-- زر الشراء -->
+                        <!-- زر الشراء - نموذج منفصل -->
                         <div class="card-footer">
                             {% if selected_book.status != 'solid' %}
                             <form method="POST" action="{% url 'buy' selected_book.id %}">
@@ -101,14 +92,20 @@
                                 <button type="submit" class="btn btn-primary btn-lg">
                                     <i class="fas fa-shopping-cart"></i> شراء الكتاب
                                 </button>
+                                <a href="{% url 'main' %}" class="btn btn-secondary btn-lg">
+                                    <i class="fas fa-arrow-right"></i> العودة
+                                </a>
                             </form>
                             {% else %}
                             <div class="alert alert-success">
                                 <i class="fas fa-check-circle"></i> تم بيع هذا الكتاب
                             </div>
+                            <a href="{% url 'main' %}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-right"></i> العودة
+                            </a>
                             {% endif %}
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <!-- نهاية الكتاب -->
             </div>
