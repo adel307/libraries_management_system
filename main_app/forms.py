@@ -26,7 +26,7 @@ class new_book (forms.ModelForm):
             'book_image': forms.FileInput(attrs={'class':'form-control'}),
             'auther_image': forms.FileInput(attrs={'class':'form-control'}),
             'price': forms.NumberInput(attrs={'class':'form-control'}),
-            'status': forms.Select(attrs={'class':'form-control'}),
+            'status': forms.Select(attrs={'class':'form-control','id':'book_status'}),
             'pages': forms.NumberInput(attrs={'class':'form-control'}),
             'active': forms.TextInput(attrs={'class':'form-control'}),
             'retal_price_day': forms.NumberInput(attrs={'class':'form-control','id':'RetalPriceDay'}),

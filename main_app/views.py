@@ -93,9 +93,15 @@ def buy(request,id):
     else:
         description_book = new_book(instance = book_id)
 
+    Book.objects.get(id = id).book_status = 'solid' ,
+    print(Book.objects.get(id = id).book_status)
+
     context = {
         'description_form' : description_book,
         'selected_book'    : Book.objects.get(id = id),
+        'selected_book_status':Book.objects.get(id = id).status,
     }
+
+
 
     return render(request,'main_app/buy.html',context)
