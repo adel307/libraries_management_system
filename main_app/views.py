@@ -41,16 +41,16 @@ def home(request):
         save_new_book = new_book(request.POST,request.FILES)
         if save_new_book.is_valid():
             save_new_book.save()
-            return render(request, 'main_app/index.html', context)
+            return render(request, 'index.html', context)
 
     if request.method == 'POST':
         save_new_category = new_category(request.POST,request.FILES)
         if save_new_category.is_valid():
             save_new_category.save()
-            return render(request, 'main_app/index.html', context)
+            return render(request, 'index.html', context)
 
     print(request)
-    return render(request, 'main_app/index.html', context)    
+    return render(request, 'index.html', context)    
 
 def description(request,id):
 
@@ -68,7 +68,7 @@ def description(request,id):
         'selected_book'    : Book.objects.get(id = id),
     }
 
-    return render(request,'main_app/description.html',context)
+    return render(request,'description.html',context)
 
 def delete(request,id):
 
@@ -76,7 +76,7 @@ def delete(request,id):
     if request.method == 'POST':
         delete_book.delete()
         return redirect('/')
-    return render(request,'main_app/delete.html')
+    return render(request,'delete.html')
 
 def remove(request,id):
 
@@ -101,7 +101,7 @@ def remove(request,id):
             print(f"Error: {e}")
             messages.error(request, 'حدث خطأ أثناء عملية الحدف')
             return redirect('main')
-    return render(request,'main_app/remove.html')
+    return render(request,'remove.html')
 
 def buy(request, id):
     # الحصول على الكتاب
@@ -110,7 +110,7 @@ def buy(request, id):
     if request.method == 'POST':
         try:
             # التحقق من أن الكتاب لم يباع بالفعل
-            if book.status != 'sold':
+            if book.status == 'availble':
                 # تغيير حالة الكتاب إلى sold
                 book.status = 'sold'
                 book.save()
@@ -130,4 +130,33 @@ def buy(request, id):
     context = {
         'selected_book': book,
     }
-    return render(request, 'main_app/buy.html', context)
+    return render(request, 'buy.html', context)
+
+def rental(request, id):
+    # الحصول على الكتاب
+    book = get_object_or_404(Book, id=id)
+    
+    if request.method == 'POST':
+        try:
+            # التحقق من أن الكتاب لم يباع بالفعل
+            if book.status == 'avl_for_rent':
+                # تغيير حالة الكتاب إلى sold
+                book.status = 'rented'
+                book.save()
+                
+                messages.success(request, f'تم استئجار الكتاب "{book.title}" بنجاح!')
+            else:
+                messages.warning(request, 'هذا الكتاب غير متاح للإيجار !')
+                
+            return redirect('main')
+            
+        except Exception as e:
+            print(f"Error: {e}")
+            messages.error(request, 'حدث خطأ أثناء عملية للإيجار')
+            return redirect('main')
+    
+    # إذا كان الطلب GET، اعرض صفحة الشراء
+    context = {
+        'selected_book': book,
+    }
+    return render(request, 'rental.html', context)

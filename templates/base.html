@@ -154,7 +154,7 @@
                             </a>
                         </li>
 
-                        <li style="cursor: pointer;" class="nav-item statusavailble_for_rent">
+                        <li style="cursor: pointer;" class="nav-item statusavl_for_rent">
                             <a id="" class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>تم استعارته</p>
@@ -267,11 +267,11 @@
                             type: 'pie',
                             data: {
                                 datasets: [{
-                                    data: ['{{avl_books}}', '{{sold_books}}', '{{rented_books}}'],
+                                    data: ['{{avl_books}}', '{{AFR_books}}', '{{rented_books}}'],
                                     backgroundColor: ["#27c100", "#f3545d", "#fdaf4b"],
                                     borderWidth: 2
                                 }],
-                                labels: ['متاح', 'بيع', 'مستعار']
+                                labels: ['متاح', 'متاح للاستعار', 'مستعار']
                             },
                             options: {
                                 responsive: true,

@@ -17,7 +17,7 @@ class Book (models.Model):
         ('availble','availble'),
         ('rented','rented'),
         ('sold','sold'),
-        ('availble_for_rent','availble_for_rent')
+        ('avl_for_rent','avl_for_rent')
     ]
     title           =models.CharField(max_length=100)
     auther          =models.CharField(max_length=100)

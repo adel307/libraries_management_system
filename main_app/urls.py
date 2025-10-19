@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.home, name='main'),  # Example pattern
     path('description-book-<int:id>', views.description, name='description'),
     path('buy-book-<int:id>', views.buy, name='buy'),
+    path('rental-book-<int:id>', views.rental, name='rental'),
     path('delete-book-<int:id>', views.delete, name='delete'),
-    path('remove-book-<int:id>', views.remove, name='remove')
+    path('remove-book-<int:id>', views.remove, name='remove'),
 ]

@@ -10,7 +10,7 @@ def owner_login_func(request):
 
     
 
-    return render(request, 'login_owner/login_owner.html')
+    return render(request, 'login_owner.html')
 
 def owner_func (request):
     totalPay = 0
@@ -36,7 +36,8 @@ def owner_func (request):
         'books_num'    : Book.objects.filter(active=True).count(),
         'avl_books'    : Book.objects.filter(status='availble').count(),
         'rented_books' : Book.objects.filter(status='rented').count(),
-        'sold_books'  : Book.objects.filter(status='sold').count(),
+        'sold_books'   : Book.objects.filter(status='sold').count(),
+        'AFR_books'    : Book.objects.filter(status='avl_for_rent').count(),
         'totalsalarys' : totalsalarys,
         'totalPay'     : totalPay,
         'totalRental'  : totalRental,   
@@ -46,16 +47,16 @@ def owner_func (request):
         save_new_book = new_book(request.POST,request.FILES)
         if save_new_book.is_valid():
             save_new_book.save()
-            return render(request, 'main_app/index.html', context)
+            return render(request, 'index.html', context)
 
     if request.method == 'POST':
         save_new_category = new_category(request.POST,request.FILES)
         if save_new_category.is_valid():
             save_new_category.save()
-            return render(request, 'main_app/index.html', context)
+            return render(request, 'index.html', context)
 
     
-    return render(request, 'owner/owner.html',context)
+    return render(request, 'owner.html',context)
 
 def update_book(request,id):
 
@@ -73,4 +74,4 @@ def update_book(request,id):
         'selected_book'    : Book.objects.get(id = id),
     }
 
-    return render(request,'update_book/update_book.html',context)
+    return render(request,'update_book.html',context)
