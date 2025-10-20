@@ -35,7 +35,7 @@ def owner_func (request):
         'add_category' : new_category(),
         'books_num'    : Book.objects.filter(active=True).count(),
         'avl_books'    : Book.objects.filter(status='availble').count(),
-        'rented_books' : Book.objects.filter(status='rented').count(),
+        'rented_books_num' : Book.objects.filter(status='rented').count(),
         'sold_books'   : Book.objects.filter(status='sold').count(),
         'AFR_books'    : Book.objects.filter(status='avl_for_rent').count(),
         'totalsalarys' : totalsalarys,
@@ -75,3 +75,12 @@ def update_book(request,id):
     }
 
     return render(request,'update_book.html',context)
+
+def delete(request,id):
+
+    delete_book = get_object_or_404(Book,id = id)
+    if request.method == 'POST':
+        delete_book.delete()
+        return redirect('/')
+    return render(request,'delete.html')
+

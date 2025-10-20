@@ -28,7 +28,7 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 {% if book.price %}
                                                     <a class="dropdown-item text-success" href="{% url 'buy' book.id %}"><i class="fas fa-university mr-2"></i> شراء </a>
-                                                {% elif book.retal_price_day %}
+                                                {% elif book.status == 'avl_for_rent'  %}
                                                     <a class="dropdown-item text-warning" href="{% url 'rental' book.id %}"><i class="fas fa-clock mr-2"></i> استئجار </a>
                                                 {% endif %}
                                                 <a class="dropdown-item text-info"    href="{% url 'description' book.id %}"><i class="fas fa-file mr-2"></i> التفاصيل </a>

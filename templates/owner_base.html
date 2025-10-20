@@ -123,6 +123,18 @@
                             </ul>
                         </li>
 
+                        <!-- <li class="nav-item">
+                            <a href="" class="nav-link">
+                                {% url 
+                                'rented_books' 
+                                %}
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                كتبي
+                                </p>
+                            </a>
+                        </li> -->
+
                         <li style="cursor: pointer;" class="nav-item showall">
                             <a id="" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
@@ -250,11 +262,11 @@
                             type: 'pie',
                             data: {
                                 datasets: [{
-                                    data: ['{{avl_books}}', '{{sold_books}}', '{{rented_books}}'],
-                                    backgroundColor: ["#27c100", "#f3545d", "#fdaf4b"],
+                                    data: ['{{avl_books}}', '{{AFR_books}}', '{{rented_books_num}}'],
+                                    backgroundColor: ["#27c100", "#fdaf4b", "#f3545d"],
                                     borderWidth: 2
                                 }],
-                                labels: ['متاح', 'بيع', 'مستعار']
+                                labels: ['متاح', 'متاح للاستعارة', 'مستعار']
                             },
                             options: {
                                 responsive: true,

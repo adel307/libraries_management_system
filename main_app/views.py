@@ -23,17 +23,17 @@ def home(request):
 
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
-        'books'        : Book.objects.all(),
-        'catigories'   : Catigory.objects.all(),
-        'forms'        : new_book(),
+        'books' : Book.objects.all(),
+        'catigories' : Catigory.objects.all(),
+        'forms' : new_book(),
         'add_category' : new_category(),
-        'books_num'    : Book.objects.filter(active=True).count(),
-        'avl_books'    : Book.objects.filter(status='availble').count(),
-        'rented_books' : Book.objects.filter(status='rented').count(),
-        'sold_books'  : Book.objects.filter(status='sold').count(),
+        'books_num' : Book.objects.filter(active=True).count(),
+        'avl_books' : Book.objects.filter(status='availble').count(),
+        'rented_books_num' : Book.objects.filter(status='rented').count(),
+        'sold_books' : Book.objects.filter(status='sold').count(),
         'totalsalarys' : totalsalarys,
-        'totalPay'     : totalPay,
-        'totalRented'  : totalRented,
+        'totalPay' : totalPay,
+        'totalRented' : totalRented,
         
     }
 
@@ -70,13 +70,6 @@ def description(request,id):
 
     return render(request,'description.html',context)
 
-def delete(request,id):
-
-    delete_book = get_object_or_404(Book,id = id)
-    if request.method == 'POST':
-        delete_book.delete()
-        return redirect('/')
-    return render(request,'delete.html')
 
 def remove(request,id):
 

@@ -111,116 +111,119 @@
                 <div class="row">
 
                     {% for book in books %}
-                        <!-- الكتاب -->
-                        <div id="" class="col-md-4 hide_books book{{book.category.id}} book{{book.status}}">
-                            <!-- Widget: user widget style 1 -->
-                            <div id="" class="card card-widget widget-user ">
-                                <!-- قائمة منسدلة -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" 
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{% url 'update_book' book.id %}"><i class="fas fa-edit mr-2"></i> التفاصيل</a>
-                                        <a class="dropdown-item text-danger" href="{% url 'delete' book.id %}"><i class="fas fa-trash mr-2"></i> حذف</a>
-                                    </div>
-                                </div>
-
-                                <div class="widget-user-header bg-info">
-                                    <h3 class="widget-user-username">{{book.title}}</h3>
-                                </div>
-
-                                {% if book.book_image %}
-                                    <div class="widget-user-image">
-                                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.book_image.url}}" alt="User Avatar">
-                                    </div>
-                                {% else %}
-                                    <div class="widget-user-image">
-                                        <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="" alt="User Avatar">
-                                    </div>
-                                {% endif %}
-
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-sm-4 border-right">
-                                            <div class="description-block">
-                                                <span class="description-text">صفحة</span>
-                                                <h5 class="description-header">{{book.pages}}</h5>
+                            {% if book.status != "sold"%}
+                                <!-- الكتاب -->
+                                <div id="" class="col-md-4 hide_books book{{book.category.id}} book{{book.status}}">
+                                    <!-- Widget: user widget style 1 -->
+                                    <div id="" class="card card-widget widget-user ">
+                                        <!-- قائمة منسدلة -->
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-light dropdown-toggle" 
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item text-info"    href="{% url 'update_book_path' book.id %}"><i class="fas fa-file mr-2"></i> تحديث </a>
+                                                <a class="dropdown-item text-info"    href="{% url 'delete_book_path' book.id %}"><i class="fas fa-file mr-2"></i> حذف </a>
                                             </div>
-                                            <!-- /.description-block -->
-                                        </div>
-                                        <!-- /.col -->
-                                        {% if book.price %}
-                                            <div class="col-sm-4 border-right">
-                                                <div class="description-block">
-                                                    <span class="description-text">السعر</span>
-                                                    <h5 class="description-header">${{book.price}}</h5>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                        {% elif book.retal_price_day %}
-                                            <div class="col-sm-4 border-right">
-                                                <div class="description-block">
-                                                    <span class="description-text"> سعر الإيجار  </span>
-                                                    <h5 class="description-header">${{book.retal_price_day}} لليوم</h5>
-                                                </div>
-                                            <!-- /.description-block -->
-                                            </div>
-
-                                            <div class="col-sm-4 border-right">
-                                                <div class="description-block">
-                                                    <span class="description-text">مدة الإيجار </span>
-                                                    <h5 class="description-header">{{book.retal_proid}} يوم </h5>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                        {% endif %}
-                                        <!-- /.col -->
-                                        {% if book.status == "availble" %}
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <span class="description-text ">الحالة</span>
-                                                    <h5 class="description-header text-success">متاح</h5>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                        {% elif book.status == "rented"%}
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <span class="description-text ">الحالة</span>
-                                                    <h5 class="description-header text-warning">مستأجر</h5>
-                                                </div>
-                                                <!-- /.description-block -->
-                                            </div>
-                                        {% elif book.status == "avl_for_rent"%}
-                                            <div class="col-sm-4">
-                                            <div class="description-block">
-                                                <span class="description-text ">الحالة</span>
-                                                <h5 class="description-header text-warning">متاح للإيجار</h5>
-                                            </div>
-                                            <!-- /.description-block -->
-                                            </div>
-                                        {% endif %}
-                                        <!-- /.col -->
-                                      
-                                        <div class="col-sm-4">
-                                            <div class="description-block">
-                                                <span class="description-text ">المؤلف</span>
-                                                <h5 class="description-header text-success">{{book.auther}}</h5>
-                                            </div>
-                                            <!-- /.description-block -->
                                         </div>
 
-                                    </div>
-                                    <!-- /.row -->
-                                </div>
+                                        <div class="widget-user-header bg-info">
+                                            <h3 class="widget-user-username">{{book.title}}</h3>
+                                        </div>
 
-                            </div>
-                            <!-- /.widget-user -->
-                        </div>
-                        <!-- نهاية الكتاب -->
-                    {% endfor %}
+                                        {% if book.book_image %}
+                                            <div class="widget-user-image">
+                                                <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="{{book.book_image.url}}" alt="book image">
+                                            </div>
+                                        {% else %}
+                                            <div class="widget-user-image">
+                                                <img style="width:100px; height: 100px;" class="img-circle elevation-2" src="" alt="book image">
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <span class="description-text">صفحة</span>
+                                                        <h5 class="description-header">{{book.pages}}</h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                                {% if book.price %}
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+                                                            <span class="description-text">السعر</span>
+                                                            <h5 class="description-header">${{book.price}}</h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
+                                                {% elif book.retal_price_day %}
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+                                                            <span class="description-text"> سعر الإيجار  </span>
+                                                            <h5 class="description-header">${{book.retal_price_day}} لليوم</h5>
+                                                        </div>
+                                                    <!-- /.description-block -->
+                                                    </div>
+
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+                                                            <span class="description-text">مدة الإيجار </span>
+                                                            <h5 class="description-header">{{book.retal_proid}} يوم </h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
+                                                {% endif %}
+                                                <!-- /.col -->
+                                                {% if book.status == "availble" %}
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text ">الحالة</span>
+                                                            <h5 class="description-header text-success">متاح</h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
+                                                {% elif book.status == "avl_for_rent"%}
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text ">الحالة</span>
+                                                            <h5 class="description-header text-warning"> متاح للإيجار </h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
+                                                {% elif book.status == "rented"%}
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <span class="description-text ">الحالة</span>
+                                                            <h5 class="description-header text-danger">  مستأجر </h5>
+                                                        </div>
+                                                        <!-- /.description-block -->
+                                                    </div>
+                                                {% endif %}
+                                                <!-- /.col -->
+                                            
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <span class="description-text ">المؤلف</span>
+                                                        <h5 class="description-header text-info">{{book.auther}}</h5>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+
+                                    </div>
+                                    <!-- /.widget-user -->
+                                </div>
+                                <!-- نهاية الكتاب -->
+                            {% endif %}
+                        {% endfor %}
+
 
                     <div class="row">
                         <div class="col text-center">
