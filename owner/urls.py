@@ -8,4 +8,5 @@ urlpatterns = [
     path('-page', views.owner_func, name='owner_page_path'),
     path('delete-book-<int:id>', views.delete, name='delete_book_path'),
     path('-page', views.owner_func, name='rented_books_path'),
+    path('-rented-books', views.rented_books_func, name='rented_books_path'),
 ]

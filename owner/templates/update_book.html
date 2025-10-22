@@ -12,7 +12,8 @@
 
                 <!-- بداية الكتاب -->
                 <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ book.category.id }} book{{ book.status }}">
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" enctype="multipart/form-dat">
+                        {% csrf_token %}
                         <!-- رأس البطاقة -->
                         <div class="card-header text-muted border-bottom-0 text-center">
                             <h5 class="mb-0">الكتاب</h5>
@@ -29,7 +30,6 @@
                                             alt="صورة الكتاب" 
                                             class="img-fluid rounded shadow-sm"
                                         >
-                                        {% csrf_token %}
                                         {{ update_form.book_image }}
                                     {% else %}
                                         <img
@@ -39,64 +39,57 @@
                                         >
                                     {% endif %}
                                 </div>
-                                
                                 <!-- معلومات الكتاب على اليسار - حجم أكبر -->
                                 <div class="col-6 col-md-7">
-                                    {% csrf_token %}
                                     <h2 class="h4 mb-3"><b>{{ update_form.title }}</b></h2>
                                     <ul class="fa-ul text-muted list-unstyled">
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
-                                            {% csrf_token %}
+    
                                             <strong>المؤلف:</strong> {{ update_form.auther }}
                                         </li>
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
-                                            {% csrf_token %}
+    
                                             <strong>الحالة:</strong> {{ update_form.status }}
                                         </li>
-                                        {% if selected_book.price %}
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>السعر:</strong> {{ update_form.price }}
-                                        </li>
-                                        {% elif selected_book.retal_price_day %}
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>سعر الإيجار لليوم:</strong> {{ update_form.retal_price_day }}
-                                        </li>
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>مدة الإيجار :</strong> {{ update_form.retal_proid }}
-                                        </li>
+                                        {% if selected_book.status == 'availble' %}
+                                            <li class="mb-2">
+        
+                                                <span class="fa-li"></span>
+                                                <strong>السعر:</strong> {{ update_form.price }}
+                                            </li>
+                                        {% elif selected_book.status == 'avl_for_rent' or selected_book.status == 'rented' %}
+                                            <li class="mb-2">
+                                                <span class="fa-li"></span>
+                                                <strong>سعر الإيجار لليوم:</strong> {{ update_form.retal_price_day }}
+                                            </li>
+                                            <li class="mb-2">
+                                                <span class="fa-li"></span>
+                                                <strong>مدة الإيجار :</strong> {{ update_form.retal_proid }}
+                                            </li>
                                         {% endif %}
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
-                                            {% csrf_token %}
+    
                                             <strong>عدد الصفحات:</strong> {{ update_form.pages }}
                                         </li>
                                         <li class="mb-2">
                                             <span class="fa-li"></span>
-                                            {% csrf_token %}
+    
                                             <strong>التصنيف:</strong> {{ update_form.catigery }}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        
                         <!-- تذييل البطاقة --->
                         <div class="">
-                            
-                            {% csrf_token %}
                             {{ update_form.discription }}
                         </div>
                         <div class="card-footer py-3">
-                            <button type="button" class="btn btn-primary ">
-                                <a style="color: chartreuse;" href="{% url 'owner_page_path' %}" type="submit"  >حفظ</a>
+                            <button type="submit" class="btn btn-primary" style="color: white;">
+                                حفظ التعديلات
                             </button>
                         </div>
                     </form>

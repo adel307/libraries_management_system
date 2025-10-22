@@ -1,107 +1,156 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 
-{% block content%}
-    <div style="direction: rtl;" class="wrapper">
-        <!-- Content Wrapper. Contains page content -->
-        <div   class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div  class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title"> {{selected_book.title}}</h3>
+{% block content %}
+<div style="direction: rtl;" class="wrapper">
+    <div class="content-wrapper">
+        <!-- البطاقة الرئيسية -->
+        <div class="card card-primary shadow-lg">
+            <!-- رأس البطاقة -->
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-book me-2"></i>
+                        {{ selected_book.title }}
+                    </h3>
+                    <span class="badge bg-light text-dark">
+                        {{ selected_book.catigery }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- محتوى البطاقة -->
+            <div class="card-body">
+                <div class="row">
+                    <!-- قسم صورة الكتاب -->
+                    <div class="col-md-5 col-lg-4 text-center mb-4">
+                        <div class="book-image-container">
+                            {% if selected_book.book_image %}
+                                <img src="{{ selected_book.book_image.url }}" 
+                                     alt="صورة كتاب {{ selected_book.title }}"
+                                     class="img-fluid rounded shadow book-image">
+                            {% else %}
+                                <div class="no-image-placeholder rounded bg-light d-flex align-items-center justify-content-center">
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-book fa-3x mb-3"></i>
+                                        <p class="mb-0">لا توجد صورة</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- قسم معلومات الكتاب -->
+                    <div class="col-md-7 col-lg-8">
+                        <div class="book-info">
+                            <!-- العنوان الرئيسي -->
+                            <h2 class="h3 text-dark mb-4 border-bottom pb-3">
+                                {{ selected_book.title }}
+                            </h2>
+
+                            <!-- قائمة المعلومات -->
+                            <ul class="list-unstyled book-details">
+                                <li class="detail-item">
+                                    <i class="fas fa-user-edit text-primary me-2"></i>
+                                    <strong>المؤلف:</strong>
+                                    <span class="text-muted">{{ selected_book.auther }}</span>
+                                </li>
+                                
+                                <li class="detail-item">
+                                    <i class="fas fa-tag text-primary me-2"></i>
+                                    <strong>الحالة:</strong>
+                                    <span class="badge {% if selected_book.status == 'متاح' %}bg-success{% else %}bg-warning{% endif %}">
+                                        {{ selected_book.status }}
+                                    </span>
+                                </li>
+
+                                {% if selected_book.price %}
+                                <li class="detail-item">
+                                    <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                                    <strong>السعر:</strong>
+                                    <span class="text-success fw-bold">{{ selected_book.price }} دولار</span>
+                                </li>
+                                {% elif selected_book.retal_price_day %}
+                                <li class="detail-item">
+                                    <i class="fas fa-calendar-day text-primary me-2"></i>
+                                    <strong>سعر الإيجار اليومي:</strong>
+                                    <span class="text-info fw-bold">{{ selected_book.retal_price_day }} دولار/يوم</span>
+                                </li>
+                                <li class="detail-item">
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    <strong>مدة الإيجار:</strong>
+                                    <span class="text-muted">{{ selected_book.retal_proid }} أيام</span>
+                                </li>
+                                {% endif %}
+
+                                <li class="detail-item">
+                                    <i class="fas fa-file-alt text-primary me-2"></i>
+                                    <strong>عدد الصفحات:</strong>
+                                    <span class="text-muted">{{ selected_book.pages }} صفحة</span>
+                                </li>
+
+                                <li class="detail-item">
+                                    <i class="fas fa-folder text-primary me-2"></i>
+                                    <strong>التصنيف:</strong>
+                                    <span class="text-muted">{{ selected_book.catigery }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- بداية الكتاب -->
-                <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ book.category.id }} book{{ book.status }}">
-                    <form method="POST" enctype="multipart/form-data">
-                        <!-- رأس البطاقة -->
-                        <div class="card-header text-muted border-bottom-0 text-center">
-                            <h5 class="mb-0">الكتاب</h5>
-                        </div>
-                        
-                        <!-- جسم البطاقة -->
-                        <div class="card-body pt-0">
-                            <div class="row align-items-center">
-                                <div class="col-6 col-md-5 text-center">
-                                    {% if selected_book.book_image %}
-                                        <img style=" object-fit: cover;" 
-                                            src="{{ selected_book.book_image.url }}" 
-                                            alt="صورة الكتاب" 
-                                            class="img-fluid rounded shadow-sm"
-                                        >
-                                    {% else %}
-                                        <img
-                                            src="" 
-                                            alt="لا توجد صورة" 
-                                            class="img-fluid rounded bg-secondary"
-                                        >
-                                    {% endif %}
-                                </div>
-                                
-                                <!-- معلومات الكتاب على اليسار - حجم أكبر -->
-                                <div class="col-6 col-md-7">
-                                    {% csrf_token %}
-                                    <h2 class="h4 mb-3"><b>{{ selected_book.title }}</b></h2>
-                                    <ul class="fa-ul text-muted list-unstyled">
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-                                            {% csrf_token %}
-                                            <strong>المؤلف:</strong> {{ selected_book.auther }}
-                                        </li>
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-                                            {% csrf_token %}
-                                            <strong>الحالة:</strong> {{ selected_book.status }}
-                                        </li>
-                                        {% if selected_book.price %}
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>السعر:</strong> {{ selected_book.price }}
-                                        </li>
-                                        {% elif selected_book.retal_price_day %}
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>سعر الإيجار لليوم:</strong> {{ selected_book.retal_price_day }}
-                                        </li>
-                                        <li class="mb-2">
-                                            {% csrf_token %}
-                                            <span class="fa-li"></span>
-                                            <strong>مدة الإيجار :</strong> {{ selected_book.retal_proid }}
-                                        </li>
-                                        {% endif %}
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-                                            {% csrf_token %}
-                                            <strong>عدد الصفحات:</strong> {{ selected_book.pages }}
-                                        </li>
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-                                            {% csrf_token %}
-                                            <strong>التصنيف:</strong> {{ selected_book.catigery }}
-                                        </li>
-                                    </ul>
-                                </div>
+                <!-- قسم الوصف -->
+                {% if selected_book.discription %}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="description-section">
+                            <h5 class="text-dark mb-3">
+                                <i class="fas fa-align-left text-primary me-2"></i>
+                                وصف الكتاب
+                            </h5>
+                            <div class="description-content bg-light p-4 rounded">
+                                <p class="mb-0 text-justify line-height-lg">
+                                    {{ selected_book.discription }}
+                                </p>
                             </div>
                         </div>
-                        
-                        <!-- تذييل البطاقة - حجم أكبر -->
-                        <div class="">
-                            
-                            {% csrf_token %}
-                            {{ selected_book.discription }}
-                        </div>
-                        <div class="card-footer py-3">
-                            <a href="{% url 'main' %}" class="btn btn-primary text-light text-decoration-none">
-                                <i class="fas fa-arrow-right me-2"></i> عودة
-                            </a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-                <!-- نهاية الكتاب -->
+                {% endif %}
+            </div>
 
-                <!-- /.card-header -->
+            <!-- تذييل البطاقة -->
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'main' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-right me-2"></i>
+                        العودة للرئيسية
+                    </a>
+                    
+                    <div class="action-buttons">
+                        
+                        {% if selected_book.status == 'availble' %}
+                            <a href="{% url 'buy' selected_book.id %}" class="btn btn-success me-2">
+                                <i class="fas fa-shopping-cart me-2"></i>
+                                شراء الكتاب
+                            </a>
+                        {% elif selected_book.status == 'avl_for_rent' %}
+                            <a href="{% url 'rent' selected_book.id %}" class="btn btn-info text-white">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                استئجار الكتاب
+                            </a>
+                        
+                        {% elif selected_book.status == 'rented' %}
+                            <span class="text-muted">
+                                <i class="fas fa-clock me-2"></i>
+                                غير متاح حالياً
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+
 {% endblock %}

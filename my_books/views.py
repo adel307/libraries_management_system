@@ -14,9 +14,6 @@ def my_books(request):
         if search:
             search_value = search_value.filter(title__icontains = search)
     
-    
-
-
     context = {
         'books' : search_value,
         'catigories'  : Catigory.objects.all(),
@@ -30,5 +27,5 @@ def my_books(request):
             return render(request, 'books.html',context)
     
 
-    return render(request, 'books.html',context)    
+    return render(request, 'books.html',context)
 

@@ -58,23 +58,31 @@ def owner_func (request):
     
     return render(request, 'owner.html',context)
 
-def update_book(request,id):
+def update_book(request, id):
+    try:
+        book = get_object_or_404(Book, id=id)
+        
+        if request.method == 'POST':
+            update_form = new_book(request.POST, request.FILES, instance=book)
+            if update_form.is_valid():
+                update_form.save()
+                messages.success(request, 'تم تحديث الكتاب بنجاح!')
+                return redirect('owner_page_path')
+            else:
+                messages.error(request, 'حدث خطأ في تحديث البيانات')
+        else:
+            update_form = new_book(instance=book)
 
-    book_id = Book.objects.get(id = id)
-    if request.method == 'POST':
-        update_book = new_book(request.POST,request.FILES,instance = book_id)
-        if update_book.is_valid():
-            update_book.save()
-            return redirect('/')
-    else:
-        update_book = new_book(instance = book_id)
+        context = {
+            'update_form': update_form,
+            'selected_book': book,
+        }
 
-    context = {
-        'update_form'      : update_book,
-        'selected_book'    : Book.objects.get(id = id),
-    }
-
-    return render(request,'update_book.html',context)
+        return render(request, 'update_book.html', context)
+        
+    except Exception as e:
+        messages.error(request, f'حدث خطأ: {str(e)}')
+        return redirect('owner_page_path')
 
 def delete(request,id):
 
@@ -83,4 +91,23 @@ def delete(request,id):
         delete_book.delete()
         return redirect('/')
     return render(request,'delete.html')
+
+def rented_books_func (request):
+    search = None
+    search_value = Book.objects.all()
+    if 'search_name' in request.GET:
+        search = request.GET['search_name']
+        if search:
+            search_value = search_value.filter(title__icontains = search)
+    
+    context = {
+        'rented_books' : Book.objects.filter(status = 'rented'),
+        'catigories' : Catigory.objects.all(),
+        'add_category' : new_category(),
+    }
+
+    
+    
+
+    return render(request, 'rented_books.html',context)
 

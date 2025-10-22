@@ -1,0 +1,258 @@
+{% extends 'owner_base.html' %}
+
+{% block content %}
+<div style="direction: rtl;" class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper p-4">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-sm-8">
+                        <h1 class="h2 text-dark">
+                            <i class="fas fa-calendar-check text-primary me-2"></i>
+                            الكتب المستأجرة
+                        </h1>
+                        <p class="text-muted mt-2">إدارة وعرض جميع الكتب المستأجرة حاليًا في النظام</p>
+                    </div>
+                    <div class="col-sm-4 text-left">
+                        <div class="info-box bg-gradient-primary shadow">
+                            <span class="info-box-icon"><i class="fas fa-book"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">إجمالي الكتب المستأجرة</span>
+                                <span class="info-box-number">{{ rented_books|length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Default box -->
+                <div class="card card-primary card-outline shadow-lg">
+                    <div class="card-header bg-white border-bottom-0 py-3">
+                        <h3 class="card-title mb-0">
+                            <i class="fas fa-list me-2 text-primary"></i>
+                            قائمة الكتب المستأجرة
+                        </h3>
+                        <div class="card-tools">
+                            <span class="badge bg-primary fs-6">
+                                <i class="fas fa-filter me-1"></i>
+                                مُرشح: الكتب المستأجرة فقط
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body pb-0">
+                        {% if rented_books %}
+                            <div class="row d-flex align-items-stretch">
+                                {% for book in rented_books %}
+                                    {% if book.status == "rented" %}
+                                        <!-- بداية الكتاب -->
+                                        <div class="col-12 col-sm-6 col-md-4 mb-4">
+                                            <div class="card book-card h-100 shadow-sm border-0">
+                                                <div class="card-header bg-gradient-info text-white border-bottom-0 py-3">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="badge bg-light text-dark">
+                                                            <i class="fas fa-tag me-1"></i>
+                                                            {{ book.catigery.name }}
+                                                        </span>
+                                                        <span class="badge bg-warning">
+                                                            <i class="fas fa-clock me-1"></i>
+                                                            مستأجرة
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="card-body pt-3">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-8">
+                                                            <h4 class="card-title h5 text-dark mb-3">
+                                                                <i class="fas fa-book me-2 text-secondary"></i>
+                                                                {{ book.title }}
+                                                            </h4>
+                                                            
+                                                            <div class="book-details">
+                                                                <div class="detail-item small mb-2">
+                                                                    <i class="fas text-success me-2"></i>
+                                                                    <strong>السعر لليوم:</strong>
+                                                                    <span class="text-success fw-bold">{{ book.retal_price_day }} دولار</span>
+                                                                </div>
+                                                                
+                                                                <div class="detail-item small mb-2">
+                                                                    <i class="fas fa-history text-info me-2"></i>
+                                                                    <strong>مدة الإيجار:</strong>
+                                                                    <span class="text-dark">{{ book.retal_proid }} يوم</span>
+                                                                </div>
+                                                                
+                                                                <div class="detail-item small mb-2">
+                                                                    <i class="fas fa-calculator text-primary me-2"></i>
+                                                                    <strong>الإجمالي:</strong>
+                                                                    <span class="text-primary fw-bold">
+                                                                        {{ book.total_rental }} دولار
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-4 text-center">
+                                                            {% if book.book_image %}
+                                                                <img src="{{ book.book_image.url }}" 
+                                                                    alt="{{ book.title }}"
+                                                                    class="img-fluid rounded shadow book-cover">
+                                                            {% else %}
+                                                                <div class="no-cover-placeholder rounded bg-light d-flex align-items-center justify-content-center">
+                                                                    <i class="fas fa-book text-muted fa-2x"></i>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="card-footer bg-light border-top-0 py-3">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <a href="{% url 'description' book.id %}" 
+                                                            class="btn btn-sm btn-outline-primary">
+                                                                <i class="fas fa-eye me-1"></i>
+                                                                التفاصيل
+                                                            </a>
+                                                            <a href="{% url 'remove' book.id %}" 
+                                                            class="btn btn-sm btn-outline-danger"
+                                                            onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
+                                                                <i class="fas fa-trash me-1"></i>
+                                                                حذف
+                                                            </a>
+                                                        </div>
+                                                        <small class="text-muted">
+                                                            <i class="fas fa-id-badge me-1"></i>
+                                                            ID: {{ book.id }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- نهاية الكتاب -->
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <!-- حالة عدم وجود كتب -->
+                            <div class="text-center py-5">
+                                <div class="empty-state">
+                                    <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                                    <h4 class="text-muted">لا توجد كتب مستأجرة حالياً</h4>
+                                    <p class="text-muted mb-4">لم يتم استئجار أي كتب في النظام حتى الآن</p>
+                                    <a href="{% url 'owner_page_path' %}" class="btn btn-primary">
+                                        <i class="fas fa-arrow-right me-2"></i>
+                                        العودة للرئيسية
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Card Footer -->
+                    <div class="card-footer bg-white border-top-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                <i class="fas fa-info-circle me-1"></i>
+                                عرض {{ rented_books|length }} كتاب مستأجر
+                            </div>
+                            <div>
+                                <a href="{% url 'owner_page_path' %}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-arrow-right me-1"></i>
+                                    العودة للرئيسية
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+
+<style>
+.book-cover {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #e9ecef;
+}
+
+.no-cover-placeholder {
+    width: 80px;
+    height: 100px;
+    border: 2px dashed #dee2e6;
+}
+
+.book-details {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+}
+
+.empty-state {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.btn-group .btn {
+    border-radius: 8px;
+    margin: 0 2px;
+}
+
+.shadow-lg {
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.info-box {
+    border-radius: 12px;
+}
+
+.info-box .info-box-icon {
+    border-radius: 12px 0 0 12px;
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 1rem !important;
+    }
+    
+    .book-card {
+        margin-bottom: 1rem;
+    }
+    
+    .col-4.text-center {
+        text-align: center !important;
+        margin-bottom: 1rem;
+    }
+}
+</style>
+{% endblock %}
