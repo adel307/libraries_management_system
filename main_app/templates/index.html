@@ -60,142 +60,142 @@
                 <div class="row">
                     {% for book in books %}
                         {% if book.status != "sold" %}
-                        <!-- Book Card -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{book.category.id}} book{{book.status}}">
-                            <div class="card book-card h-100 shadow-sm border-0">
-                                <!-- Card Header with Dropdown -->
-                                <div class="card-header bg-gradient-info text-white border-bottom-0 position-relative py-3">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="badge bg-light text-dark">
-                                            <i class="fas fa-tag me-1"></i>
-                                            {{ book.catigery.name }}
-                                        </span>
-                                        <!-- Dropdown Menu -->
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-light rounded-circle dropdown-toggle" 
-                                                    type="button" data-bs-toggle="dropdown" 
-                                                    aria-expanded="false" style="width: 30px; height: 30px;">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end shadow">
-                                                {% if book.price %}
-                                                <li>
-                                                    <a class="dropdown-item text-success d-flex align-items-center py-2" 
-                                                       href="{% url 'buy' book.id %}">
-                                                        <i class="fas fa-shopping-cart ml-2 fa-fw"></i>
-                                                        <span class="font-weight-medium">شراء الكتاب</span>
-                                                    </a>
-                                                </li>
-                                                {% elif book.status == 'avl_for_rent' %}
-                                                <li>
-                                                    <a class="dropdown-item text-warning d-flex align-items-center py-2" 
-                                                       href="{% url 'rental' book.id %}">
-                                                        <i class="fas fa-calendar-check ml-2 fa-fw"></i>
-                                                        <span class="font-weight-medium">استئجار الكتاب</span>
-                                                    </a>
-                                                </li>
-                                                {% endif %}
-                                                <li>
-                                                    <a class="dropdown-item text-info d-flex align-items-center py-2" 
-                                                       href="{% url 'description' book.id %}">
-                                                        <i class="fas fa-eye ml-2 fa-fw"></i>
-                                                        <span class="font-weight-medium">عرض التفاصيل</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                            <!-- Book Card -->
+                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{book.category.id}} book{{book.status}}">
+                                <div class="card book-card h-100 shadow-sm border-0">
+                                    <!-- Card Header with Dropdown -->
+                                    <div class="card-header bg-gradient-info text-white border-bottom-0 position-relative py-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-light text-dark">
+                                                <i class="fas fa-tag me-1"></i>
+                                                {{ book.catigery.name }}
+                                            </span>
+                                            <!-- Dropdown Menu -->
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-light rounded-circle dropdown-toggle" 
+                                                        type="button" data-bs-toggle="dropdown" 
+                                                        aria-expanded="false" style="width: 30px; height: 30px;">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                                    {% if book.price %}
+                                                    <li>
+                                                        <a class="dropdown-item text-success d-flex align-items-center py-2" 
+                                                        href="{% url 'buy' book.id %}">
+                                                            <i class="fas fa-shopping-cart ml-2 fa-fw"></i>
+                                                            <span class="font-weight-medium">شراء الكتاب</span>
+                                                        </a>
+                                                    </li>
+                                                    {% elif book.status == 'avl_for_rent' %}
+                                                    <li>
+                                                        <a class="dropdown-item text-warning d-flex align-items-center py-2" 
+                                                        href="{% url 'rental' book.id %}">
+                                                            <i class="fas fa-calendar-check ml-2 fa-fw"></i>
+                                                            <span class="font-weight-medium">استئجار الكتاب</span>
+                                                        </a>
+                                                    </li>
+                                                    {% endif %}
+                                                    <li>
+                                                        <a class="dropdown-item text-info d-flex align-items-center py-2" 
+                                                        href="{% url 'description' book.id %}">
+                                                            <i class="fas fa-eye ml-2 fa-fw"></i>
+                                                            <span class="font-weight-medium">عرض التفاصيل</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Book Image -->
-                                <div class="card-body text-center pt-4">
-                                    {% if book.book_image %}
-                                    <img src="{{ book.book_image.url }}" 
-                                         alt="{{ book.title }}"
-                                         class="book-cover img-fluid rounded shadow mb-3">
-                                    {% else %}
-                                    <div class="no-cover-placeholder rounded bg-light d-flex align-items-center justify-content-center mx-auto mb-3">
-                                        <i class="fas fa-book text-muted fa-3x"></i>
+                                    <!-- Book Image -->
+                                    <div class="card-body text-center pt-4">
+                                        {% if book.book_image %}
+                                        <img src="{{ book.book_image.url }}" 
+                                            alt="{{ book.title }}"
+                                            class="book-cover img-fluid rounded shadow mb-3">
+                                        {% else %}
+                                        <div class="no-cover-placeholder rounded bg-light d-flex align-items-center justify-content-center mx-auto mb-3">
+                                            <i class="fas fa-book text-muted fa-3x"></i>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        <!-- Book Title -->
+                                        <h5 class="card-title text-dark mb-3 line-clamp-2">
+                                            <i class="fas fa-bookmark text-primary me-2"></i>
+                                            {{ book.title }}
+                                        </h5>
+                                        
+                                        <!-- Book Author -->
+                                        <p class="text-muted mb-3">
+                                            <i class="fas fa-user-edit me-2"></i>
+                                            {{ book.auther }}
+                                        </p>
                                     </div>
-                                    {% endif %}
-                                    
-                                    <!-- Book Title -->
-                                    <h5 class="card-title text-dark mb-3 line-clamp-2">
-                                        <i class="fas fa-bookmark text-primary me-2"></i>
-                                        {{ book.title }}
-                                    </h5>
-                                    
-                                    <!-- Book Author -->
-                                    <p class="text-muted mb-3">
-                                        <i class="fas fa-user-edit me-2"></i>
-                                        {{ book.auther }}
-                                    </p>
-                                </div>
 
-                                <!-- Book Stats -->
-                                <div class="card-footer bg-transparent border-top-0 pt-0">
-                                    <div class="row text-center">
-                                        <!-- Pages -->
-                                        <div class="col-4">
-                                            <div class="stat-item">
-                                                <i class="fas fa-file-alt text-primary mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-dark">{{ book.pages }}</h6>
-                                                <small class="text-muted">صفحة</small>
+                                    <!-- Book Stats -->
+                                    <div class="card-footer bg-transparent border-top-0 pt-0">
+                                        <div class="row text-center">
+                                            <!-- Pages -->
+                                            <div class="col-4">
+                                                <div class="stat-item">
+                                                    <i class="fas fa-file-alt text-primary mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-dark">{{ book.pages }}</h6>
+                                                    <small class="text-muted">صفحة</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Price/Rental -->
+                                            <div class="col-4">
+                                                <div class="stat-item">
+                                                    {% if book.price %}
+                                                    <i class="fas fa-money-bill-wave text-success mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-success">${{ book.price }}</h6>
+                                                    <small class="text-muted">سعر الشراء</small>
+                                                    {% elif book.retal_price_day %}
+                                                    <i class="fas fa-calendar-day text-warning mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-warning">${{ book.retal_price_day }}</h6>
+                                                    <small class="text-muted">/اليوم</small>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Status -->
+                                            <div class="col-4">
+                                                <div class="stat-item">
+                                                    {% if book.status == "availble" %}
+                                                    <i class="fas fa-check-circle text-success mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-success">متاح</h6>
+                                                    <small class="text-muted">للشراء</small>
+                                                    {% elif book.status == "avl_for_rent" %}
+                                                    <i class="fas fa-clock text-warning mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-warning">للإيجار</h6>
+                                                    <small class="text-muted">متاح</small>
+                                                    {% elif book.status == "rented" %}
+                                                    <i class="fas fa-ban text-danger mb-1"></i>
+                                                    <h6 class="mb-0 fw-bold text-danger">مستأجر</h6>
+                                                    <small class="text-muted">غير متاح</small>
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </div>
                                         
-                                        <!-- Price/Rental -->
-                                        <div class="col-4">
-                                            <div class="stat-item">
-                                                {% if book.price %}
-                                                <i class="fas fa-money-bill-wave text-success mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-success">${{ book.price }}</h6>
-                                                <small class="text-muted">سعر الشراء</small>
-                                                {% elif book.retal_price_day %}
-                                                <i class="fas fa-calendar-day text-warning mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-warning">${{ book.retal_price_day }}</h6>
-                                                <small class="text-muted">/اليوم</small>
-                                                {% endif %}
+                                        <!-- Rental Period (if applicable) -->
+                                        {% if book.retal_proid %}
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <div class="rental-info bg-light rounded p-2 text-center">
+                                                    <small class="text-dark">
+                                                        <i class="fas fa-history me-1"></i>
+                                                        مدة الإيجار: <strong>{{ book.retal_proid }}</strong> يوم
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
-                                        
-                                        <!-- Status -->
-                                        <div class="col-4">
-                                            <div class="stat-item">
-                                                {% if book.status == "availble" %}
-                                                <i class="fas fa-check-circle text-success mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-success">متاح</h6>
-                                                <small class="text-muted">للشراء</small>
-                                                {% elif book.status == "avl_for_rent" %}
-                                                <i class="fas fa-clock text-warning mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-warning">للإيجار</h6>
-                                                <small class="text-muted">متاح</small>
-                                                {% elif book.status == "rented" %}
-                                                <i class="fas fa-ban text-danger mb-1"></i>
-                                                <h6 class="mb-0 fw-bold text-danger">مستأجر</h6>
-                                                <small class="text-muted">غير متاح</small>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+                                        {% endif %}
                                     </div>
-                                    
-                                    <!-- Rental Period (if applicable) -->
-                                    {% if book.retal_proid %}
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <div class="rental-info bg-light rounded p-2 text-center">
-                                                <small class="text-dark">
-                                                    <i class="fas fa-history me-1"></i>
-                                                    مدة الإيجار: <strong>{{ book.retal_proid }}</strong> يوم
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
                                 </div>
                             </div>
-                        </div>
-                        <!-- End Book Card -->
+                            <!-- End Book Card -->
                         {% endif %}
                     {% empty %}
                     <!-- Empty State -->

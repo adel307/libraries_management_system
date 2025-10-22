@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main_app.apps.MainAppConfig',
     'my_books.apps.MyBooksConfig',
     'owner.apps.OwnerConfig',
+    'clint.apps.ClintConfig',
     'sslserver',
 ]
 
