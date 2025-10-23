@@ -20,7 +20,7 @@
                             <span class="info-box-icon"><i class="fas fa-id-card"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">رقم العميل</span>
-                                <span class="info-box-number">#{{ customer.id }}</span>
+                                <span class="info-box-number">#1</span>
                             </div>
                         </div>
                     </div>
@@ -46,13 +46,13 @@
                                     <div class="col-md-6">
                                         <div class="info-item mb-4">
                                             <label class="text-muted small">الاسم الكامل</label>
-                                            <h5 class="text-dark">{{ customer.name }}</h5>
+                                            <h5 class="text-dark">adel</h5>
                                         </div>
                                         <div class="info-item mb-4">
                                             <label class="text-muted small">البريد الإلكتروني</label>
                                             <h6 class="text-dark">
                                                 <i class="fas fa-envelope text-primary me-2"></i>
-                                                {{ customer.email|default:"غير محدد" }}
+                                                adel@
                                             </h6>
                                         </div>
                                     </div>
@@ -61,14 +61,14 @@
                                             <label class="text-muted small">رقم الهاتف</label>
                                             <h6 class="text-dark">
                                                 <i class="fas fa-phone text-success me-2"></i>
-                                                {{ customer.phone|default:"غير محدد" }}
+                                                0111
                                             </h6>
                                         </div>
                                         <div class="info-item mb-4">
                                             <label class="text-muted small">رقم الهوية</label>
                                             <h6 class="text-dark">
                                                 <i class="fas fa-id-card text-warning me-2"></i>
-                                                {{ customer.national_id|default:"غير محدد" }}
+                                                344
                                             </h6>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                     <label class="text-muted small">العنوان</label>
                                     <p class="text-dark border rounded p-3 bg-light">
                                         <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                                        {{ customer.address|default:"غير محدد" }}
+                                        ghhhhh
                                     </p>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                {% if customer.rental_set.all %}
+                                {% if 1 %}
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
@@ -105,20 +105,20 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for rental in customer.rental_set.all %}
+                                                
                                                 <tr>
-                                                    <td>{{ rental.book.title }}</td>
-                                                    <td>{{ rental.rental_date|date:"Y/m/d" }}</td>
-                                                    <td>{{ rental.rental_period }} يوم</td>
+                                                    <td>title</td>
+                                                    <td>123</td>
+                                                    <td>23 يوم</td>
                                                     <td>
-                                                        {% if rental.is_active %}
+                                                        {% if 1 %}
                                                         <span class="badge badge-success">نشط</span>
                                                         {% else %}
                                                         <span class="badge badge-secondary">منتهي</span>
                                                         {% endif %}
                                                     </td>
                                                 </tr>
-                                                {% endfor %}
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -143,22 +143,22 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-2">
-                                    <a href="{% url 'edit_customer' customer.id %}" 
+                                    <a href="#" 
                                        class="btn btn-primary btn-lg">
                                         <i class="fas fa-edit me-2"></i>
                                         تعديل البيانات
                                     </a>
-                                    <a href="{% url 'rental_create' customer.id %}" 
+                                    <a href="#" 
                                        class="btn btn-success btn-lg">
                                         <i class="fas fa-book me-2"></i>
                                         استعارة جديدة
                                     </a>
-                                    <a href="tel:{{ customer.phone }}" 
+                                    <a href="#" 
                                        class="btn btn-info btn-lg">
                                         <i class="fas fa-phone me-2"></i>
                                         الاتصال بالعميل
                                     </a>
-                                    <a href="mailto:{{ customer.email }}" 
+                                    <a href="#" 
                                        class="btn btn-secondary btn-lg">
                                         <i class="fas fa-envelope me-2"></i>
                                         إرسال بريد
@@ -179,19 +179,19 @@
                                 <div class="stats-item mb-3">
                                     <div class="d-flex justify-content-between">
                                         <span class="text-muted">إجمالي الاستعارات:</span>
-                                        <strong class="text-primary">{{ customer.rental_set.count }}</strong>
+                                        <strong class="text-primary">34</strong>
                                     </div>
                                 </div>
                                 <div class="stats-item mb-3">
                                     <div class="d-flex justify-content-between">
                                         <span class="text-muted">الاستعارات النشطة:</span>
-                                        <strong class="text-success">{{ customer.rental_set.filter.is_active.count }}</strong>
+                                        <strong class="text-success">4</strong>
                                     </div>
                                 </div>
                                 <div class="stats-item mb-3">
                                     <div class="d-flex justify-content-between">
                                         <span class="text-muted">تاريخ التسجيل:</span>
-                                        <strong class="text-warning">{{ customer.created_at|date:"Y/m/d" }}</strong>
+                                        <strong class="text-warning">3</strong>
                                     </div>
                                 </div>
                             </div>
