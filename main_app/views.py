@@ -4,6 +4,7 @@ from django.contrib import messages
 from datetime import datetime
 from my_books.models import *
 from .forms import *
+from clint.models import *
 
 def home(request):
 
@@ -21,6 +22,8 @@ def home(request):
 
     totalsalarys = totalRented + totalPay
 
+    print(Customer.objects.all())
+
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
         'books' : Book.objects.all(),
@@ -34,6 +37,7 @@ def home(request):
         'totalsalarys' : totalsalarys,
         'totalPay' : totalPay,
         'totalRented' : totalRented,
+        'clint_id':Customer.objects.all()[0],
         
     }
 

@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('main_app.urls')),
     path('books', include('my_books.urls')),
     path('owner', include('owner.urls')),
-    path('user', include('clint.urls')),
+    path('clint', include('clint.urls')),
 
 
 ] 
