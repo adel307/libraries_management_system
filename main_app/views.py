@@ -22,8 +22,6 @@ def home(request):
 
     totalsalarys = totalRented + totalPay
 
-    print(Customer.objects.all())
-
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
         'books' : Book.objects.all(),
@@ -37,9 +35,10 @@ def home(request):
         'totalsalarys' : totalsalarys,
         'totalPay' : totalPay,
         'totalRented' : totalRented,
-        'clint_id':Customer.objects.all()[0],
-        
+        'clint_id': request.user.id if request.user.is_authenticated else None,
     }
+
+    
 
     if request.method == 'POST':
         save_new_book = new_book(request.POST,request.FILES)
@@ -53,7 +52,7 @@ def home(request):
             save_new_category.save()
             return render(request, 'index.html', context)
 
-    print(request)
+    
     return render(request, 'index.html', context)    
 
 def description(request,id):

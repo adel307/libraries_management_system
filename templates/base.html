@@ -313,10 +313,19 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="navbarDropdown">
                 <li>
-                    <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'customer_profile' 1 %}">
-                        <i class="fas fa-user me-2 text-muted"></i>
-                        الملف الشخصي
-                    </a>
+                    {% if clint_id %}
+                        <a class="dropdown-item d-flex align-items-center py-2" 
+                        href="{% url 'customer_profile' customer_id=clint_id %}">
+                            <i class="fas fa-user me-2 text-muted"></i>
+                            الملف الشخصي
+                        </a>
+                    {% else %}
+                        <a class="dropdown-item d-flex align-items-center py-2" 
+                        href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-2 text-muted"></i>
+                            تسجيل الدخول
+                        </a>
+                    {% endif %}
                 </li>
                 <li>
                     <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'my_books' %}">
