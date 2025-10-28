@@ -3,6 +3,18 @@ from my_books.models import *
 
 # Create your models here.
 
+class CustomerBook(models.Model):
+    """نموذج وسيط للتحكم في العلاقة"""
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    purchase_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['customer', 'book'], name='unique_customer_book')
+        ]
+
 class Customer(models.Model):
     """نموذج العملاء"""
     name = models.CharField(max_length=100, verbose_name="الاسم الكامل")
@@ -11,8 +23,14 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15, verbose_name="رقم الهاتف")
     address = models.TextField(verbose_name="العنوان")
     national_id = models.CharField(max_length=20, unique=True, verbose_name="رقم الهوية الوطنية")
-    my_books = models.ManyToManyField(Book,blank=True)
-    
+    my_books = models.ManyToManyField(
+        Book,
+        through=CustomerBook,
+        blank=True,
+        verbose_name="كتبي",
+        related_name='customers'
+    )
+
     # معلومات إضافية
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="تاريخ الميلاد")
     occupation = models.CharField(max_length=100, blank=True, null=True, verbose_name="المهنة")
@@ -44,3 +62,10 @@ class Customer(models.Model):
     def active_rentals(self):
         """الاستعارات النشطة"""
         return self.rental_set.filter(is_active=True).count()
+
+    @property
+    def sold_books(self):
+        """الكتب المباعة فقط"""
+        return self.my_books.filter(status='sold')
+
+

@@ -68,89 +68,138 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="row">
-
-                                    <!-- <div class="profile-summary">
-                                            
-                                            
-                                            
-                                            <div class="status-badge mb-3">
-                                                <span class="badge bg-success rounded-pill p-2">
-                                                    <i class="fas fa-check-circle me-1"></i>
-                                                    عميل نشط
-                                                </span>
+                                    <!-- الاسم الكامل -->
+                                    <div class="col-md-6">
+                                        <div class="info-card mb-4">
+                                            <div class="info-header">
+                                                <i class="fas fa-user-tag text-primary me-2"></i>
+                                                <span class="info-title">الاسم الكامل</span>
                                             </div>
-                                            <div class="profile-stats">
-                                                <div class="row text-center">
-                                                    <div class="col-6">
-                                                        <div class="stat-number text-primary">12</div>
-                                                        <div class="stat-label text-muted"></div>
+                                            <div class="info-content">
+                                                {{ customer.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- رقم الهاتف -->
+                                    <div class="col-md-6">
+                                        <div class="info-card mb-4">
+                                            <div class="info-header">
+                                                <i class="fas fa-phone text-success me-2"></i>
+                                                <span class="info-title">رقم الهاتف</span>
+                                            </div>
+                                            <div class="info-content">
+                                                {{ customer.phone|default:"غير محدد" }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- رقم الهوية -->
+                                    <div class="col-md-6">
+                                        <div class="info-card mb-4">
+                                            <div class="info-header">
+                                                <i class="fas fa-id-card text-warning me-2"></i>
+                                                <span class="info-title">رقم الهوية</span>
+                                            </div>
+                                            <div class="info-content">
+                                                {{ customer.national_id|default:"غير محدد" }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- تاريخ التسجيل -->
+                                    <div class="col-md-6">
+                                        <div class="info-card mb-4">
+                                            <div class="info-header">
+                                                <i class="fas fa-calendar text-danger me-2"></i>
+                                                <span class="info-title">تاريخ التسجيل</span>
+                                            </div>
+                                            <div class="info-content">
+                                                {{ customer.created_at|date:"Y/m/d" }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- العنوان -->
+                                    <div class="col-12">
+                                        <div class="info-card mb-4">
+                                            <div class="info-header">
+                                                <i class="fas fa-map-marker-alt text-secondary me-2"></i>
+                                                <span class="info-title">العنوان</span>
+                                            </div>
+                                            <div class="info-content">
+                                                {{ customer.address|default:"غير محدد" }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- الكتب المستعارة -->
+                                    <div class="col-12">
+                                        <div class="books-section">
+                                            <div class="info-card">
+                                                <div class="info-header mb-3">
+                                                    <i class="fas fa-bookmark text-info me-2"></i>
+                                                    <span class="info-title">كتبي ({{ customer.my_books.count }})</span>
+                                                </div>
+                                                <div class="info-content">
+                                                    {% if customer.my_books.all %}
+                                                    <div class="books-grid">
+                                                        {% for book in customer.my_books.all %}
+                                                        <div class="book-item-card">
+                                                            <div class="book-item-header">
+                                                                {% if book.book_image %}
+                                                                <img src="{{ book.book_image.url }}" 
+                                                                    alt="{{ book.title }}"
+                                                                    class="book-thumbnail">
+                                                                {% else %}
+                                                                <div class="book-thumbnail-placeholder">
+                                                                    <i class="fas fa-book"></i>
+                                                                </div>
+                                                                {% endif %}
+                                                                <div class="book-badge">
+                                                                    {% if book.price %}
+                                                                    <span class="badge bg-success">مشترى</span>
+                                                                    {% else %}
+                                                                    <span class="badge bg-warning">مستأجر</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="book-item-body">
+                                                                <h6 class="book-title">{{ book.title }}</h6>
+                                                                <p class="book-author text-muted">
+                                                                    <i class="fas fa-user-edit me-1"></i>
+                                                                    {{ book.auther }}
+                                                                </p>
+                                                                <div class="book-meta">
+                                                                    <small class="text-muted">
+                                                                        <i class="fas fa-file-alt me-1"></i>
+                                                                        {{ book.pages }} صفحة
+                                                                    </small>
+                                                                    {% if book.retal_price_day %}
+                                                                    <small class="text-warning">
+                                                                        <i class="fas fa-calendar-day me-1"></i>
+                                                                        ${{ book.retal_price_day }}/يوم
+                                                                    </small>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
                                                     </div>
-                                                    
+                                                    {% else %}
+                                                    <div class="empty-books text-center py-4">
+                                                        <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
+                                                        <p class="text-muted mb-0">لا توجد كتب في مجموعتك</p>
+                                                        <a href="{% url 'main' %}" class="btn btn-sm btn-outline-primary mt-2">
+                                                            <i class="fas fa-plus me-1"></i>
+                                                            استعرض الكتب
+                                                        </a>
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> -->
-
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-user-tag text-primary me-2"></i>
-                                            <span class="info-title">الاسم الكامل</span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.name}}
-                                        </div>
                                     </div>
-                                    
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-phone text-success me-2"></i>
-                                            <span class="info-title">رقم الهاتف</span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.phone|default:"غير محدد" }}
-                                        </div>
-                                    </div>
-
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-id-card text-warning me-2"></i>
-                                            <span class="info-title">رقم الهوية</span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.national_id|default:"غير محدد" }}
-                                        </div>
-                                    </div>
-
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-calendar text-danger me-2"></i>
-                                            <span class="info-title">تاريخ التسجيل</span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.created_at|date:"Y/m/d" }}
-                                        </div>
-                                    </div>
-
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-calendar text-danger me-2"></i>
-                                            <span class="info-title"> الكتب المستعارة </span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.created_at|date:"Y/m/d" }}
-                                        </div>
-                                    </div>
-
-                                    <div class="info-card mb-4">
-                                        <div class="info-header">
-                                            <i class="fas fa-map-marker-alt text-secondary me-2"></i>
-                                            <span class="info-title">العنوان</span>
-                                        </div>
-                                        <div class="info-content">
-                                            {{ customer.address|default:"غير محدد" }}
-                                        </div>
-                                    </div>
-                            
                                 </div>
                             </div>
                         </div>
@@ -172,7 +221,7 @@
                                                     <i class="fas fa-book text-white"></i>
                                                 </div>
                                                 <div class="stat-info">
-                                                    <div class="stat-number">12</div>
+                                                    <div class="stat-number">{{customer.my_books.count}}</div>
                                                     <div class="stat-label">إجمالي الكتب</div>
                                                 </div>
                                             </div>
@@ -182,7 +231,7 @@
                                                 </div>
                                                 <div class="stat-info">
                                                     <div class="stat-number">3</div>
-                                                    <div class="stat-label">نشطة الآن</div>
+                                                    <div class="stat-label"></div>
                                                 </div>
                                             </div>
                                             <div class="stat-item">
@@ -233,19 +282,6 @@
                     </div>
 
                     <div class="col-lg-4">
-                        <!-- Profile Summary -->
-                        <div class="card card-primary shadow-lg border-0 mb-4"> 
-                            <div class="card-header bg-gradient-primary text-white py-3">
-                                <h3 class="card-title mb-0">
-                                    <i class="fas fa-id-card me-2"></i>
-                                    ملخص الملف
-                                </h3>
-                            </div>
-                            <!-- 
-                                ffffffff 
-                            -->
-                        </div> 
-
                         <!-- Quick Actions -->
                         <div class="card card-warning shadow-lg border-0">
                             <div class="card-header bg-gradient-warning text-white py-3">
@@ -284,6 +320,154 @@
 </div>
 
 <style>
+
+
+.info-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.info-card:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-title {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.info-content {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #212529;
+}
+
+/* تصميم كتبي */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.book-item-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.book-item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-item-header {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.book-thumbnail {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.book-thumbnail-placeholder {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 1.5rem;
+}
+
+.book-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+
+.book-badge .badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+}
+
+.book-item-body {
+    text-align: center;
+}
+
+.book-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    line-height: 1.3;
+    color: #2c3e50;
+}
+
+.book-author {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.book-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+}
+
+.empty-books {
+    border: 2px dashed #dee2e6;
+    border-radius: 12px;
+    background: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .book-thumbnail,
+    .book-thumbnail-placeholder {
+        height: 100px;
+    }
+    
+    .info-card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .book-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .book-item-card {
+        padding: 12px;
+    }
+}
+
 
     .github-style-avatar {
         width: 100px;
