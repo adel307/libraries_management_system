@@ -1,4 +1,5 @@
 from django.db import models
+from my_books.models import *
 
 # Create your models here.
 
@@ -10,6 +11,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15, verbose_name="رقم الهاتف")
     address = models.TextField(verbose_name="العنوان")
     national_id = models.CharField(max_length=20, unique=True, verbose_name="رقم الهوية الوطنية")
+    my_books = models.ManyToManyField(Book,blank=True)
     
     # معلومات إضافية
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="تاريخ الميلاد")
@@ -18,7 +20,8 @@ class Customer(models.Model):
     # التواريخ
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ التسجيل")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="تاريخ التحديث")
-    
+
+
     class Meta:
         verbose_name = "عميل"
         verbose_name_plural = "العملاء"
@@ -28,7 +31,7 @@ class Customer(models.Model):
             models.Index(fields=['email']),
             models.Index(fields=['phone']),
         ]
-    
+
     def __str__(self):
         return self.name
     
