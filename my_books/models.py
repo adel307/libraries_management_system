@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Catigory(models.Model):
+class Category(models.Model):
     name =  models.CharField(max_length = 100)
     
     class Meta :
@@ -31,6 +31,9 @@ class Book (models.Model):
     retal_proid     =models.IntegerField(null=True,blank=True)
     total_rental    =models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
     discription     =models.CharField(max_length = 100)
-    catigery        =models.ForeignKey(Catigory,on_delete=models.PROTECT)
+    catigery        =models.ForeignKey(Category,on_delete=models.PROTECT)
     class Meta :
         ordering = ['-id']
+    
+    def __str__(self):
+        return f"{self.title}"

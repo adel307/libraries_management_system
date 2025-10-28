@@ -39,7 +39,7 @@ class new_book (forms.ModelForm):
 
 class new_category (forms.ModelForm):
     class Meta :
-        model = Catigory
+        model = Category
         fields = [
             'name',
         ]

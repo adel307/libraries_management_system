@@ -5,7 +5,7 @@ from my_books.models import *
 admin.site.site_header = 'wed site management'
 admin.site.site_title = 'LMS'
 
-class admin_Catigory(admin.ModelAdmin):
+class admin_Category(admin.ModelAdmin):
     list_display = ['id','name']
     list_editable = ['name']
     list_display_links = ['id']
@@ -19,5 +19,5 @@ class admin_Book(admin.ModelAdmin):
     search_fields = ['title','auther','price','status','pages','active','retal_proid','retal_price_day','total_rental',]
     # list_filter = ['moment']
 
-admin.site.register(Catigory , admin_Catigory)
+admin.site.register(Category , admin_Category)
 admin.site.register(Book , admin_Book)
