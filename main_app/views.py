@@ -25,7 +25,7 @@ def home(request):
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
         'books' : Book.objects.all(),
-        'catigories' : Catigory.objects.all(),
+        'catigories' : Category.objects.all(),
         'forms' : new_book(),
         'add_category' : new_category(),
         'books_num' : Book.objects.filter(active=True).count(),

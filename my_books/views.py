@@ -16,7 +16,7 @@ def my_books(request):
     
     context = {
         'books' : search_value,
-        'catigories'  : Catigory.objects.all(),
+        'catigories'  : Category.objects.all(),
         'add_category' : new_category()
     }
 

@@ -30,7 +30,7 @@ def owner_func (request):
     context = {
         'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
         'books'        : Book.objects.all(),
-        'catigories'   : Catigory.objects.all(),
+        'catigories'   : Category.objects.all(),
         'forms'        : new_book(),
         'add_category' : new_category(),
         'books_num'    : Book.objects.filter(active=True).count(),
@@ -102,7 +102,7 @@ def rented_books_func (request):
     
     context = {
         'rented_books' : Book.objects.filter(status = 'rented'),
-        'catigories' : Catigory.objects.all(),
+        'catigories' : Category.objects.all(),
         'add_category' : new_category(),
     }
 

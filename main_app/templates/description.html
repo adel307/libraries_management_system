@@ -25,7 +25,6 @@
                     <div class="col-md-5 col-lg-4 text-center mb-4">
                         <div class="book-image-container">
                             {% if selected_book.book_image %}
-                                {{ selected_book.book_image.url }}
                                 <img src="{{ selected_book.book_image.url }}" 
                                     alt="صورة كتاب {{ selected_book.title }}"
                                     class="img-fluid rounded shadow book-image"
