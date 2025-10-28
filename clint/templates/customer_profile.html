@@ -11,10 +11,10 @@
                     <div class="col-md-8">
                         <div class="d-flex align-items-center">
                             <div class="profile-avatar me-4">
-                                {% if 0 %}
+                                {% if customer.image %}
                                     <div class="github-style-avatar">
                                         <img 
-                                            src="" 
+                                            src="{{ customer.image.url }}" 
                                             alt="{{ customer.name }}" class="avatar-image"
                                         >
                                     </div>
@@ -31,9 +31,7 @@
                                 {% endif %}
                             </div>
                             <div>
-                                
                                 <h1 class="m-0 text-dark">
-                                    <!-- <i class="fas fa-user-circle text-primary me-2"></i> -->
                                     الملف الشخصي
                                 </h1>
                                 <p class="text-muted mt-1">مرحباً بعودتك، {{ customer.name }}</p>

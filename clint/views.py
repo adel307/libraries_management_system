@@ -6,6 +6,7 @@ from .forms import CustomerForm
 def customer_profile(request):
     """عرض بيانات العميل"""
     customer = get_object_or_404(Customer)
+    
     return render(request, 'customer_profile.html', {'customer': customer})
 
 def edit_customer(request, customer_id):
