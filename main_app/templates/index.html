@@ -45,9 +45,9 @@
                                     </div>
                                     <div class="col-md-4 text-left">
                                         <div class="btn-group btn-group-sm">
-                                            <button type="button" class="btn btn-outline-primary active">الكل</button>
-                                            <button type="button" class="btn btn-outline-primary">للشراء</button>
-                                            <button type="button" class="btn btn-outline-primary">للإيجار</button>
+                                            <button onclick="AllBooks()" type="button" class="btn btn-outline-primary">الكل</button>
+                                            <button onclick="BuyBooks()" type="button" class="btn btn-outline-primary">للشراء</button>
+                                            <button onclick="RentBooks()" type="button" class="btn btn-outline-primary">للإيجار</button>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                     {% for book in books %}
                         {% if book.status != "sold" %}
                             <!-- Book Card -->
-                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{book.category.id}} book{{book.status}}">
+                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{book.category.id}} book{{book.status}} hide">
                                 <div class="card book-card h-100 shadow-sm border-0">
                                     <!-- Card Header with Dropdown -->
                                     <div class="card-header bg-gradient-info text-white border-bottom-0 position-relative py-3">
@@ -110,13 +110,14 @@
                                     <!-- Book Image -->
                                     <div class="card-body text-center pt-4">
                                         {% if book.book_image %}
-                                        <img src="{{ book.book_image.url }}" 
-                                            alt="{{ book.title }}"
-                                            class="book-cover img-fluid rounded shadow mb-3">
+                                            <img src="{{ book.book_image.url }}" 
+                                                alt="{{ book.title }}"
+                                                class="book-cover img-fluid rounded shadow mb-3"
+                                            >
                                         {% else %}
-                                        <div class="no-cover-placeholder rounded bg-light d-flex align-items-center justify-content-center mx-auto mb-3">
-                                            <i class="fas fa-book text-muted fa-3x"></i>
-                                        </div>
+                                            <div class="no-cover-placeholder rounded bg-light d-flex align-items-center justify-content-center mx-auto mb-3">
+                                                <i class="fas fa-book text-muted fa-3x"></i>
+                                            </div>
                                         {% endif %}
                                         
                                         <!-- Book Title -->
@@ -163,17 +164,17 @@
                                             <div class="col-4">
                                                 <div class="stat-item">
                                                     {% if book.status == "availble" %}
-                                                    <i class="fas fa-check-circle text-success mb-1"></i>
-                                                    <h6 class="mb-0 fw-bold text-success">متاح</h6>
-                                                    <small class="text-muted">للشراء</small>
+                                                        <i class="fas fa-check-circle text-success mb-1"></i>
+                                                        <h6 class="mb-0 fw-bold text-success">متاح</h6>
+                                                        <small class="text-muted">للشراء</small>
                                                     {% elif book.status == "avl_for_rent" %}
-                                                    <i class="fas fa-clock text-warning mb-1"></i>
-                                                    <h6 class="mb-0 fw-bold text-warning">للإيجار</h6>
-                                                    <small class="text-muted">متاح</small>
+                                                        <i class="fas fa-clock text-warning mb-1"></i>
+                                                        <h6 class="mb-0 fw-bold text-warning">للإيجار</h6>
+                                                        <small class="text-muted">متاح</small>
                                                     {% elif book.status == "rented" %}
-                                                    <i class="fas fa-ban text-danger mb-1"></i>
-                                                    <h6 class="mb-0 fw-bold text-danger">مستأجر</h6>
-                                                    <small class="text-muted">غير متاح</small>
+                                                        <i class="fas fa-ban text-danger mb-1"></i>
+                                                        <h6 class="mb-0 fw-bold text-danger">مستأجر</h6>
+                                                        <small class="text-muted">غير متاح</small>
                                                     {% endif %}
                                                 </div>
                                             </div>

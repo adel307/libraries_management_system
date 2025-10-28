@@ -3,9 +3,9 @@ from django.contrib import messages
 from .models import Customer
 from .forms import CustomerForm
 
-def customer_profile(request, customer_id):
+def customer_profile(request):
     """عرض بيانات العميل"""
-    customer = get_object_or_404(Customer, id=customer_id)
+    customer = get_object_or_404(Customer)
     return render(request, 'customer_profile.html', {'customer': customer})
 
 def edit_customer(request, customer_id):
@@ -23,5 +23,5 @@ def edit_customer(request, customer_id):
     
     return render(request, 'edit_customer.html', {
         'form': form,
-        'customer': customer
+        'customer': customer,
     })
