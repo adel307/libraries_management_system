@@ -27,8 +27,9 @@ class Customer(models.Model):
         Book,
         through=CustomerBook,
         blank=True,
-        verbose_name="كتبي",
-        related_name='customers'
+        verbose_name="كتبي المباعة",
+        related_name='customers',
+        limit_choices_to={'status': 'sold'}  # إضافة هذا
     )
 
     # معلومات إضافية

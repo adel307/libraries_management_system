@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('book_image', models.ImageField(blank=True, null=True, upload_to='photos %Y %m %d ')),
                 ('auther_image', models.ImageField(blank=True, null=True, upload_to='photos2 %Y %m %d')),
                 ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
-                ('status', models.CharField(choices=[('availble', 'availble'), ('rented', 'rented'), ('sold', 'sold'), ('avl_for_rent', 'avl_for_rent')], default='availble', max_length=100)),
+                ('status', models.CharField(choices=[('available', 'available'), ('rented', 'rented'), ('sold', 'sold'), ('avl_for_rent', 'avl_for_rent')], default='available', max_length=100)),
                 ('pages', models.IntegerField()),
                 ('active', models.BooleanField(default=True)),
                 ('retal_price_day', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),

@@ -1,4 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
+from django.contrib.auth.decorators import login_required
+from clint.models import Customer, CustomerBook
 from django.http import HttpResponse
 from django.contrib import messages
 from datetime import datetime
@@ -29,7 +31,7 @@ def home(request):
         'forms' : new_book(),
         'add_category' : new_category(),
         'books_num' : Book.objects.filter(active=True).count(),
-        'avl_books' : Book.objects.filter(status='availble').count(),
+        'avl_books' : Book.objects.filter(status='available').count(),
         'rented_books_num' : Book.objects.filter(status='rented').count(),
         'sold_books' : Book.objects.filter(status='sold').count(),
         'totalsalarys' : totalsalarys,
@@ -84,7 +86,7 @@ def remove(request,id):
             # التحقق من أن الكتاب لم يباع بالفعل
             if book.status == 'sold':
                 # تغيير حالة الكتاب إلى sold
-                book.status = 'availble'
+                book.status = 'available'
                 book.save()
                  
   
@@ -106,10 +108,24 @@ def buy(request, id):
     if request.method == 'POST':
         try:
             # التحقق من أن الكتاب لم يباع بالفعل
-            if book.status == 'availble':
+            if book.status == 'available':
                 # تغيير حالة الكتاب إلى sold
                 book.status = 'sold'
                 book.save()
+
+                # الحصول على العميل المرتبط بالمستخدم الحالي
+                try:
+                    customer = Customer.objects.get(id = 1)
+                except Customer.DoesNotExist:
+                    messages.error(request, 'لم يتم العثور على بيانات العميل!')
+                    return redirect('main')
+
+                # إضافة الكتاب إلى Customer books مع تجنب التكرار
+                customer_book, created = CustomerBook.objects.get_or_create(
+                    customer=customer,
+                    book=book,
+                    defaults={'purchase_price': book.price}  # سعر الشراء الافتراضي
+                )
                 
                 messages.success(request, f'تم شراء الكتاب "{book.title}" بنجاح!')
             else:

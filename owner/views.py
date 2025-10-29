@@ -34,7 +34,7 @@ def owner_func (request):
         'forms'        : new_book(),
         'add_category' : new_category(),
         'books_num'    : Book.objects.filter(active=True).count(),
-        'avl_books'    : Book.objects.filter(status='availble').count(),
+        'avl_books'    : Book.objects.filter(status='available').count(),
         'rented_books_num' : Book.objects.filter(status='rented').count(),
         'sold_books'   : Book.objects.filter(status='sold').count(),
         'AFR_books'    : Book.objects.filter(status='avl_for_rent').count(),

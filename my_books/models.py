@@ -14,7 +14,7 @@ class Category(models.Model):
 
 class Book (models.Model):
     book_status =[
-        ('availble','availble'),
+        ('available','available'),
         ('rented','rented'),
         ('sold','sold'),
         ('avl_for_rent','avl_for_rent')
@@ -24,7 +24,7 @@ class Book (models.Model):
     book_image      =models.ImageField(upload_to='photos %Y %m %d ',null=True,blank=True)
     auther_image    =models.ImageField(upload_to='photos2 %Y %m %d',null=True,blank=True)
     price           =models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
-    status          =models.CharField(max_length = 100,choices=book_status,default='availble')
+    status          =models.CharField(max_length = 100,choices=book_status,default='available')
     pages           =models.IntegerField()
     active          =models.BooleanField(default=True)
     retal_price_day =models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
