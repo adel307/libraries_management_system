@@ -109,5 +109,5 @@ def rented_books_func (request):
     
     
 
-    return render(request, 'rented_books.html',context)
+    return render(request, 'rented_user_books.html',context)
 

@@ -19,7 +19,7 @@
                         <div class="card-body pb-0">
                             <div class="row d-flex align-items-stretch">
                                 {% for book in books %}
-                                    {% if book.status == "sold"%}
+                                    {% if book in customer.my_books.all %}
                                         <!-- بداية الكتاب -->
                                         <div   class="col-12 col-sm-6 col-md-4  hide_books book{{book.category.id}} book{{book.status}}">
                                             <div  id="" class="card bg-light">

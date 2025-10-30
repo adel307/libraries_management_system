@@ -131,7 +131,7 @@ def buy(request, id):
             else:
                 messages.warning(request, 'هذا الكتاب مباع بالفعل!')
                 
-            return redirect('main')
+            return redirect('customer_profile_path')
             
         except Exception as e:
             print(f"Error: {e}")

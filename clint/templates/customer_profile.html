@@ -143,58 +143,58 @@
                                                 </div>
                                                 <div class="info-content">
                                                     {% if customer.my_books.all %}
-                                                    <div class="books-grid">
-                                                        {% for book in customer.my_books.all %}
-                                                        <div class="book-item-card">
-                                                            <div class="book-item-header">
-                                                                {% if book.book_image %}
-                                                                <img src="{{ book.book_image.url }}" 
-                                                                    alt="{{ book.title }}"
-                                                                    class="book-thumbnail">
-                                                                {% else %}
-                                                                <div class="book-thumbnail-placeholder">
-                                                                    <i class="fas fa-book"></i>
+                                                        <div class="books-grid">
+                                                            {% for book in customer.my_books.all %}
+                                                                <div class="book-item-card">
+                                                                    <div class="book-item-header">
+                                                                        {% if book.book_image %}
+                                                                            <img src="{{ book.book_image.url }}" 
+                                                                                alt="{{ book.title }}"
+                                                                                class="book-thumbnail">
+                                                                        {% else %}
+                                                                            <div class="book-thumbnail-placeholder">
+                                                                                <i class="fas fa-book"></i>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                        <div class="book-badge">
+                                                                            {% if book.price %}
+                                                                                <span class="badge bg-success">مشترى</span>
+                                                                            {% else %}
+                                                                                <span class="badge bg-warning">مستأجر</span>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="book-item-body">
+                                                                        <h6 class="book-title">{{ book.title }}</h6>
+                                                                        <p class="book-author text-muted">
+                                                                            <i class="fas fa-user-edit me-1"></i>
+                                                                            {{ book.auther }}
+                                                                        </p>
+                                                                        <div class="book-meta">
+                                                                            <small class="text-muted">
+                                                                                <i class="fas fa-file-alt me-1"></i>
+                                                                                {{ book.pages }} صفحة
+                                                                            </small>
+                                                                            {% if book.retal_price_day %}
+                                                                                <small class="text-warning">
+                                                                                    <i class="fas fa-calendar-day me-1"></i>
+                                                                                    ${{ book.retal_price_day }}/يوم
+                                                                                </small>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                {% endif %}
-                                                                <div class="book-badge">
-                                                                    {% if book.price %}
-                                                                    <span class="badge bg-success">مشترى</span>
-                                                                    {% else %}
-                                                                    <span class="badge bg-warning">مستأجر</span>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <div class="book-item-body">
-                                                                <h6 class="book-title">{{ book.title }}</h6>
-                                                                <p class="book-author text-muted">
-                                                                    <i class="fas fa-user-edit me-1"></i>
-                                                                    {{ book.auther }}
-                                                                </p>
-                                                                <div class="book-meta">
-                                                                    <small class="text-muted">
-                                                                        <i class="fas fa-file-alt me-1"></i>
-                                                                        {{ book.pages }} صفحة
-                                                                    </small>
-                                                                    {% if book.retal_price_day %}
-                                                                    <small class="text-warning">
-                                                                        <i class="fas fa-calendar-day me-1"></i>
-                                                                        ${{ book.retal_price_day }}/يوم
-                                                                    </small>
-                                                                    {% endif %}
-                                                                </div>
-                                                            </div>
+                                                            {% endfor %}
                                                         </div>
-                                                        {% endfor %}
-                                                    </div>
                                                     {% else %}
-                                                    <div class="empty-books text-center py-4">
-                                                        <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
-                                                        <p class="text-muted mb-0">لا توجد كتب في مجموعتك</p>
-                                                        <a href="{% url 'main' %}" class="btn btn-sm btn-outline-primary mt-2">
-                                                            <i class="fas fa-plus me-1"></i>
-                                                            استعرض الكتب
-                                                        </a>
-                                                    </div>
+                                                        <div class="empty-books text-center py-4">
+                                                            <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
+                                                            <p class="text-muted mb-0">لا توجد كتب في مجموعتك</p>
+                                                            <a href="{% url 'main' %}" class="btn btn-sm btn-outline-primary mt-2">
+                                                                <i class="fas fa-plus me-1"></i>
+                                                                استعرض الكتب
+                                                            </a>
+                                                        </div>
                                                     {% endif %}
                                                 </div>
                                             </div>
