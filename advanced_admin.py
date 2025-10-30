@@ -222,7 +222,7 @@ class CustomerAdmin(BaseAdmin):
         'total_rentals', 'active_rentals', 'created_at'
     ]
     list_display_links = ['name']
-    search_fields = ['name', 'email', 'phone', 'national_id', 'address']
+    search_fields = ['app_name','name', 'email', 'phone', 'national_id', 'address']
     list_filter = ['created_at', 'occupation']
     readonly_fields = ['created_at', 'updated_at']
     actions = [send_promotion_notification]

@@ -57,7 +57,6 @@ def home(request):
                 save_new_category.save()
                 return render(request, 'index.html', context)
 
-        print(request.user)
         return render(request, 'index.html', context)
     else:
         return render(request, 'start.html')
