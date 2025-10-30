@@ -1,5 +1,6 @@
 from django import forms
 from .models import Customer
+import re
 
 class CustomerForm(forms.ModelForm):
     class Meta:
@@ -35,3 +36,19 @@ class CustomerForm(forms.ModelForm):
             'address': 'العنوان',
             'national_id': 'رقم الهوية',
         }
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if phone:
+            # تحقق من أن رقم الهاتف يحتوي على أرقام فقط
+            if not re.match(r'^[\d\+\-\(\)\s]+$', phone):
+                raise forms.ValidationError('يرجى إدخال رقم هاتف صحيح')
+        return phone
+
+    def clean_national_id(self):
+        national_id = self.cleaned_data.get('national_id')
+        if national_id:
+            # تحقق من أن رقم الهوية يحتوي على أرقام فقط
+            if not national_id.isdigit():
+                raise forms.ValidationError('يجب أن يحتوي رقم الهوية على أرقام فقط')
+        return national_id

@@ -485,10 +485,10 @@
                     <a class="nav-link dropdown-toggle user-menu" href="#" id="navbarDropdown" 
                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle me-2"></i>
-                        <span class="d-none d-md-inline">حسابي</span>
+                        <span class="d-none d-md-inline"> حسابي </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-                        {% if request.user.is_authenticated %}
+                        {% if customer %}
                             <li>
                                 <a class="dropdown-item d-flex align-items-center py-2" 
                                    href="{% url 'customer_profile_path' %}">
@@ -496,34 +496,13 @@
                                     الملف الشخصي
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center py-2" 
-                                   href="{% url 'my_books' %}">
-                                    <i class="fas fa-bookmark me-2"></i>
-                                    كتبي المُفضلة
-                                </a>
-                            </li>
+                            
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center py-2 text-danger" 
-                                   href="#">
+                                   href="">
                                     <i class="fas fa-sign-out-alt me-2"></i>
                                     تسجيل الخروج
-                                </a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center py-2" 
-                                   href="#">
-                                    <i class="fas fa-sign-in-alt me-2"></i>
-                                    تسجيل الدخول
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center py-2" 
-                                   href="#">
-                                    <i class="fas fa-user-plus me-2"></i>
-                                    إنشاء حساب
                                 </a>
                             </li>
                         {% endif %}

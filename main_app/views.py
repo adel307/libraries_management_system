@@ -8,54 +8,59 @@ from my_books.models import *
 from .forms import *
 from clint.models import *
 
+
+
+
+
 def home(request):
+    if Customer.objects.exists():
+        totalPay = 0
+        for book in Book.objects.all() :
+            if book.price :
+                if book.status == 'sold':
+                    totalPay += book.price
 
-    totalPay = 0
-    for book in Book.objects.all() :
-        if book.price :
-            if book.status == 'sold':
-                totalPay += book.price
+        totalRented = 0
+        for book in Book.objects.all() :
+            if book.total_rental :
+                if book.status == 'rented':
+                    totalRented += book.total_rental
 
-    totalRented = 0
-    for book in Book.objects.all() :
-        if book.total_rental :
-            if book.status == 'rented':
-                totalRented += book.total_rental
+        totalsalarys = totalRented + totalPay
 
-    totalsalarys = totalRented + totalPay
+        context = {
+            'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
+            'books' : Book.objects.all(),
+            'catigories' : Category.objects.all(),
+            'forms' : new_book(),
+            'add_category' : new_category(),
+            'books_num' : Book.objects.filter(active=True).count(),
+            'avl_books' : Book.objects.filter(status='available').count(),
+            'rented_books_num' : Book.objects.filter(status='rented').count(),
+            'sold_books' : Book.objects.filter(status='sold').count(),
+            'totalsalarys' : totalsalarys,
+            'totalPay' : totalPay,
+            'totalRented' : totalRented,
+            'clint_id': request.user.id if request.user.is_authenticated else None,
+            'customer': Customer.objects.all().first(),
+        }
 
-    context = {
-        'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
-        'books' : Book.objects.all(),
-        'catigories' : Category.objects.all(),
-        'forms' : new_book(),
-        'add_category' : new_category(),
-        'books_num' : Book.objects.filter(active=True).count(),
-        'avl_books' : Book.objects.filter(status='available').count(),
-        'rented_books_num' : Book.objects.filter(status='rented').count(),
-        'sold_books' : Book.objects.filter(status='sold').count(),
-        'totalsalarys' : totalsalarys,
-        'totalPay' : totalPay,
-        'totalRented' : totalRented,
-        'clint_id': request.user.id if request.user.is_authenticated else None,
-    }
+        if request.method == 'POST':
+            save_new_book = new_book(request.POST,request.FILES)
+            if save_new_book.is_valid():
+                save_new_book.save()
+                return render(request, 'index.html', context)
 
-    
+        if request.method == 'POST':
+            save_new_category = new_category(request.POST,request.FILES)
+            if save_new_category.is_valid():
+                save_new_category.save()
+                return render(request, 'index.html', context)
 
-    if request.method == 'POST':
-        save_new_book = new_book(request.POST,request.FILES)
-        if save_new_book.is_valid():
-            save_new_book.save()
-            return render(request, 'index.html', context)
-
-    if request.method == 'POST':
-        save_new_category = new_category(request.POST,request.FILES)
-        if save_new_category.is_valid():
-            save_new_category.save()
-            return render(request, 'index.html', context)
-
-    
-    return render(request, 'index.html', context)    
+        print(request.user)
+        return render(request, 'index.html', context)
+    else:
+        return render(request, 'start.html')
 
 def description(request,id):
 
@@ -115,7 +120,7 @@ def buy(request, id):
 
                 # الحصول على العميل المرتبط بالمستخدم الحالي
                 try:
-                    customer = Customer.objects.get(id = 1)
+                    customer = Customer.objects.all().first()
                 except Customer.DoesNotExist:
                     messages.error(request, 'لم يتم العثور على بيانات العميل!')
                     return redirect('main')
