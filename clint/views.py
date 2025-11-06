@@ -7,7 +7,7 @@ from .forms import CustomerForm
 def customer_profile(request):
     """عرض بيانات العميل"""
     customer = Customer.objects.all().first()
-    print(request.name)
+    print(request.user)
     return render(request, 'customer_profile.html', {'customer': customer})
 
 def register_customer(request):
