@@ -19,7 +19,7 @@
                         <div class="info-box bg-gradient-primary shadow">
                             <span class="info-box-icon"><i class="fas fa-books"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">إجمالي الكتب المتاحة</span>
+                                <span class="info-box-text">إجمالي الكتب </span>
                                 <span class="info-box-number">{{ books.count }}</span>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                                         </div>
                                         
                                         <!-- Action Dropdown -->
-                                        <!-- <div class="action-dropdown">
+                                        <div class="action-dropdown">
                                             <div class="dropdown">
                                                 <button class="btn btn-action dropdown-toggle" 
                                                         type="button" data-bs-toggle="dropdown" 
@@ -141,7 +141,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
 
                                     <!-- Book Content -->
@@ -162,16 +162,7 @@
                                         <!-- Book Stats -->
                                         <div class="book-stats">
                                             <div class="row g-2 text-center">
-                                                <!-- Pages -->
-                                                <div class="col-4">
-                                                    <div class="stat-item">
-                                                        <i class="fas fa-file-alt text-primary"></i>
-                                                        <div class="stat-content">
-                                                            <span class="stat-number">{{ book.pages }}</span>
-                                                            <small class="stat-label">صفحة</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                                 
                                                 <!-- Price/Rental -->
                                                 <div class="col-4">
@@ -192,24 +183,7 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <!-- Rating/Status -->
-                                                <div class="col-4">
-                                                    <div class="stat-item">
-                                                        {% if book.rating %}
-                                                            <i class="fas fa-star text-warning"></i>
-                                                            <div class="stat-content">
-                                                                <span class="stat-number text-warning">{{ book.rating }}</span>
-                                                                <small class="stat-label">تقييم</small>
-                                                            </div>
-                                                        {% else %}
-                                                            <i class="fas fa-eye text-info"></i>
-                                                            <div class="stat-content">
-                                                                <span class="stat-number text-info">جديد</span>
-                                                                <small class="stat-label">إصدار</small>
-                                                            </div>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         
@@ -231,25 +205,7 @@
                                         {% endif %}
                                         
                                         <!-- Action Buttons -->
-                                        <div class="action-buttons mt-3">
-                                            <div class="d-grid gap-2">
-                                                {% if book.price %}
-                                                <a href="{% url 'buy' book.id %}" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-shopping-cart me-2"></i>
-                                                    شراء الآن
-                                                </a>
-                                                {% elif book.status == 'avl_for_rent' %}
-                                                <a href="{% url 'rental' book.id %}" class="btn btn-warning btn-sm text-dark">
-                                                    <i class="fas fa-calendar-check me-2"></i>
-                                                    استأجر الآن
-                                                </a>
-                                                {% endif %}
-                                                <a href="{% url 'description' book.id %}" class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-info-circle me-2"></i>
-                                                    التفاصيل
-                                                </a>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

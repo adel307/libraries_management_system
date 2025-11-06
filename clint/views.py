@@ -7,16 +7,16 @@ from .forms import CustomerForm
 def customer_profile(request):
     """عرض بيانات العميل"""
     customer = Customer.objects.filter(user_id = request.user.id).first()
-    return render(request, 'customer_profile.html', {'customer': customer})
+    context ={
+        'customer': customer,
+        'catigories' : Category.objects.all(),
+    }
+    return render(request, 'customer_profile.html',context)
 
 def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES)
-        
-        print("=== فحص البيانات المرسلة ===")  # للتصحيح
-        print("POST data:", request.POST)
-        print("FILES data:", request.FILES)
-        
+
         if form.is_valid():
             try:
                 customer = form.save(commit=False)
@@ -27,14 +27,14 @@ def register_customer(request):
                 return redirect('main')
                 
             except Exception as e:
-                print("خطأ في الحفظ:", str(e))  # للتصحيح
+                print("خطأ في الحفظ:", str(e))  
                 messages.error(request, f'حدث خطأ أثناء التسجيل: {str(e)}')
         else:
-            print("=== أخطاء النموذج ===")  # للتصحيح
+            print("=== أخطاء النموذج ===")
             print("الأخطاء:", form.errors)
             print("البيانات غير الصالحة:", form.non_field_errors())
             
-            # عرض الأخطاء المفصلة
+            
             for field, errors in form.errors.items():
                 for error in errors:
                     field_name = form.fields[field].label if field in form.fields else field
@@ -98,3 +98,9 @@ def register_customer(request):
 #         'form': form,
 #         'customer': customer,
 #     })
+def logout (request):
+    customer = Customer.objects.filter(user_id = request.user.id).first()
+    if request.method == 'POST': 
+        customer.delete()
+        return redirect('main')
+    return render(request,'logout.html')

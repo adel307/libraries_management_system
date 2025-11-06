@@ -30,7 +30,7 @@ def home(request):
 
         context = {
             'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
-            'books' : Book.objects.all(),
+            'books' : Book.objects.exclude(status='sold'),
             'catigories' : Category.objects.all(),
             'forms' : new_book(),
             'add_category' : new_category(),

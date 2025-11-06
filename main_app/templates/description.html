@@ -135,7 +135,7 @@
                                 شراء الكتاب
                             </a>
                         {% elif selected_book.status == 'avl_for_rent' %}
-                            <a href="{% url 'rent' selected_book.id %}" class="btn btn-info text-white">
+                            <a href="{% url 'rental' selected_book.id %}" class="btn btn-info text-white">
                                 <i class="fas fa-calendar-check me-2"></i>
                                 استئجار الكتاب
                             </a>
