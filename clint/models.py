@@ -17,7 +17,7 @@ class CustomerBook(models.Model):
 
 class Customer(models.Model):
     """نموذج العملاء"""
-    user_id = models.CharField(max_length=10)
+    user_id = models.CharField(max_length=10, default= 1)
     name = models.CharField(max_length=100, verbose_name="الاسم الكامل")
     email = models.EmailField(unique=True, verbose_name="البريد الإلكتروني")
     image = models.ImageField(upload_to='photos3 %Y %m %d',blank=True,null=True,verbose_name="صورة الملف الشخصي")
