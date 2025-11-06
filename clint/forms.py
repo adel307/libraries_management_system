@@ -7,6 +7,7 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ['name', 'email', 'phone', 'address', 'national_id']
         widgets = {
+
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'اسم العميل الكامل'

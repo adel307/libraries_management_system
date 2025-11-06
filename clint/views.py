@@ -6,22 +6,39 @@ from .forms import CustomerForm
 
 def customer_profile(request):
     """عرض بيانات العميل"""
-    customer = Customer.objects.all().first()
-    print(request.user)
+    customer = Customer.objects.filter(user_id = request.user.id).first()
     return render(request, 'customer_profile.html', {'customer': customer})
 
 def register_customer(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES)
+        
+        print("=== فحص البيانات المرسلة ===")  # للتصحيح
+        print("POST data:", request.POST)
+        print("FILES data:", request.FILES)
+        
         if form.is_valid():
             try:
-                customer = form.save()
+                customer = form.save(commit=False)
+                customer.user_id = request.user.id
+                customer.save()
+                
                 messages.success(request, f'تم تسجيل العميل {customer.name} بنجاح!')
                 return redirect('main')
+                
             except Exception as e:
+                print("خطأ في الحفظ:", str(e))  # للتصحيح
                 messages.error(request, f'حدث خطأ أثناء التسجيل: {str(e)}')
         else:
-            messages.error(request, 'يرجى تصحيح الأخطاء في النموذج')
+            print("=== أخطاء النموذج ===")  # للتصحيح
+            print("الأخطاء:", form.errors)
+            print("البيانات غير الصالحة:", form.non_field_errors())
+            
+            # عرض الأخطاء المفصلة
+            for field, errors in form.errors.items():
+                for error in errors:
+                    field_name = form.fields[field].label if field in form.fields else field
+                    messages.error(request, f'{field_name}: {error}')
     else:
         form = CustomerForm()
     

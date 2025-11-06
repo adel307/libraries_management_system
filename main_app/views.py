@@ -42,7 +42,7 @@ def home(request):
             'totalPay' : totalPay,
             'totalRented' : totalRented,
             'clint_id': request.user.id if request.user.is_authenticated else None,
-            'customer': Customer.objects.all().first(),
+            'customer': Customer.objects.filter(user_id = request.user.id).first(),
         }
 
         if request.method == 'POST':
@@ -119,7 +119,7 @@ def buy(request, id):
 
                 # الحصول على العميل المرتبط بالمستخدم الحالي
                 try:
-                    customer = Customer.objects.all().first()
+                    customer = Customer.objects.filter(user_id = request.user.id).first()
                 except Customer.DoesNotExist:
                     messages.error(request, 'لم يتم العثور على بيانات العميل!')
                     return redirect('main')
