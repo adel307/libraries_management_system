@@ -34,6 +34,63 @@
             direction: rtl;
             text-align: right;
         }
+
+        /* تحسينات إضافية */
+        .bg-gradient-info {
+            background: linear-gradient(45deg, #17a2b8, #6cb2eb) !important;
+        }
+        .bg-gradient-success {
+            background: linear-gradient(45deg, #28a745, #8fd19e) !important;
+        }
+        .bg-gradient-warning {
+            background: linear-gradient(45deg, #ffc107, #ffd54f) !important;
+        }
+        .bg-gradient-danger {
+            background: linear-gradient(45deg, #dc3545, #e57373) !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .widget-user .widget-user-header {
+            height: 120px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .description-block {
+            padding: 10px 0;
+        }
+
+        .description-block .description-header {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .description-block .description-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* تحسينات للشكل العام */
+        .content-wrapper {
+            background-color: #f8f9fc;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e3e6f0;
+            background-color: #fff;
+        }
+
         </style>
 
     </head>
@@ -391,6 +448,31 @@
 
                 $('.showall').click(function(){
                     $('.hide_books').show()
+                });
+
+                // تحديث الإحصائيات تلقائياً
+                function updateStatistics() {
+                    // يمكنك إضافة كود AJAX هنا لتحديث الإحصائيات
+                    console.log('Updating statistics...');
+                }
+
+                // تحديث كل 30 ثانية
+                setInterval(updateStatistics, 30000);
+
+                // تحسين تجربة المستخدم
+                $(document).ready(function() {
+                    // إضافة تأثيرات للبطاقات
+                    $('.card').hover(
+                        function() {
+                            $(this).addClass('shadow');
+                        },
+                        function() {
+                            $(this).removeClass('shadow');
+                        }
+                    );
+
+                    // تحسين النماذج
+                    $('form').find('input, select, textarea').addClass('form-control');
                 });
 
             </script>

@@ -570,7 +570,7 @@
                             </form>
 
                             {% for category in catigories %}
-                                <li class="nav-item cat{{ category.name }}">
+                                <li class="nav-item cat{{ category.id }}">
                                     <a class="nav-link" href="#">
                                         <i class="fas fa-folder me-2"></i>
                                         <p>{{ category.name }}</p>
@@ -699,7 +699,7 @@
             });
 
             {% for category in catigories %}
-            $('.cat{{category.name}}').click(function() {
+            $('.cat{{category.id}}').click(function() {
                 $('.hide_books').hide();
                 $('.book{{category.id}}').fadeIn(300);
             });

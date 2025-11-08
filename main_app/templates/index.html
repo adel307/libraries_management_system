@@ -61,7 +61,7 @@
                     {% for book in books %}
                         {% if book.status != "sold" %}
                             <!-- Book Card -->
-                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{book.category.id}} book{{book.status}}">
+                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4 hide_books book{{ book.catigery.id }} book{{book.status}}">
                                 <div class="card book-card h-100 shadow-lg border-0">
                                     <!-- Book Image with Overlay -->
                                     <div class="book-image-container position-relative">
@@ -162,8 +162,6 @@
                                         <!-- Book Stats -->
                                         <div class="book-stats">
                                             <div class="row g-2 text-center">
-                                                
-                                                
                                                 <!-- Price/Rental -->
                                                 <div class="col-4">
                                                     <div class="stat-item">
@@ -182,8 +180,6 @@
                                                         {% endif %}
                                                     </div>
                                                 </div>
-                                                
-                                                
                                             </div>
                                         </div>
                                         

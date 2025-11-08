@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect , HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from my_books.models import Category
 from .models import Customer
 from .forms import CustomerForm
 

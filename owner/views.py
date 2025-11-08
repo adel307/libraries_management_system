@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.http import HttpResponse
+from django.contrib import messages
 from datetime import datetime
 from my_books.models import *
 from main_app.forms import *
@@ -28,19 +29,19 @@ def owner_func (request):
     totalsalarys = totalRental + totalPay
 
     context = {
-        'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
-        'books'        : Book.objects.all(),
-        'catigories'   : Category.objects.all(),
-        'forms'        : new_book(),
-        'add_category' : new_category(),
-        'books_num'    : Book.objects.filter(active=True).count(),
-        'avl_books'    : Book.objects.filter(status='available').count(),
+        'books'            : Book.objects.all(),
+        'books_num'        : Book.objects.filter(active=True).count(),
+        'sold_books'       : Book.objects.filter(status='sold').count(),
         'rented_books_num' : Book.objects.filter(status='rented').count(),
-        'sold_books'   : Book.objects.filter(status='sold').count(),
-        'AFR_books'    : Book.objects.filter(status='avl_for_rent').count(),
-        'totalsalarys' : totalsalarys,
-        'totalPay'     : totalPay,
-        'totalRental'  : totalRental,   
+        'avl_books'        : Book.objects.filter(status='available').count(),
+        'AFR_books'        : Book.objects.filter(status='avl_for_rent').count(),
+        'current_time'     : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
+        'catigories'       : Category.objects.all(),
+        'forms'            : new_book(),
+        'add_category'     : new_category(),
+        'totalPay'         : totalPay,
+        'totalRental'      : totalRental,   
+        'totalsalarys'     : totalsalarys,
     }
 
     if request.method == 'POST':
