@@ -20,8 +20,8 @@
             </div>
 
             <!-- محتوى البطاقة -->
-            <div class="card-body p-4">
-                <div class="row align-items-stretch">
+            <div class="card-body p-4" >
+                <div class="row align-items-stretch" >
                     <!-- قسم صورة الكتاب -->
                     <div class="col-md-5 col-lg-4 mb-4">
                         <div class="book-image-container text-center">
@@ -134,15 +134,15 @@
                                 </button>
                             </form>
                             {% if selected_book.retal_price_day %}
-                            <div class="rental-info bg-white p-3 rounded shadow-sm">
-                                <div class="text-center">
-                                    <h6 class="text-dark mb-1">التكلفة الإجمالية</h6>
-                                    <span class="text-primary fw-bold fs-4">
-                                        {{ selected_book.retal_price_day|floatformat:2 }} × {{ selected_book.retal_proid }} = 
-                                        <span class="text-success">{{ selected_book.total_rental|floatformat:2 }} دولار</span>
-                                    </span>
+                                <div class="rental-info bg-white p-3 rounded shadow-sm">
+                                    <div class="text-center">
+                                        <h6 class="text-dark mb-1">التكلفة الإجمالية</h6>
+                                        <span class="text-primary fw-bold fs-4">
+                                            {{ selected_book.retal_price_day|floatformat:2 }} × {{ selected_book.retal_proid }} = 
+                                            <span class="text-success">{{ selected_book.total_rental|floatformat:2 }} دولار</span>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
                             {% endif %}
                         </div>
                     </div>

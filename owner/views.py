@@ -4,12 +4,17 @@ from django.contrib import messages
 from datetime import datetime
 from my_books.models import *
 from main_app.forms import *
+base_context = {
+    'current_time' : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
+    'catigories'   : Category.objects.all(),
+    'add_category' : new_category(),
+}
 
 # Create your views here.
 
 def owner_login_func(request):
-
-    
+    if request.method == 'POST':
+        return redirect('owner_page_path')
 
     return render(request, 'login_owner.html')
 
@@ -28,36 +33,36 @@ def owner_func (request):
     
     totalsalarys = totalRental + totalPay
 
-    context = {
-        'books'            : Book.objects.all(),
-        'books_num'        : Book.objects.filter(active=True).count(),
-        'sold_books'       : Book.objects.filter(status='sold').count(),
-        'rented_books_num' : Book.objects.filter(status='rented').count(),
-        'avl_books'        : Book.objects.filter(status='available').count(),
-        'AFR_books'        : Book.objects.filter(status='avl_for_rent').count(),
-        'current_time'     : datetime.now().strftime(f"%Y / %m / %d %H:%M:%S"),
-        'catigories'       : Category.objects.all(),
-        'forms'            : new_book(),
-        'add_category'     : new_category(),
-        'totalPay'         : totalPay,
-        'totalRental'      : totalRental,   
-        'totalsalarys'     : totalsalarys,
-    }
+    filtered_books = Book.objects.exclude(status='sold')
+    search = request.GET.get('search_name')
+    if search:
+        filtered_books = books.filter(title__icontains=search)
 
     if request.method == 'POST':
         save_new_book = new_book(request.POST,request.FILES)
         if save_new_book.is_valid():
             save_new_book.save()
-            return render(request, 'index.html', context)
+            return render(request, 'index.html', {**context , **base_context})
 
     if request.method == 'POST':
         save_new_category = new_category(request.POST,request.FILES)
         if save_new_category.is_valid():
             save_new_category.save()
-            return render(request, 'index.html', context)
+            return render(request, 'index.html', {**context , **base_context})
 
-    
-    return render(request, 'owner.html',context)
+    context = {
+        'forms'            : new_book(),
+        'books'            : filtered_books,
+        'books_num'        : Book.objects.filter(active=True).count(),
+        'sold_books'       : Book.objects.filter(status='sold').count(),
+        'rented_books_num' : Book.objects.filter(status='rented').count(),
+        'avl_books'        : Book.objects.filter(status='available').count(),
+        'AFR_books'        : Book.objects.filter(status='avl_for_rent').count(),
+        'totalPay'         : totalPay,
+        'totalRental'      : totalRental,
+        'totalsalarys'     : totalsalarys,
+    }
+    return render(request, 'owner.html',{**context , **base_context})
 
 def update_book(request, id):
     try:
@@ -79,7 +84,7 @@ def update_book(request, id):
             'selected_book': book,
         }
 
-        return render(request, 'update_book.html', context)
+        return render(request, 'update_book.html', {**context , **base_context})
         
     except Exception as e:
         messages.error(request, f'حدث خطأ: {str(e)}')
@@ -91,24 +96,16 @@ def delete(request,id):
     if request.method == 'POST':
         delete_book.delete()
         return redirect('/')
-    return render(request,'delete.html')
+    return render(request,'delete.html',{**base_context})
 
 def rented_books_func (request):
-    search = None
-    search_value = Book.objects.all()
-    if 'search_name' in request.GET:
-        search = request.GET['search_name']
-        if search:
-            search_value = search_value.filter(title__icontains = search)
+    filtered_books = Book.objects.filter(status = 'rented')
+    search = request.GET.get('search_name')
+    if search:
+        filtered_books = filtered_books.filter(title__icontains=search)
     
     context = {
-        'rented_books' : Book.objects.filter(status = 'rented'),
-        'catigories' : Category.objects.all(),
-        'add_category' : new_category(),
+        'rented_books' : filtered_books,
     }
-
-    
-    
-
-    return render(request, 'rented_books.html',context)
+    return render(request, 'rented_books.html',{**context , **base_context})
 

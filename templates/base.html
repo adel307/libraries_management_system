@@ -463,13 +463,14 @@
 
             <!-- Search Form -->
             <div class="navbar-search ml-auto">
-                <form method="GET" action="{% url 'my_books' %}" class="form-inline">
+                <form method="GET" class="form-inline">
                     <div class="input-group input-group-sm search-container">
                         <input class="form-control form-control-navbar search-input" 
-                               name="search_name" 
-                               type="search" 
-                               placeholder="🔍 ابحث عن كتاب..." 
-                               aria-label="Search">
+                            name="search_name" 
+                            type="search" 
+                            placeholder="🔍 ابحث عن كتاب..." 
+                            aria-label="Search"
+                        >
                         <div class="input-group-append">
                             <button class="btn btn-search" type="submit">
                                 <i class="fas fa-search"></i>
@@ -554,7 +555,7 @@
                                 </a>
                             </li>
 
-                            <form id="cat" method="POST" class="p-3">
+                            <form id="cat" method="POST"  class="p-3">
                                 <div id="cat_input" class="bg-light rounded p-3">
                                     {% csrf_token %}
                                     {{ add_category }}

@@ -16,6 +16,18 @@ class CustomerBook(models.Model):
             models.UniqueConstraint(fields=['customer', 'book'], name='unique_customer_book')
         ]
 
+class CustomerRentedBook(models.Model):
+    """نموذج وسيط للتحكم في العلاقة"""
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    purchase_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['customer', 'book'], name='unique_customer_book')
+        ]
+
 class Customer(models.Model):
     """نموذج العملاء"""
     user_id = models.CharField(max_length=10, default= 0)
@@ -29,10 +41,20 @@ class Customer(models.Model):
         Book,
         through=CustomerBook,
         blank=True,
-        verbose_name="كتبي المباعة",
+        verbose_name="كتبي ",
         related_name='customers',
-        limit_choices_to={'status': 'sold'}  # إضافة هذا
+        limit_choices_to={'status': 'sold'}  
     )
+
+    my_rented_books = models.ManyToManyField(
+        Book,
+        through=CustomerRentedBook,
+        blank=True,
+        verbose_name="كتبي المستأجرة",
+        related_name='customers',
+        limit_choices_to={'status': 'rented'}  
+    )
+
 
     # معلومات إضافية
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="تاريخ الميلاد")

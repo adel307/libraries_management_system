@@ -1,186 +1,537 @@
 {%load static%}
 <!DOCTYPE html>
-<html  lang="ar">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>المكتبة الرقمية | Nouvil</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    
+    <!-- AdminLTE Arabic -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte_ar.min.css' %}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-        <title>Nouvil</title>
-        <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css'%}">
-
-        <!-- IonIcons -->
-        <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{% static 'dist/css/adminlte_ar.min.css'%}">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-        <!-- Font Awesome Icons -->
-
-        <style>
+    <style>
         :root {
-            writing-mode: horizontal-tb;
-            direction: rtl;
-            text-orientation: mixed;
+            --primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            --info-gradient: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            --warning-gradient: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            --danger-gradient: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         }
 
-        html {
-            writing-mode: horizontal-tb;
-            direction: rtl;
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            writing-mode: horizontal-tb;
-            direction: rtl;
-            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #11257e;
+            line-height: 1.6;
         }
 
-        /* تحسينات إضافية */
-        .bg-gradient-info {
-            background: linear-gradient(45deg, #17a2b8, #6cb2eb) !important;
-        }
-        .bg-gradient-success {
-            background: linear-gradient(45deg, #28a745, #8fd19e) !important;
-        }
-        .bg-gradient-warning {
-            background: linear-gradient(45deg, #ffc107, #ffd54f) !important;
-        }
-        .bg-gradient-danger {
-            background: linear-gradient(45deg, #dc3545, #e57373) !important;
+        /* تحسينات النافبار */
+        .main-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-bottom: 2px solid #e3e6f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            padding: 0.7rem 1.5rem;
         }
 
-        .card {
-            border: none;
+        .brand-link {
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .brand-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 1.5rem !important;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 0.6rem 1.2rem;
             border-radius: 10px;
             transition: all 0.3s ease;
+            margin: 0 3px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .navbar-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
         }
 
-        .widget-user .widget-user-header {
-            height: 120px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+        .navbar-nav .nav-link:hover::before {
+            width: 100%;
         }
 
-        .description-block {
-            padding: 10px 0;
+        .navbar-nav .nav-link:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            color: #007bff !important;
+            transform: translateY(-1px);
         }
 
-        .description-block .description-header {
-            margin: 0;
-            font-size: 1.1rem;
+        /* تحسينات شريط البحث */
+        .search-container {
+            max-width: 350px;
+            position: relative;
+        }
+
+        .search-input {
+            border: 2px solid #e3e6f0;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .btn-search {
+            background: var(--primary-gradient);
+            border: 2px solid #007bff;
+            border-radius: 25px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
             font-weight: 600;
         }
 
-        .description-block .description-text {
-            font-size: 0.85rem;
-            color: #6c757d;
+        .btn-search:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
         }
 
-        /* تحسينات للشكل العام */
-        .content-wrapper {
-            background-color: #f8f9fc;
+        /* تحسينات قائمة المستخدم */
+        .user-menu {
+            background: var(--primary-gradient);
+            border-radius: 25px;
+            padding: 0.6rem 1.2rem !important;
+            border: none;
+            transition: all 0.3s ease;
+            color: white !important;
+            font-weight: 600;
         }
 
-        .card-header {
-            border-bottom: 1px solid #e3e6f0;
-            background-color: #fff;
+        .user-menu:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            color: white !important;
         }
 
-        </style>
+        .dropdown-menu {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+            overflow: hidden;
+        }
 
-    </head>
-    <body dir="rtl" class="hold-transition sidebar-mini">
-        
-        
-        
-        <!-- في المكان ده هحط الناف بار -->
+        .dropdown-item {
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            margin: 2px 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
 
-        <!-- Navbar -->
-        <nav  class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white !important;
+            transform: translateX(-5px);
+            margin-left: 0;
+        }
+
+        /* تحسينات السايدبار */
+        .main-sidebar {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-link:not(.logo-switch) {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .brand-text.font-weight-light {
+            color: #ecf0f1 !important;
+            font-weight: 600 !important;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+            margin: 2px 8px;
+        }
+
+        .nav-sidebar .nav-item > .nav-link {
+            margin: 2px 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-sidebar .nav-item > .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-3px);
+        }
+
+        /* تحسينات البطاقات */
+        .book-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            overflow: hidden;
+            border: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .card-header.bg-gradient-info {
+            background: var(--info-gradient) !important;
+            border-bottom: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .book-cover {
+            width: 140px;
+            height: 180px;
+            object-fit: cover;
+            border: 3px solid #e9ecef;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .book-cover:hover {
+            transform: scale(1.05);
+            border-color: #007bff;
+        }
+
+        .no-cover-placeholder {
+            width: 140px;
+            height: 180px;
+            border: 2px dashed #dee2e6;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .no-cover-placeholder:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        /* تحسينات الأزرار */
+        .btn {
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+        }
+
+        .btn-warning {
+            background: var(--warning-gradient);
+        }
+
+        .btn-danger {
+            background: var(--danger-gradient);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* تحسينات الفوتر */
+        .main-footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-top: 3px solid var(--primary-gradient);
+        }
+
+        .main-footer a {
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .main-footer a:hover {
+            color: #3498db;
+            transform: translateY(-2px);
+        }
+
+        /* تحسينات التصفية */
+        .btn-group .btn.active {
+            background: var(--primary-gradient);
+            border-color: #007bff;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        /* تحسينات التجاوب */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 1rem;
+            }
+            
+            .brand-text {
+                font-size: 1.2rem !important;
+            }
+            
+            .search-container {
+                max-width: 100%;
+                margin: 0.5rem 0;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .book-cover {
+                width: 120px;
+                height: 160px;
+            }
+            
+            .no-cover-placeholder {
+                width: 120px;
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .col-xl-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .brand-text {
+                font-size: 1.1rem !important;
+            }
+        }
+
+        /* تأثيرات خاصة */
+        .pulse-effect {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* تحسينات النصوص */
+        .text-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* تحسينات الشعار */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <div class="container-fluid">
+            <!-- Left Side -->
+            <div class="d-flex align-items-center">
+                <!-- Sidebar Toggle -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                            <i class="fas fa-bars text-dark"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Brand Logo -->
+                <div class="logo-container">
+                    <a href="{% url 'main' %}" class="brand-link text-decoration-none">
+                        <span class="brand-text font-weight-bold">
+                            <i class="fas fa-book-open logo-icon"></i>
+                            المكتبة الرقمية
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav ms-3 d-none d-md-flex">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                    <a href="{% url 'owner_page_path' %}" class="nav-link text-dark">
+                        <i class="fas fa-home me-2"></i>
+                        الرئيسية
+                    </a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{% url 'main'%}" class="nav-link">Home</a>
-                </li>
-
             </ul>
 
-            <!-- SEARCH FORM -->
-            <form method="GET" action="{% url 'sold_books_path'%}" class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" name="search_name" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
+            <!-- Search Form -->
+            <div class="navbar-search ml-auto">
+                <form method="GET" class="form-inline">
+                    <div class="input-group input-group-sm search-container">
+                        <input class="form-control form-control-navbar search-input" 
+                               name="search_name" 
+                               type="search" 
+                               placeholder="🔍 ابحث عن كتاب..." 
+                               aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-search" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
+                </form>
+            </div>
+
+            <!-- User Menu -->
+            <ul class="navbar-nav ms-3">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle user-menu" href="#" id="navbarDropdown" 
+                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <span class="d-none d-md-inline"> حسابي </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                        {% if customer %}
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center py-2" 
+                                   href="{% url 'customer_profile_path' %}">
+                                    <i class="fas fa-user me-2"></i>
+                                    الملف الشخصي
+                                </a>
+                            </li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center py-2 text-danger" 
+                                   href="{% url 'logout_path' %}">
+                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    تسجيل الخروج
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link text-center">
+            <span class="brand-text font-weight-light">
+                <i class="fas fa-cogs me-2"></i>
+                نظام إدارة المكتبة
+            </span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- User Panel -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info">
+                    <a href="{% url 'owner_login_page' %}" class="d-block text-center">
+                        <i class="fas fa-user-shield me-2"></i>
+                        <span class="text-light">لوحة الإدارة</span>
+                    </a>
                 </div>
-            </form>
-        </nav>
-        <!-- /.navbar -->
-        <!-- في المكان ده هحط سلايد بار -->
+            </div>
 
-        <!-- Main Sidebar Container -->
-        <aside style="position: fixed;" class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="{% url 'owner_login_page' %}" class="brand-link">
-                <span class="brand-text font-weight-light">Library managment system </span>
-            </a>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                
-
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    التصنيفات
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-
-                                <li class="nav-item">
-                                    <a id="addcat" href="#" class="nav-link">
-                                        <i class="fa fa-plus "></i>
-                                        <p  class="text-light"> تصنيف جديد </p>
-                                    </a>
-                                </li>
-
-                                <form id="cat" method="POST">
-                                    <div id = 'cat_input'>
-                                        {% csrf_token %}
-                                        {{add_category}}
-                                        <button type="submit" class="btn btn-success">حفظ</button>
-                                        <button id="backcat" class="btn btn-primary ">عودة</button>
-                                    </div>
-                                </form>  
-                                {% for category in catigories %}
-                                    <li style="cursor: pointer;" class="nav-item cat{{category.name}}">
-                                        <a  id="" class="nav-link" href="">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>{{category.name}}</p>
-                                        </a>
-                                    </li>
-                                {% endfor %}
-
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
                             <a href="{% url 'sold_books_path' %}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
@@ -197,285 +548,209 @@
                                 </p>
                             </a>
                         </li>
+                    <!-- Categories Section -->
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon fas fa-tags"></i>
+                            <p>
+                                التصنيفات
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a id="addcat" href="#" class="nav-link">
+                                    <i class="fas fa-plus-circle me-2"></i>
+                                    <p>تصنيف جديد</p>
+                                </a>
+                            </li>
 
-                        <li style="cursor: pointer;" class="nav-item showall">
-                            <a id="" class="nav-link">
-                                <i class="nav-icon far fa-circle text-info"></i>
-                                <p>كل الكتب </p>
-                            </a>
-                        </li>
+                            <form id="cat" method="POST" class="p-3">
+                                <div id="cat_input" class="bg-light rounded p-3">
+                                    {% csrf_token %}
+                                    {{ add_category }}
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-save me-1"></i> حفظ
+                                        </button>
+                                        <button id="backcat" type="button" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-arrow-right me-1"></i> عودة
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
 
-                        <li style="cursor: pointer;" class="nav-item statusavailable">
-                            <a id="" class="nav-link">
-                                <i class="nav-icon far fa-circle text-success"></i>
-                                <p>متاح</p>
-                            </a>
-                        </li>
+                            {% for category in catigories %}
+                                <li class="nav-item cat{{ category.id }}">
+                                    <a class="nav-link" href="#">
+                                        <i class="fas fa-folder me-2"></i>
+                                        <p>{{ category.name }}</p>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
 
-                        <li style="cursor: pointer;" class="nav-item statusavl_for_rent">
-                            <a id="" class="nav-link">
-                                <i class="nav-icon far fa-circle text-warning"></i>
-                                <p>تم استعارته</p>
-                            </a>
-                        </li>
-                        
-                        <li style="cursor: pointer;" class="nav-item statussold">
-                            <a id="statusSold" class="nav-link">
-                                <i class="nav-icon far fa-circle text-danger"></i>
-                                <p class="text">تم بيعه</p>
-                            </a>
-                        </li>
+    
+    
+    {% block content %}
+    {% endblock %}
+    
 
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="social-links">
+                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <strong>Copyright &copy; 2025 
+                        <a href="#" class="text-warning">Adel Elboshy</a>.
+                    </strong>
+                    <span class="d-block d-md-inline">جميع الحقوق محفوظة.</span>
+                </div>
             </div>
-            <!-- /.sidebar -->
-        </aside>
+        </div>
+    </footer>
 
-        <!-- في المكان ده هحط المحتوى -->
-        {% block content%}
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        {% endblock %}
-        <!-- في المكان ده هحط footer -->
-        <!-- Main Footer -->
-        <footer class="main-footer d-flex justify-content-between align-items-center mt-3 mb-3">
-            <div class="float-left d-none d-sm-inline-block">
-                <a target="_blank" href="#"><i class="fab fa-lg ml-1 fa-github"></i></a>            
-                <a target="_blank" href="#"><i class="fab fa-lg ml-1 fa-linkedin"></i></a>            
-                <a target="_blank" href="#"><i class="fab fa-lg ml-1 fa-facebook"></i></a>
-            </div>
-            <div class="float-right">
-                <strong>Copyright &copy; 2025 <a href="#">Adel Elboshy</a>.</strong>
-                All rights reserved.
-            </div>
-        </footer>
-        
-        <!-- ./wrapper -->
-
-        <!-- مكتبات JavaScript بالترتيب الصحيح -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-        <script>
-            // 4. تفعيل الرسوم البيانية
+    <script>
+        // Initialize components
+        $(document).ready(function() {
+            // Initialize charts
             initializeCharts();
-
-            // 5. زر إضافة التصنيف
+            
+            // Category form toggle
             $('#cat_input').hide();
-            $('#addcat').click(function(){
-                $('#cat_input').show();
+            $('#addcat').click(function(e) {
+                e.preventDefault();
+                $('#cat_input').slideDown(300);
             });
-            $('#backcat').click(function(){
-                $('#cat_input').hide();
+            $('#backcat').click(function(e) {
+                e.preventDefault();
+                $('#cat_input').slideUp(300);
             });
-            
-            // دالة الرسوم البيانية
-            function initializeCharts() {
-                // Sales Chart
-                var $salesChart = $('#sales-chart');
-                if ($salesChart.length > 0) {
-                    try {
-                        var salesChart = new Chart($salesChart, {
-                            type: 'bar',
-                            data: {
-                                labels: ['تفاصيل الارباح'],
-                                datasets: [
-                                    {
-                                        label: ' الارباح من بيع الكتب',
-                                        backgroundColor: '#007bff',
-                                        borderColor: '#007bff',
-                                        data: ['{{totalPay}}']
-                                    },
-                                    {
-                                        label: ' الارباح من استعارة الكتب',
-                                        backgroundColor: '#ced4da',
-                                        borderColor: '#ced4da',
-                                        data: ['{{totalRental}}']
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: {
-                                            callback: function(value) {
-                                                return '$' + value;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.log('Sales chart initialization skipped:', error);
-                    }
-                }
 
-                // Pie Chart
-                var $visitorsChart = $('#visitors-chart');
-                if ($visitorsChart.length > 0) {
-                    try {
-                        var pieChart = new Chart($visitorsChart, {
-                            type: 'pie',
-                            data: {
-                                datasets: [{
-                                    data: ['{{avl_books}}', '{{AFR_books}}', '{{rented_books_num}}'],
-                                    backgroundColor: ["#27c100", "#fdaf4b", "#f3545d"],
-                                    borderWidth: 2
-                                }],
-                                labels: ['متاح', 'متاح للاستعارة', 'مستعار']
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: {
-                                            usePointStyle: true,
-                                            padding: 20
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.log('Pie chart initialization skipped:', error);
-                    }
-                }
+            // Book filtering functions
+            function AllBooks() {
+                $('.hide_books').fadeIn(300);
+                updateActiveButton('all');
             }
 
-            // دوال إدارة المكتبة
-            function deleteBook(bookId) {
-                if (confirm('هل أنت متأكد من حذف هذا الكتاب؟')) {
-                    $.ajax({
-                        url: '/books/delete/' + bookId + '/',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert('تم حذف الكتاب بنجاح');
-                                location.reload();
-                            } else {
-                                alert('حدث خطأ أثناء حذف الكتاب');
-                            }
-                        },
-                        error: function() {
-                            alert('حدث خطأ أثناء حذف الكتاب');
-                        }
-                    });
-                }
+            function BuyBooks() {
+                $('.hide_books').hide();
+                $('.bookavailable').fadeIn(300);
+                updateActiveButton('buy');
             }
 
-            function renewBook(bookId) {
-                if (confirm('هل تريد تجديد استعارة هذا الكتاب؟')) {
-                    $.ajax({
-                        url: '/books/renew/' + bookId + '/',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert('تم تجديد الكتاب بنجاح');
-                                location.reload();
-                            } else {
-                                alert('حدث خطأ أثناء تجديد الكتاب');
-                            }
-                        },
-                        error: function() {
-                            alert('حدث خطأ أثناء تجديد الكتاب');
-                        }
-                    });
-                }
+            function RentBooks() {
+                $('.hide_books').hide();
+                $('.bookavl_for_rent').fadeIn(300);
+                updateActiveButton('rent');
             }
 
-            // دالة الحصول على CSRF token
-            function getCookie(name) {
-                let cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-
-            // دالة البحث
-            function searchBooks() {
-                var searchTerm = $('#searchInput').val().toLowerCase();
-                $('.book-card').each(function() {
-                    var bookTitle = $(this).find('.book-title').text().toLowerCase();
-                    var bookAuthor = $(this).find('.book-author').text().toLowerCase();
-                    
-                    if (bookTitle.includes(searchTerm) || bookAuthor.includes(searchTerm) || searchTerm === '') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
+            function updateActiveButton(activeType) {
+                $('.btn-group .btn').removeClass('active btn-primary').addClass('btn-outline-primary');
+                
+                const buttonMap = {
+                    'all': 'الكل',
+                    'buy': 'للشراء', 
+                    'rent': 'للإيجار'
+                };
+                
+                $('.btn-group .btn').each(function() {
+                    if ($(this).text().trim() === buttonMap[activeType]) {
+                        $(this).addClass('active btn-primary').removeClass('btn-outline-primary');
                     }
                 });
             }
-            
-            $('#RetalProid').keyup(function(){
-                $('#TotalRental').val( $('#RetalProid').val()*$('#RetalPriceDay').val() )
-            })
-        </script>
-        {% for category in catigories %}
-            <script>
-                $('.cat{{category.name}}').click(function(){
-                   
-                    $('.hide_books').hide()
-                    $('.book{{book.category.id}}}').show()
-                });
 
-                $('.status{{book.status}}').click(function(){
-                    $('.hide_books').hide()
-                    $('.book{{book.status}}').show()
-                });
+            // Initialize books view
+            AllBooks();
 
-                $('.showall').click(function(){
-                    $('.hide_books').show()
-                });
+            // Add click handlers for filter buttons
+            $('.btn-group .btn').on('click', function() {
+                const text = $(this).text().trim();
+                if (text === 'الكل') AllBooks();
+                else if (text === 'للشراء') BuyBooks();
+                else if (text === 'للإيجار') RentBooks();
+            });
 
-                // تحديث الإحصائيات تلقائياً
-                function updateStatistics() {
-                    // يمكنك إضافة كود AJAX هنا لتحديث الإحصائيات
-                    console.log('Updating statistics...');
+            // Sidebar filtering
+            $('.showall').click(function() {
+                $('.hide_books').fadeIn(300);
+            });
+
+            {% for category in catigories %}
+            $('.cat{{category.id}}').click(function() {
+                $('.hide_books').hide();
+                $('.book{{category.id}}').fadeIn(300);
+            });
+            {% endfor %}
+
+            $('.statusavailable').click(function() {
+                $('.hide_books').hide();
+                $('.bookavailable').fadeIn(300);
+            });
+
+            $('.statusavl_for_rent').click(function() {
+                $('.hide_books').hide();
+                $('.bookavl_for_rent').fadeIn(300);
+            });
+
+            $('.statussold').click(function() {
+                $('.hide_books').hide();
+                $('.booksold').fadeIn(300);
+            });
+
+            // Rental price calculation
+            $('#RetalProid').keyup(function() {
+                const days = $(this).val();
+                const pricePerDay = $('#RetalPriceDay').val();
+                $('#TotalRental').val(days * pricePerDay);
+            });
+        });
+
+        // Utility functions
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
+            }
+            return cookieValue;
+        }
 
-                // تحديث كل 30 ثانية
-                setInterval(updateStatistics, 30000);
-
-                // تحسين تجربة المستخدم
-                $(document).ready(function() {
-                    // إضافة تأثيرات للبطاقات
-                    $('.card').hover(
-                        function() {
-                            $(this).addClass('shadow');
-                        },
-                        function() {
-                            $(this).removeClass('shadow');
-                        }
-                    );
-
-                    // تحسين النماذج
-                    $('form').find('input, select, textarea').addClass('form-control');
-                });
-
-            </script>
-        {% endfor %} 
-    </body>
+        function initializeCharts() {
+            // Chart initialization code can be added here
+            console.log('Charts initialized');
+        }
+    </script>
+</body>
 </html>

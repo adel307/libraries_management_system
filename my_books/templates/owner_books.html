@@ -1,79 +1,295 @@
-{% extends 'base.html'%}
+{% extends 'owner_base.html'%}
 
 {% block content%}
-        <div style="direction: rtl;" class="wrapper">
-            <!-- Content Wrapper. Contains page content -->
-            <div   class="content-wrapper p-5">
-                <!-- Content Header (Page header) -->
-                <section>
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>الكتب</h1>
+<div class="wrapper">
+    <!-- Content Wrapper -->
+    <div class="content-wrapper p-4" style="background-color: rgb(16, 40, 159);">
+        <!-- Content Header -->
+        <section class="content-header">
+            <div class="row mb-4">
+                <div class="col-sm-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="text-white font-weight-bold mb-0">
+                            <i class="fas fa-shopping-cart mr-3"></i>الكتب المباعة
+                        </h1>
+                        <div class="text-white">
+                            <span class="badge badge-light text-dark px-3 py-2">
+                                <i class="fas fa-book mr-2"></i>إجمالي الكتب: {{ books|length }}
+                            </span>
                         </div>
                     </div>
-                </section>
-                <!-- Main content -->
-                <section class="content">                  
-                    <!-- Default box -->
-                    <div class="card card-solid">
-                        <div class="card-body pb-0">
-                            <div class="row d-flex align-items-stretch">
+                    <p class="text-light mt-2">عرض جميع الكتب التي تم بيعها في مكتبتك</p>
+                </div>
+            </div>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Books Grid -->
+                <div class="card form-modern" style="background-color: rgb(3, 3, 77);">
+                    <div class="card-header bg-transparent border-0 py-4" >
+                        <h5 class="card-title mb-0 text-light">
+                            <i class="fas fa-books text-primary mr-2"></i>
+                            قائمة الكتب المباعة
+                        </h5>
+                    </div>
+
+                    <div class="card-body" style="background-color: blue;">
+                        {% if books %}
+                            <div class="row g-4" >
                                 {% for book in books %}
-                                    {% if book.status == "sold"%}
-                                        <!-- بداية الكتاب -->
-                                        <div   class="col-12 col-sm-6 col-md-4  hide_books book{{book.category.id}} book{{book.status}}">
-                                            <div  id="" class="card bg-light">
-                                                <div  class="card-header text-muted border-bottom-0">
-                                                    {{book.catigery.name}}
-                                                </div>
-                                                <div class="card-body pt-0">
-                                                    <div class="row">
-                                                        <div class="col-7">
-                                                            <h2 class="lead"><b>{{book.title}}</b></h2>
-                                                            <ul class="  fa-ul text-muted">
-                                                                <li class="small"><span class="fa-li"></span>الحالة:  {{book.status}}</li>
-                                                                {% if book.price %}
-                                                                    <li class="small"><span class="fa-li"></span>السعر:  {{book.price}}</li>
-                                                                {% elif book.retal_price_day %}
-                                                                    <li class="small"><span class="fa-li"></span> سعر الإيجار لليوم :  {{book.retal_price_day}}</li>
-                                                                {% endif %}
-                                                            </ul>
+                                    {% if book.status == "sold" %}
+                                        <div class="col-xl-4 col-lg-6 col-md-6 hide_books book{{book.category.id}} book{{book.status}}" >
+                                            <div class="book-card card border-0 shadow-sm h-100 transition-all">
+                                                <div class="card-header bg-transparent border-0 p-0 position-relative" >
+                                                    {% if book.book_image %}
+                                                        <img src="{{book.book_image.url}}" class="card-img-top book-cover" alt="{{book.title}}" style="width: 100%;">
+                                                    {% else %}
+                                                        <div class="book-cover-placeholder">
+                                                            <i class="fas fa-book-open"></i>
                                                         </div>
-                                                        {% if book.book_image %}
-                                                          <div class="col-5 text-center">
-                                                              <img style="height: 120px; width: 120px;"  src="{{book.book_image.url}}" alt="" class="img-circle img-fluid">
-                                                          </div>
-                                                        {% else %}
-                                                            <div class="col-5 text-center">
-                                                                <img style="height: 120px; width: 120px;"  src="" alt="" class="img-circle img-fluid">
+                                                    {% endif %}
+                                                    <div class="book-actions position-absolute top-0 start-0 p-3">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-sm btn-light rounded-circle shadow-sm" 
+                                                                    data-toggle="dropdown">
+                                                                <i class="fas fa-ellipsis-v"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <a class="dropdown-item text-primary" href="{% url 'description' book.id %}">
+                                                                    <i class="fas fa-eye mr-2"></i>عرض التفاصيل
+                                                                </a>
+                                                                <a class="dropdown-item text-danger" href="{% url 'remove' book.id %}"
+                                                                   onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
+                                                                    <i class="fas fa-trash mr-2"></i>حذف
+                                                                </a>
                                                             </div>
-                                                        {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="book-status position-absolute top-0 end-0 p-3">
+                                                        <span class="badge badge-status bg-success">
+                                                            <i class="fas fa-check-circle mr-1"></i>{{book.catigery|default:"بدون تصنيف"}}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <h6 class="card-title text-dark fw-bold mb-2 book-title">{{book.title}}</h6>
+                                                    <p class="card-text text-muted small mb-3">
+                                                        <i class="fas fa-user-edit mr-1"></i>{{book.auther|default:"غير معروف"}}
+                                                    </p>
+                                                    
+                                                    <div class="book-meta">
+                                                        <div class="row text-center">
+                                                            {% if book.price %}
+                                                                <div class="col-6">
+                                                                    <div class="value text-success">${{book.price}}</div>
+                                                                    <div class="label">سعر البيع</div>
+                                                                </div>
+                                                            {% elif book.retal_price_day %}
+                                                                <div class="col-6">
+                                                                    <div class="value text-warning">${{book.retal_price_day}}</div>
+                                                                    <div class="label">سعر الإيجار</div>
+                                                                </div>
+                                                            {% endif %}
+                                                            <div class="col-6">
+                                                                <div class="value text-primary">{{book.pages}}</div>
+                                                                <div class="label">عدد الصفحات</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="book-details mt-3">
+                                                        <div class="d-flex justify-content-between text-muted small">
+                                                            <span>
+                                                                <i class="fas fa-calendar mr-1"></i>
+                                                                {{book.created_at|date:"Y-m-d"}}
+                                                            </span>
+                                                            <span>
+                                                                <i class="fas fa-tag mr-1"></i>
+                                                                {{book.status}}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="card-footer">
-                                                    <div class="text-right">
-                                                        <a href="{% url 'remove' book.id %}" class="btn btn-sm bg-danger">
-                                                            <i class="fas fa-trash"></i>
+
+                                                <div class="card-footer bg-transparent border-0 pt-0">
+                                                    <div class="d-flex gap-2">
+                                                        <a href="{% url 'description' book.id %}" 
+                                                           class="btn btn-primary btn-sm flex-fill">
+                                                            <i class="fas fa-eye mr-1"></i>عرض التفاصيل
                                                         </a>
-                                                        <a href="{% url 'description' book.id %}" class="btn btn-sm btn-primary">
-                                                            <i class="fas fa-book"></i> التفاصيل
+                                                        <a href="{% url 'remove' book.id %}" 
+                                                           class="btn btn-outline-danger btn-sm"
+                                                           onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
+                                                            <i class="fas fa-trash"></i>
                                                         </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- نهاية الكتاب -->
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <!-- /.card-footer -->
+                        {% else %}
+                            <div class="text-center py-5">
+                                <div class="empty-state">
+                                    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                                    <h4 class="text-muted">لا توجد كتب مباعة</h4>
+                                    <p class="text-muted mb-4">لم يتم بيع أي كتب حتى الآن</p>
+                                    <a href="{% url 'main' %}" class="btn btn-primary px-4">
+                                        <i class="fas fa-arrow-right mr-2"></i> العودة للرئيسية
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                    <!-- /.card -->
-                </section>
-                <!-- /.content -->
+
+                    <!-- Pagination -->
+                    {% if books.has_other_pages %}
+                    <div class="card-footer bg-transparent border-0">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mb-0">
+                                {% if books.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ books.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                                {% for i in books.paginator.page_range %}
+                                    {% if books.number == i %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ i }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if books.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ books.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            <!-- /.content-wrapper -->
-        </div>
+        </section>
+    </div>
+</div>
+
+<style>
+/* تنسيقات إضافية للصفحة */
+.empty-state {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+    opacity: 1;
+}
+
+.book-cover {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.book-cover-placeholder {
+    height: 250px;
+    background: linear-gradient(45deg, #05738e, #bdc3c7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2c3e50;
+    font-size: 3rem;
+    border-radius: 15px 15px 0 0;
+}
+
+.book-details {
+    border-top: 1px solid #f8f9fa;
+    padding-top: 1rem;
+}
+
+.pagination .page-link {
+    border-radius: 10px;
+    margin: 0 2px;
+    border: none;
+    color: #2c3e50;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    border: none;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // تأثيرات الظهور للكروت
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, observerOptions);
+
+    // تطبيق التأثيرات على كروت الكتب
+    document.querySelectorAll('.book-card').forEach(function(card) {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+        card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(card);
+    });
+
+    // تطبيق التأثيرات على كروت الإحصائيات
+    document.querySelectorAll('.stat-card').forEach(function(card) {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+        card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(card);
+    });
+});
+</script>
 {% endblock %}
