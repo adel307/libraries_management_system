@@ -21,16 +21,27 @@ class CustomerBook(models.Model):
 
 class CustomerRentedBook(models.Model):
     """نموذج وسيط للكتب المستأجرة"""
+    RENTAL_STATUS_CHOICES = [
+        ('active', 'نشط'),
+        ('returned', 'تمت الإعادة'),
+        ('overdue', 'متأخر'),
+        ('cancelled', 'ملغى'),
+    ]
+
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     rental_start_date = models.DateTimeField(auto_now_add=True)  # ✅ تغيير الاسم
     rental_end_date = models.DateTimeField(null=True, blank=True)  # ✅ إضافة تاريخ انتهاء الإيجار
     rental_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # ✅ تغيير الاسم
 
+    rental_status = models.CharField(
+        max_length=10, 
+        choices=RENTAL_STATUS_CHOICES, 
+        default='active',
+        verbose_name="حالة الإيجار"
+    )
+
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['customer', 'book'], name='unique_customer_rented_book')  # ✅ تغيير الاسم
-        ]
         verbose_name = "كتاب مستأجر"
         verbose_name_plural = "الكتب المستأجرة"
 
@@ -39,11 +50,9 @@ class CustomerRentedBook(models.Model):
 
 class Customer(models.Model):
     """نموذج العملاء"""
-    user = models.ForeignKey(  # ✅ استخدام ForeignKey بدلاً من CharField
+    user = models.OneToOneField(  # ✅ استخدام ForeignKey بدلاً من CharField
         User,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         verbose_name="المستخدم"
     )
     name = models.CharField(max_length=100, verbose_name="الاسم الكامل")
@@ -52,6 +61,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=15, verbose_name="رقم الهاتف")
     address = models.TextField(verbose_name="العنوان")
     national_id = models.CharField(max_length=20, unique=True, verbose_name="رقم الهوية الوطنية")
+    #logged_in = models.BooleanField(default=True)
     
     # الكتب المملوكة
     my_books = models.ManyToManyField(

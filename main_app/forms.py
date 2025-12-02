@@ -16,7 +16,6 @@ class new_book (forms.ModelForm):
             'retal_price_day',
             'retal_proid',
             'catigery',
-            'total_rental',
             'discription',
         ]
 
@@ -31,7 +30,6 @@ class new_book (forms.ModelForm):
             'active': forms.TextInput(attrs={'class':'form-control'}),
             'retal_price_day': forms.NumberInput(attrs={'class':'form-control','id':'RetalPriceDay'}),
             'retal_proid': forms.NumberInput(attrs={'class':'form-control','id':'RetalProid'}),
-            'total_rental': forms.NumberInput(attrs={'class':'form-control','id':'TotalRental'}),
             'catigery': forms.Select(attrs={'class':'form-control'}),
             'discription': forms.TextInput(attrs={'class':'form-control'}),
         }

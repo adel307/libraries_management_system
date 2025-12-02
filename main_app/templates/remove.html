@@ -11,17 +11,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form  method="POST" enctype="multipart/form-data">
+                    <form method="POST">
                         {% csrf_token %}
                         <div class="row">
-                            <p class="p-3">هل تريد حقاً إزالة الكتاب من قائمة كتبك؟</p>
+                            <p class="p-3">هل تريد حقاً إزالة الكتاب: <strong>{{ book_to_remove.title }}</strong>؟</p>
                         </div>
-                        <!-- /.card-body -->
                         <div class="card-footer">
-                            <form method="post">
-                                <button type="submit" class="btn btn-danger">إزالة</button>
-                                <a href="{% url 'main' %}" type="submit" class="btn btn-success">تراجع</a>
-                            </form>
+                            <button type="submit" class="btn btn-danger">تأكيد الإزالة</button>
+                            <a href="{% url 'main' %}" class="btn btn-success">تراجع</a>
                         </div>
                     </form>
                 </div>

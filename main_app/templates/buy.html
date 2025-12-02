@@ -60,8 +60,23 @@
                                 <div class="detail-item">
                                     <i class="fas fa-tag text-primary me-2 fa-fw"></i>
                                     <strong class="me-2">الحالة:</strong>
-                                    <span class="badge {% if selected_book.status == 'متاح' %}bg-success{% else %}bg-warning text-dark{% endif %} fs-6">
-                                        {{ selected_book.status }}
+                                    {% comment %} التحقق من القيم الإنجليزية المخزنة في قاعدة البيانات {% endcomment %}
+                                    <span class="badge 
+                                        {% if selected_book.status == 'available' %}
+                                            bg-success
+                                        {% elif selected_book.status == 'avl_for_rent' %}
+                                            bg-info
+                                        {% else %}
+                                            bg-warning
+                                        {% endif %}
+                                    ">
+                                        {% if selected_book.status == 'available' %}
+                                            متاح للشراء
+                                        {% elif selected_book.status == 'avl_for_rent' %}
+                                            متاح للإيجار
+                                        {% else %}
+                                            غير متاح
+                                        {% endif %}
                                     </span>
                                 </div>
 

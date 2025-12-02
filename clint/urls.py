@@ -1,10 +1,19 @@
+# /home/adel101/my_work/django/LMS/LBS_venv/project/clint/urls.py
+
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/customer-profile', views.customer_profile, name='customer_profile_path'),
-    path('customer-register/', views.register_customer, name='register_customer'),
-    path('customer-logout/', views.logout, name='logout_path'),
-    # path('customer/update/<int:id>/', views.update_customer, name='update_customer'),
-    #path('/<int:customer_id>/edit/', views.edit_customer, name='edit_customer'),
+    # 1. عرض وتحديث الملف الشخصي (تم إزالة الشرطة المائلة الأمامية)
+    path('profile/', views.customer_profile, name='customer_profile_path'),
+    
+    # 2. إكمال البيانات (باستخدام الدالة المحسّنة complete_profile)
+    path('profile/complete/', views.complete_profile, name='complete_profile_path'),
+
+    # 3. تسجيل الخروج (باستخدام الدالة الآمنة user_logout)
+    # يجب عليك التأكد من أن دالة views.logout تم تغيير اسمها إلى views.user_logout
+    path('logout/', views.user_logout, name='logout_path'),
+    
+    # 4. حذف رابط تسجيل العميل (register_customer) إذا كان يستخدم لإنشاء عميل غير موجود.
+    # إذا كنت ما زلت بحاجة لرابط تسجيل المستخدم الأساسي، يجب أن يكون في مكان آخر (مثل app التسجيل الرئيسي).
 ]

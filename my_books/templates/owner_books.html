@@ -38,98 +38,96 @@
                         {% if books %}
                             <div class="row g-4" >
                                 {% for book in books %}
-                                    {% if book.status == "sold" %}
-                                        <div class="col-xl-4 col-lg-6 col-md-6 hide_books book{{book.category.id}} book{{book.status}}" >
-                                            <div class="book-card card border-0 shadow-sm h-100 transition-all">
-                                                <div class="card-header bg-transparent border-0 p-0 position-relative" >
-                                                    {% if book.book_image %}
-                                                        <img src="{{book.book_image.url}}" class="card-img-top book-cover" alt="{{book.title}}" style="width: 100%;">
-                                                    {% else %}
-                                                        <div class="book-cover-placeholder">
-                                                            <i class="fas fa-book-open"></i>
-                                                        </div>
-                                                    {% endif %}
-                                                    <div class="book-actions position-absolute top-0 start-0 p-3">
-                                                        <div class="dropdown">
-                                                            <button class="btn btn-sm btn-light rounded-circle shadow-sm" 
-                                                                    data-toggle="dropdown">
-                                                                <i class="fas fa-ellipsis-v"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item text-primary" href="{% url 'description' book.id %}">
-                                                                    <i class="fas fa-eye mr-2"></i>عرض التفاصيل
-                                                                </a>
-                                                                <a class="dropdown-item text-danger" href="{% url 'remove' book.id %}"
-                                                                   onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
-                                                                    <i class="fas fa-trash mr-2"></i>حذف
-                                                                </a>
-                                                            </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-6 hide_books book{{book.category.id}} book{{book.status}}" >
+                                        <div class="book-card card border-0 shadow-sm h-100 transition-all">
+                                            <div class="card-header bg-transparent border-0 p-0 position-relative" >
+                                                {% if book.book_image %}
+                                                    <img src="{{book.book_image.url}}" class="card-img-top book-cover" alt="{{book.title}}" style="width: 100%;">
+                                                {% else %}
+                                                    <div class="book-cover-placeholder">
+                                                        <i class="fas fa-book-open"></i>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="book-actions position-absolute top-0 start-0 p-3">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm btn-light rounded-circle shadow-sm" 
+                                                                data-toggle="dropdown">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a class="dropdown-item text-primary" href="{% url 'description' book.id %}">
+                                                                <i class="fas fa-eye mr-2"></i>عرض التفاصيل
+                                                            </a>
+                                                            <a class="dropdown-item text-danger" href="{% url 'remove' book.id %}"
+                                                                onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
+                                                                <i class="fas fa-trash mr-2"></i>حذف
+                                                            </a>
                                                         </div>
                                                     </div>
-                                                    <div class="book-status position-absolute top-0 end-0 p-3">
-                                                        <span class="badge badge-status bg-success">
-                                                            <i class="fas fa-check-circle mr-1"></i>{{book.catigery|default:"بدون تصنيف"}}
-                                                        </span>
-                                                    </div>
-                                                    
                                                 </div>
+                                                <div class="book-status position-absolute top-0 end-0 p-3">
+                                                    <span class="badge badge-status bg-success">
+                                                        <i class="fas fa-check-circle mr-1"></i>{{book.catigery|default:"بدون تصنيف"}}
+                                                    </span>
+                                                </div>
+                                                
+                                            </div>
 
-                                                <div class="card-body">
-                                                    <h6 class="card-title text-dark fw-bold mb-2 book-title">{{book.title}}</h6>
-                                                    <p class="card-text text-muted small mb-3">
-                                                        <i class="fas fa-user-edit mr-1"></i>{{book.auther|default:"غير معروف"}}
-                                                    </p>
-                                                    
-                                                    <div class="book-meta">
-                                                        <div class="row text-center">
-                                                            {% if book.price %}
-                                                                <div class="col-6">
-                                                                    <div class="value text-success">${{book.price}}</div>
-                                                                    <div class="label">سعر البيع</div>
-                                                                </div>
-                                                            {% elif book.retal_price_day %}
-                                                                <div class="col-6">
-                                                                    <div class="value text-warning">${{book.retal_price_day}}</div>
-                                                                    <div class="label">سعر الإيجار</div>
-                                                                </div>
-                                                            {% endif %}
+                                            <div class="card-body">
+                                                <h6 class="card-title text-dark fw-bold mb-2 book-title">{{book.title}}</h6>
+                                                <p class="card-text text-muted small mb-3">
+                                                    <i class="fas fa-user-edit mr-1"></i>{{book.auther|default:"غير معروف"}}
+                                                </p>
+                                                
+                                                <div class="book-meta">
+                                                    <div class="row text-center">
+                                                        {% if book.price %}
                                                             <div class="col-6">
-                                                                <div class="value text-primary">{{book.pages}}</div>
-                                                                <div class="label">عدد الصفحات</div>
+                                                                <div class="value text-success">${{book.price}}</div>
+                                                                <div class="label">سعر البيع</div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="book-details mt-3">
-                                                        <div class="d-flex justify-content-between text-muted small">
-                                                            <span>
-                                                                <i class="fas fa-calendar mr-1"></i>
-                                                                {{book.created_at|date:"Y-m-d"}}
-                                                            </span>
-                                                            <span>
-                                                                <i class="fas fa-tag mr-1"></i>
-                                                                {{book.status}}
-                                                            </span>
+                                                        {% elif book.retal_price_day %}
+                                                            <div class="col-6">
+                                                                <div class="value text-warning">${{book.retal_price_day}}</div>
+                                                                <div class="label">سعر الإيجار</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="col-6">
+                                                            <div class="value text-primary">{{book.pages}}</div>
+                                                            <div class="label">عدد الصفحات</div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="card-footer bg-transparent border-0 pt-0">
-                                                    <div class="d-flex gap-2">
-                                                        <a href="{% url 'description' book.id %}" 
-                                                           class="btn btn-primary btn-sm flex-fill">
-                                                            <i class="fas fa-eye mr-1"></i>عرض التفاصيل
-                                                        </a>
-                                                        <a href="{% url 'remove' book.id %}" 
-                                                           class="btn btn-outline-danger btn-sm"
-                                                           onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </a>
+                                                <div class="book-details mt-3">
+                                                    <div class="d-flex justify-content-between text-muted small">
+                                                        <span>
+                                                            <i class="fas fa-calendar mr-1"></i>
+                                                            {{book.created_at|date:"Y-m-d"}}
+                                                        </span>
+                                                        <span>
+                                                            <i class="fas fa-tag mr-1"></i>
+                                                            {{book.status}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="card-footer bg-transparent border-0 pt-0">
+                                                <div class="d-flex gap-2">
+                                                    <a href="{% url 'description' book.id %}" 
+                                                        class="btn btn-primary btn-sm flex-fill">
+                                                        <i class="fas fa-eye mr-1"></i>عرض التفاصيل
+                                                    </a>
+                                                    <a href="{% url 'remove' book.id %}" 
+                                                        class="btn btn-outline-danger btn-sm"
+                                                        onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    {% endif %}
+                                    </div>
                                 {% endfor %}
                             </div>
                         {% else %}

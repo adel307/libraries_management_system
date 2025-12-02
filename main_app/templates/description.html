@@ -59,8 +59,23 @@
                                 <li class="detail-item">
                                     <i class="fas fa-tag text-primary me-2"></i>
                                     <strong>الحالة:</strong>
-                                    <span class="badge {% if selected_book.status == 'متاح' %}bg-success{% else %}bg-warning{% endif %}">
-                                        {{ selected_book.status }}
+                                    {% comment %} التحقق من القيم الإنجليزية المخزنة في قاعدة البيانات {% endcomment %}
+                                    <span class="badge 
+                                        {% if selected_book.status == 'available' %}
+                                            bg-success
+                                        {% elif selected_book.status == 'avl_for_rent' %}
+                                            bg-info
+                                        {% else %}
+                                            bg-warning
+                                        {% endif %}
+                                    ">
+                                        {% if selected_book.status == 'available' %}
+                                            متاح للشراء
+                                        {% elif selected_book.status == 'avl_for_rent' %}
+                                            متاح للإيجار
+                                        {% else %}
+                                            غير متاح
+                                        {% endif %}
                                     </span>
                                 </li>
 

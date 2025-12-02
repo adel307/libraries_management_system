@@ -15,23 +15,11 @@ base_context = {
 
 def home(request):
     if Customer.objects.filter(user_id = request.user.id).first():
-
-        if request.method == 'POST':
-            save_new_book = new_book(request.POST,request.FILES)
-            if save_new_book.is_valid():
-                save_new_book.save()
-                return render(request, 'index.html', {**context , **base_context})
-
-        if request.method == 'POST':
-            save_new_category = new_category(request.POST,request.FILES)
-            if save_new_category.is_valid():
-                save_new_category.save()
-                return render(request, 'index.html', {**context , **base_context})
         
         filtered_books = Book.objects.exclude(status='sold')
         search = request.GET.get('search_name')
         if search:
-            filtered_books = books.filter(title__icontains=search)
+            filtered_books = filtered_books.filter(title__icontains=search)
 
         context = {
             'forms'            : new_book(),
@@ -62,25 +50,35 @@ def description(request,id):
     }
     return render(request,'description.html',{**context , **base_context})
 
-def remove(request,id):
-    book = get_object_or_404(Book,id = id)
+def remove(request, id):
+    # 1. جلب الكائن أو إظهار خطأ 404 إذا لم يتم العثور عليه
+    book = get_object_or_404(Book, id=id)
 
+    # 2. التحقق من أن الطلب هو POST
     if request.method == 'POST':
         try:
-            if book.status == 'sold':
-                book.status = 'available'
-                book.save()
-                messages.success(request, f' تم حذف الكتاب  "{book.title}" من قائمة كتبك! ')
+            # 3. حذف الكتاب نهائياً من قاعدة البيانات
+            book_title = book.title  # حفظ العنوان قبل الحذف
+            book.delete()
+            
+            # 4. إظهار رسالة نجاح
+            messages.success(request, f' تم حذف الكتاب "{book_title}" نهائياً من قواعد البيانات. ')
+            
+            # 5. إعادة التوجيه إلى الصفحة الرئيسية
             return redirect('main')
+            
         except Exception as e:
             print(f"Error: {e}")
-            messages.error(request, 'حدث خطأ أثناء عملية الحدف')
+            messages.error(request, 'حدث خطأ أثناء عملية الحذف النهائي.')
             return redirect('main')
 
+    # 6. معالجة طلب GET (لإظهار صفحة التأكيد)
     context = {
-        'customer' : Customer.objects.filter(user_id = request.user.id).first(),
+        'book_to_remove': book, # نمرر الكتاب لعرض تفاصيله في القالب
+        'customer': Customer.objects.filter(user_id=request.user.id).first(),
     }
-    return render(request,'remove.html',{**context , **base_context})
+    # يجب أن يعرض القالب 'remove.html' زر تأكيد POST للحذف
+    return render(request, 'remove.html', {**context, **base_context})
 
 def buy(request, id):
     book = get_object_or_404(Book, id=id)

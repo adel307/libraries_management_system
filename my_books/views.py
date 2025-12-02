@@ -10,25 +10,17 @@ from main_app.forms import new_category
 
 def my_books(request):
     
+    """عرض كتب المستخدم"""
     try:
-        customer = Customer.objects.get(user_id=request.user.id)
+        customer = request.user.customer
     except Customer.DoesNotExist:
-        messages.error(request, 'لم يتم العثور على بيانات العميل!')
-        return redirect('main') 
+        customer = Customer.objects.create(user=request.user)
     
-    filtered_books = Book.objects.all()
+    filtered_books = customer.my_books.all()
     search = request.GET.get('search_name')
     if search:
         filtered_books = filtered_books.filter(title__icontains=search)
-    
-    if request.method == 'POST':
-        
-        save_new_category = new_category(request.POST, request.FILES)
-        if save_new_category.is_valid():
-            save_new_category.save()
-            messages.success(request, 'تم إضافة التصنيف بنجاح!')
-            return redirect('my_books')
-    
+
     context = {
         'books': filtered_books,
         'catigories': Category.objects.all(),
@@ -36,7 +28,6 @@ def my_books(request):
         'customer': customer,
         'search_query': search,
     }
-    print(request.GET.get('search_name'))
     return render(request, 'user_books.html', context)
 
 def sold_books(request):
