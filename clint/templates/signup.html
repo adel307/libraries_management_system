@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         body {
             background-color: #f8f9fa;
@@ -12,14 +14,14 @@
         }
         .form-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-top: 30px;
-            margin-bottom: 30px;
+            border-radius: 15px; /* زيادة التدوير */
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.15); /* تظليل أقوى */
+            padding: 40px; /* زيادة المسافة الداخلية */
+            margin-top: 50px;
+            margin-bottom: 50px;
         }
         .form-header {
-            border-bottom: 2px solid #007bff;
+            border-bottom: 3px solid #007bff; /* خط سميك */
             padding-bottom: 15px;
             margin-bottom: 30px;
         }
@@ -33,6 +35,7 @@
             padding: 12px 30px;
             font-weight: 600;
             transition: all 0.3s;
+            border-radius: 10px;
         }
         .btn-custom:hover {
             transform: translateY(-2px);
@@ -42,9 +45,11 @@
             font-weight: 600;
             color: #495057;
             margin-bottom: 8px;
+            display: flex; /* لدمج الأيقونة مع الليبل */
+            align-items: center;
         }
         .form-control {
-            border-radius: 8px;
+            border-radius: 10px; /* زيادة التدوير */
             padding: 12px 15px;
             border: 2px solid #e9ecef;
             transition: all 0.3s;
@@ -54,38 +59,41 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
         .alert {
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
+        }
+        .icon-space {
+            margin-left: 8px; /* مسافة بين الأيقونة والنص */
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8 col-lg-6"> {# تضييق النموذج قليلاً ليكون أكثر جاذبية #}
                 <div class="form-container">
-                    <!-- الرأس -->
                     <div class="form-header">
-                        <h2 class="text-center">{{ title }}</h2>
+                        <h2 class="text-center">
+                            <i class="fas fa-user-plus icon-space"></i>
+                            {{ title }}
+                        </h2>
                     </div>
 
-                    <!-- الرسائل -->
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                                 {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         {% endfor %}
                     {% endif %}
 
-                    <!-- النموذج -->
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         
-                        <!-- حقل الاسم -->
                         <div class="mb-3">
                             <label for="{{ form.name.id_for_label }}" class="form-label">
+                                <i class="fas fa-user text-primary icon-space"></i>
                                 {{ form.name.label }}
                             </label>
                             {{ form.name }}
@@ -98,9 +106,9 @@
                             {% endif %}
                         </div>
 
-                        <!-- حقل البريد الإلكتروني -->
                         <div class="mb-3">
                             <label for="{{ form.email.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope text-success icon-space"></i>
                                 {{ form.email.label }}
                             </label>
                             {{ form.email }}
@@ -113,9 +121,9 @@
                             {% endif %}
                         </div>
 
-                        <!-- حقل الهاتف -->
                         <div class="mb-3">
                             <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                <i class="fas fa-phone text-info icon-space"></i>
                                 {{ form.phone.label }}
                             </label>
                             {{ form.phone }}
@@ -128,9 +136,9 @@
                             {% endif %}
                         </div>
 
-                        <!-- حقل العنوان -->
                         <div class="mb-3">
                             <label for="{{ form.address.id_for_label }}" class="form-label">
+                                <i class="fas fa-map-marker-alt text-danger icon-space"></i>
                                 {{ form.address.label }}
                             </label>
                             {{ form.address }}
@@ -143,9 +151,9 @@
                             {% endif %}
                         </div>
 
-                        <!-- حقل الهوية الوطنية -->
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="{{ form.national_id.id_for_label }}" class="form-label">
+                                <i class="fas fa-id-card text-warning icon-space"></i>
                                 {{ form.national_id.label }}
                             </label>
                             {{ form.national_id }}
@@ -157,13 +165,47 @@
                                 </div>
                             {% endif %}
                         </div>
+                        
+                        {# ✅ حقل كلمة المرور 1 (مضاف للتسجيل) #}
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">
+                                <i class="fas fa-lock text-secondary icon-space"></i>
+                                كلمة المرور
+                            </label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {# ✅ حقل تأكيد كلمة المرور 2 (مضاف للتسجيل) #}
+                        <div class="mb-4">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                <i class="fas fa-redo-alt text-secondary icon-space"></i>
+                                تأكيد كلمة المرور
+                            </label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {% for error in form.password2.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
 
-                        <!-- الأزرار -->
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-custom">
                                 {% if customer %}تحديث{% else %}تسجيل{% endif %} العميل
                             </button>
-                            <a href="{% url 'main' %}" class="btn btn-outline-secondary">العودة للرئيسية</a>
+                            <a href="{% url 'main' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-home icon-space"></i>
+                                العودة للرئيسية
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -172,5 +214,20 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ✅ تطبيق فئة form-control على جميع حقول الإدخال و textarea
+            const formInputs = document.querySelectorAll('.form-container form input:not([type="submit"]), .form-container form textarea, .form-container form select');
+            
+            formInputs.forEach(input => {
+                if (!input.classList.contains('form-control')) {
+                    input.classList.add('form-control');
+                }
+            });
+            
+            // Script for dismissible alerts (Bootstrap 5 handles dismiss automatically, but good practice)
+        });
+    </script>
 </body>
 </html>
