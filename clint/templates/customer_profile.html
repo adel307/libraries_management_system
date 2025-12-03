@@ -4,7 +4,6 @@
 {% block content %}
 <div class="wrapper" style="direction: rtl;">
     <div class="content-wrapper">
-        <!-- Content Header -->
         <div class="content-header mb-4">
             <div class="container-fluid">
                 <div class="row align-items-center">
@@ -13,7 +12,7 @@
                             <div class="profile-avatar me-4">
                                 {% if customer.image %}
                                     <div class="github-style-avatar">
-                                        <img 
+                                        <img
                                             src="{{ customer.image.url }}" 
                                             alt="{{ customer.name }}" class="avatar-image"
                                         >
@@ -53,12 +52,10 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-8">
-                        <!-- Profile Details -->
                         <div class="card card-primary shadow-lg border-0 mb-4">
                             <div class="card-header bg-gradient-primary text-white py-3">
                                 <h3 class="card-title mb-0">
@@ -68,7 +65,6 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="row">
-                                    <!-- الاسم الكامل -->
                                     <div class="col-md-6">
                                         <div class="info-card mb-4">
                                             <div class="info-header">
@@ -81,7 +77,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- رقم الهاتف -->
                                     <div class="col-md-6">
                                         <div class="info-card mb-4">
                                             <div class="info-header">
@@ -94,7 +89,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- رقم الهوية -->
                                     <div class="col-md-6">
                                         <div class="info-card mb-4">
                                             <div class="info-header">
@@ -107,7 +101,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- تاريخ التسجيل -->
                                     <div class="col-md-6">
                                         <div class="info-card mb-4">
                                             <div class="info-header">
@@ -120,7 +113,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- العنوان -->
                                     <div class="col-12">
                                         <div class="info-card mb-4">
                                             <div class="info-header">
@@ -133,15 +125,17 @@
                                         </div>
                                     </div>
 
-                                    <!-- الكتب المستعارة -->
                                     <div class="col-12">
-                                        <div class="books-section">
-                                            <div class="info-card">
-                                                <div class="info-header mb-3">
-                                                    <i class="fas fa-bookmark text-info me-2"></i>
-                                                    <span class="info-title">كتبي ({{ customer.my_books.count }})</span>
+                                        <div class="books-sections-container">
+                                            
+                                            <div class="card card-info shadow-lg border-0 mb-4">
+                                                <div class="card-header bg-gradient-success text-white py-3">
+                                                    <h3 class="card-title mb-0">
+                                                        <i class="fas fa-shopping-bag me-2"></i>
+                                                        كتبي المشتراة ({{ customer.my_books.count }})
+                                                    </h3>
                                                 </div>
-                                                <div class="info-content">
+                                                <div class="card-body p-4">
                                                     {% if customer.my_books.all %}
                                                         <div class="books-grid">
                                                             {% for book in customer.my_books.all %}
@@ -157,11 +151,7 @@
                                                                             </div>
                                                                         {% endif %}
                                                                         <div class="book-badge">
-                                                                            {% if book.price %}
-                                                                                <span class="badge bg-success">مشترى</span>
-                                                                            {% else %}
-                                                                                <span class="badge bg-warning">مستأجر</span>
-                                                                            {% endif %}
+                                                                            <span class="badge bg-success">مشترى</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="book-item-body">
@@ -175,12 +165,11 @@
                                                                                 <i class="fas fa-file-alt me-1"></i>
                                                                                 {{ book.pages }} صفحة
                                                                             </small>
-                                                                            {% if book.retal_price_day %}
-                                                                                <small class="text-warning">
-                                                                                    <i class="fas fa-calendar-day me-1"></i>
-                                                                                    ${{ book.retal_price_day }}/يوم
-                                                                                </small>
-                                                                            {% endif %}
+                                                                            <small class="text-success">
+                                                                                <i class="fas fa-dollar-sign me-1"></i>
+                                                                                {# يجب استخدام سعر الشراء من النموذج الوسيط CustomerBook إذا كنت تريد السعر المدفوع #}
+                                                                                {{ book.price|default:"N/A" }}
+                                                                            </small>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -188,27 +177,81 @@
                                                         </div>
                                                     {% else %}
                                                         <div class="empty-books text-center py-4">
-                                                            <i class="fas fa-book-open fa-2x text-muted mb-3"></i>
-                                                            <p class="text-muted mb-0">لا توجد كتب في مجموعتك</p>
-                                                            <a href="{% url 'main' %}" class="btn btn-sm btn-outline-primary mt-2">
-                                                                <i class="fas fa-plus me-1"></i>
-                                                                استعراض الكتب
-                                                            </a>
+                                                            <i class="fas fa-shopping-basket fa-2x text-muted mb-3"></i>
+                                                            <p class="text-muted mb-0">لم تقم بشراء أي كتاب بعد.</p>
                                                         </div>
                                                     {% endif %}
                                                 </div>
                                             </div>
+
+                                            <div class="card card-info shadow-lg border-0">
+                                                <div class="card-header bg-gradient-info text-white py-3">
+                                                    <h3 class="card-title mb-0">
+                                                        <i class="fas fa-hourglass-half me-2"></i>
+                                                        الاستعارات النشطة ({{ customer.active_rentals }})
+                                                    </h3>
+                                                </div>
+                                                <div class="card-body p-4">
+                                                    {# الوصول إلى النموذج الوسيط CustomerRentedBook لتصفية الاستعارات النشطة والحصول على تفاصيل المعاملة #}
+                                                    {% with active_rentals_objects=customer.customerrentedbook_set.filter(rental_status='active') %}
+                                                        {% if active_rentals_objects %}
+                                                            <div class="books-grid">
+                                                                {% for rent_obj in active_rentals_objects %}
+                                                                    {% with book=rent_obj.book %}
+                                                                        <div class="book-item-card">
+                                                                            <div class="book-item-header">
+                                                                                {% if book.book_image %}
+                                                                                    <img src="{{ book.book_image.url }}" 
+                                                                                        alt="{{ book.title }}"
+                                                                                        class="book-thumbnail">
+                                                                                {% else %}
+                                                                                    <div class="book-thumbnail-placeholder">
+                                                                                        <i class="fas fa-book-reader"></i>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                                <div class="book-badge">
+                                                                                    <span class="badge bg-warning">مؤجر</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="book-item-body">
+                                                                                <h6 class="book-title">{{ book.title }}</h6>
+                                                                                <p class="book-author text-muted">
+                                                                                    <i class="fas fa-user-edit me-1"></i>
+                                                                                    {{ book.auther }}
+                                                                                </p>
+                                                                                <div class="book-meta">
+                                                                                    <small class="text-muted">
+                                                                                        <i class="fas fa-file-alt me-1"></i>
+                                                                                        {{ book.pages }} صفحة
+                                                                                    </small>
+                                                                                    <small class="text-warning">
+                                                                                        <i class="fas fa-calendar-times me-1"></i>
+                                                                                        الإرجاع: {{ rent_obj.due_date|date:"Y/m/d" }}
+                                                                                    </small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endwith %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="empty-books text-center py-4">
+                                                                <i class="fas fa-tags fa-2x text-muted mb-3"></i>
+                                                                <p class="text-muted mb-0">لا توجد كتب مستأجرة حالياً.</p>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endwith %}
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
+                                    </div>
                             </div>
                         </div>
-
-                        
                     </div>
 
                     <div class="col-lg-4">
-                        <!-- Quick Actions -->
                         <div class="card card-warning shadow-lg border-0">
                             <div class="card-header bg-gradient-warning text-white py-3">
                                 <h3 class="card-title mb-0">
@@ -218,7 +261,8 @@
                             </div>
                             <div class="card-body p-3">
                                 <div class="d-grid gap-2">
-                                    <a href="#" class="btn btn-outline-primary btn-lg action-btn">
+                                    {# ✅ رابط تعديل الملف تم تحديثه #}
+                                    <a href="{% url 'complete_profile_path' %}" class="btn btn-outline-primary btn-lg action-btn">
                                         <i class="fas fa-edit me-2"></i>
                                         تعديل الملف
                                     </a>
@@ -226,6 +270,7 @@
                                         <i class="fas fa-book me-2"></i>
                                         الحصول على المزيد من الكتب
                                     </a>
+                                    {# ⚠️ يجب التأكد من وجود رابط my_books #}
                                     <a href="{% url 'my_books' %}" class="btn btn-outline-info btn-lg action-btn">
                                         <i class="fas fa-bookmark me-2"></i>
                                         كتبي الحالية

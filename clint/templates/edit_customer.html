@@ -4,7 +4,6 @@
 {% block content %}
 <div class="wrapper" style="direction: rtl;">
     <div class="content-wrapper">
-        <!-- Content Header -->
         <div class="content-header mb-4">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -28,7 +27,6 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -41,7 +39,6 @@
                                 </h3>
                             </div>
                             <div class="card-body">
-                                <!-- Messages -->
                                 {% if messages %}
                                 <div class="messages mb-4">
                                     {% for message in messages %}
@@ -55,8 +52,38 @@
                                 </div>
                                 {% endif %}
 
-                                <form method="post" novalidate>
+                                {# ✅ تم إضافة enctype لدعم رفع الملفات #}
+                                <form method="post" enctype="multipart/form-data" novalidate>
                                     {% csrf_token %}
+                                    
+                                    {# ✅ قسم رفع الصورة #}
+                                    <div class="row mb-4 border-bottom pb-4">
+                                        <div class="col-md-12 text-center">
+                                            <div class="current-image-container mb-3">
+                                                {% if customer.image %}
+                                                    <img src="{{ customer.image.url }}" alt="{{ customer.name }}" class="img-thumbnail profile-edit-image">
+                                                {% else %}
+                                                    <div class="profile-edit-placeholder">
+                                                        <span class="avatar-initials">{{ customer.name|first|default:"U" }}</span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="form-group mb-0">
+                                                <label for="{{ form.image.id_for_label }}" class="btn btn-outline-info btn-sm">
+                                                    <i class="fas fa-upload me-2"></i>
+                                                    تغيير الصورة الشخصية
+                                                </label>
+                                                {# حقل الصورة الفعلي (يُفضل أن يكون مخفياً ويتم تفعيله عبر الليبل) #}
+                                                {{ form.image }}
+                                                {% if form.image.errors %}
+                                                <div class="text-danger small mt-1">
+                                                    {{ form.image.errors }}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <div class="row">
                                         <div class="col-md-6">
@@ -65,6 +92,7 @@
                                                     <i class="fas fa-user text-primary me-2"></i>
                                                     {{ form.name.label }}
                                                 </label>
+                                                {# ⚠️ تأكد من أن حقل النموذج مُطبق عليه فئة form-control في forms.py #}
                                                 {{ form.name }}
                                                 {% if form.name.errors %}
                                                 <div class="text-danger small mt-1">
@@ -142,6 +170,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
+                                                {# ✅ تم تعديل رابط الرجوع لاستخدام customer_profile #}
                                                 <a href="{% url 'customer_profile' customer.id %}" 
                                                    class="btn btn-secondary btn-lg w-100">
                                                     <i class="fas fa-arrow-right me-2"></i>
@@ -198,13 +227,53 @@
     border-radius: 10px;
     border: none;
 }
+
+/* تنسيقات الصورة المضافة */
+.profile-edit-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-edit-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    border: 2px dashed #ced4da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.avatar-initials {
+    color: #6c757d;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* إخفاء حقل الملف الأصلي وجعل الليبل هو الزر */
+input[type="file"] {
+    display: none;
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // إضافة تأثيرات للحقول
-    const formInputs = document.querySelectorAll('.form-control');
+    // تطبيق فئة form-control على جميع الحقول لضمان التنسيق
+    const formInputs = document.querySelectorAll('.card-body form input:not([type="submit"]):not([type="file"]), .card-body form textarea, .card-body form select');
     
+    formInputs.forEach(input => {
+        if (!input.classList.contains('form-control')) {
+            input.classList.add('form-control');
+        }
+    });
+
+    // إضافة تأثيرات للحقول (كما كان في الكود الأصلي)
     formInputs.forEach(input => {
         input.addEventListener('focus', function() {
             this.parentElement.classList.add('focused');
@@ -216,6 +285,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // عرض اسم الملف المختار (اختياري)
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+    if (imageInput) {
+        imageInput.addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : "تغيير الصورة الشخصية";
+            const label = document.querySelector('label[for="' + imageInput.id + '"]');
+            if (label) {
+                label.innerHTML = `<i class="fas fa-check-circle me-2"></i> تم اختيار: ${fileName}`;
+            }
+        });
+    }
 });
 </script>
 {% endblock %}
