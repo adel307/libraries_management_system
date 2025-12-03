@@ -1,28 +1,58 @@
 {% extends 'base.html'%}
+{% load static %}
 
 {% block content%}
-        <div style="direction: rtl;" class="wrapper">
-            <!-- Content Wrapper. Contains page content -->
-            <div   class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <div  class="card card-danger">
-                    <div class="card-header">
-                        <h3 class="card-title">حذف الكتاب</h3>
+<div style="direction: rtl;" class="wrapper">
+    <div class="content-wrapper">
+        <div class="container-fluid pt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    
+                    <div class="card card-danger shadow-lg">
+                        <div class="card-header bg-danger">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-trash-alt me-2"></i>
+                                تأكيد حذف الكتاب
+                            </h3>
+                        </div>
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            
+                            <div class="card-body text-center">
+                                {# 1. ✅ عرض اسم الكتاب #}
+                                <p class="lead p-3">
+                                    هل أنت متأكد حقاً من أنك تود حذف الكتاب: 
+                                    <span class="text-danger fw-bold fs-5">
+                                        {% if book %}
+                                            {{ book.title }}
+                                        {% else %}
+                                            هذا الكتاب؟
+                                        {% endif %}
+                                    </span>
+                                </p>
+                                <p class="text-muted">لا يمكن التراجع عن هذا الإجراء.</p>
+                            </div>
+                            
+                            <div class="card-footer d-flex justify-content-center">
+                                {# زر الحذف #}
+                                <button type="submit" class="btn btn-danger btn-lg mx-2">
+                                    <i class="fas fa-trash me-2"></i>
+                                    تأكيد الحذف
+                                </button>
+                                
+                                {# 2. ✅ تصحيح رابط التراجع ليعود إلى لوحة المالك #}
+                                <a href="{% url 'owner_page_path' %}" class="btn btn-success btn-lg mx-2">
+                                    <i class="fas fa-times me-2"></i>
+                                    تراجع / إلغاء
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form  method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row">
-                            <p class="p-3">هل تريد حقاً حذف الكتاب؟</p>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-danger">حذف</button>
-                            <a href="{% url 'main' %}" type="submit" class="btn btn-success">تراجع</a>
-                        </div>
-                    </form>
+
                 </div>
             </div>
         </div>
+    </div>
+</div>
 {% endblock %}
