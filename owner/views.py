@@ -2,6 +2,7 @@ from django.shortcuts import render , redirect , get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from datetime import datetime
+from django.db.models import Sum
 from my_books.models import *
 from main_app.forms import *
 base_context = {
@@ -19,20 +20,11 @@ def owner_login_func(request):
     return render(request, 'login_owner.html')
 
 def owner_func (request):
-    # 2. --- Calculate Totals (Needs Optimization) ---
-    # NOTE: هذه الطريقة في الحساب غير فعالة ويجب أن تعتمد على نماذج سجلات المعاملات.
-    # يتم تنظيف المنطق كما هو مطلوب.
-    total_pay = 0
-    total_rental = 0
-    
-    for book in Book.objects.all():
-        if book.status == 'sold' and book.price:
-            total_pay += book.price
-        
-        if book.status == 'rented' and book.total_rental:
-            total_rental += book.total_rental
-            
-    total_salaries = total_rental + total_pay
+    # حساب إجمالي المبيعات
+    total_pay = Book.objects.filter(status='sold').aggregate(Sum('price'))['price__sum'] or 0
+
+    # حساب إجمالي الإيجارات
+    total_rental = Book.objects.filter(status='rented').aggregate(Sum('total_rental'))['total_rental__sum'] or 0
 
     filtered_books = Book.objects.exclude(status='sold')
     search = request.GET.get('search_name')
@@ -84,15 +76,21 @@ def update_book(request, id):
         book = get_object_or_404(Book, id=id)
         
         if request.method == 'POST':
+            # 1. إنشاء النموذج من بيانات POST (يحتوي على الأخطاء المحتملة)
             update_form = new_book(request.POST, request.FILES, instance=book)
+
             if update_form.is_valid():
                 update_form.save()
-                messages.success(request, 'تم تحديث الكتاب بنجاح!')
+                messages.success(request, f'تم تحديث الكتاب "{book.title}" بنجاح!')
+                return redirect('owner_page_path')
             else:
-                messages.error(request, 'حدث خطأ في تحديث البيانات')
+                # 2. عند الفشل: يتم تعيين رسالة الخطأ والسماح للكود بالمرور إلى return render
+                messages.error(request, 'حدث خطأ في تحديث البيانات. يرجى مراجعة الحقول المشار إليها بالأخطاء.')
         else:
+            # 3. في حالة GET: إنشاء النموذج بالبيانات الحالية
             update_form = new_book(instance=book)
 
+        # 4. يتم تمرير النموذج (الناجح، أو الفاشل والمحمل بالأخطاء) إلى context
         context = {
             'update_form': update_form,
             'selected_book': book,
