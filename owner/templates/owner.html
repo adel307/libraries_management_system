@@ -1,11 +1,10 @@
 {% extends 'owner_base.html'%}
+{% load static %} {# التأكد من تحميل static #}
 
 {% block content%}
 <div style="direction: rtl;" class="wrapper">
-    <!-- Content Wrapper -->
     <div class="content-wrapper" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
         
-        <!-- Header Section -->
         <section class="content-header pt-4">
             <div class="container-fluid">
                 <div class="row align-items-center">
@@ -19,6 +18,7 @@
                         <div class="bg-white rounded-pill px-3 py-2 d-inline-block">
                             <small class="text-dark">
                                 <i class="fas fa-user-circle text-primary mr-2"></i>
+                                {# استخدام user.username لعرض اسم المستخدم الحالي #}
                                 {{ user.username }}
                             </small>
                         </div>
@@ -27,11 +27,9 @@
             </div>
         </section>
 
-        <!-- Main Content -->
         <section class="content pb-5">
             <div class="container-fluid">
                 
-                <!-- Statistics Cards -->
                 <div class="row mb-4">
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card stat-card bg-white border-0 shadow-lg rounded-3">
@@ -39,7 +37,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <h6 class="card-title text-muted mb-2">إجمالي الكتب</h6>
-                                        <h2 class="text-primary font-weight-bold">{{books_num}}</h2>
+                                        <h2 class="text-primary font-weight-bold">{{books_num|default:0}}</h2>
                                     </div>
                                     <div class="icon-circle bg-primary text-white rounded-circle">
                                         <i class="fas fa-book fa-lg"></i>
@@ -55,7 +53,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <h6 class="card-title text-muted mb-2">إجمالي الأرباح</h6>
-                                        <h2 class="text-success font-weight-bold">${{totalsalarys}}</h2>
+                                        <h2 class="text-success font-weight-bold">${{totalsalarys|default:0.00}}</h2>
                                     </div>
                                     <div class="icon-circle bg-success text-white rounded-circle">
                                         <i class="fas fa-dollar-sign fa-lg"></i>
@@ -71,7 +69,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <h6 class="card-title text-muted mb-2">أرباح المبيعات</h6>
-                                        <h2 id="soldtotals" class="text-warning font-weight-bold">$0</h2>
+                                        {# 🛑 تصحيح: استخدام متغير Django بدلاً من القيمة الثابتة $0 #}
+                                        <h2 class="text-warning font-weight-bold">${{ sold_totals|default:0.00 }}</h2>
                                     </div>
                                     <div class="icon-circle bg-warning text-white rounded-circle">
                                         <i class="fas fa-shopping-cart fa-lg"></i>
@@ -87,7 +86,8 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1">
                                         <h6 class="card-title text-muted mb-2">أرباح الإيجار</h6>
-                                        <h2 id="rentedtotals" class="text-info font-weight-bold">$0</h2>
+                                        {# 🛑 تصحيح: استخدام متغير Django بدلاً من القيمة الثابتة $0 #}
+                                        <h2 class="text-info font-weight-bold">${{ rented_totals|default:0.00 }}</h2>
                                     </div>
                                     <div class="icon-circle bg-info text-white rounded-circle">
                                         <i class="fas fa-calendar-alt fa-lg"></i>
@@ -98,7 +98,6 @@
                     </div>
                 </div>
 
-                <!-- Charts and Quick Actions -->
                 <div class="row mb-4">
                     <div class="col-lg-8 mb-4">
                         <div class="card bg-white border-0 shadow-lg rounded-3">
@@ -110,6 +109,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
+                                    {# افتراض أن سكريبت Chart.js يتم تحميله في قاعدة القالب أو في نهاية هذا القالب #}
                                     <canvas id="performanceChart" height="250"></canvas>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-3">
-                                    <button type="submit" name="add_book_submit" class="btn btn-primary btn-lg d-flex align-items-center justify-content-between py-3" 
+                                    <button type="button" name="add_book_submit" class="btn btn-primary btn-lg d-flex align-items-center justify-content-between py-3" 
                                             data-toggle="collapse" data-target="#bookform">
                                         <span>
                                             <i class="fas fa-plus-circle mr-2"></i>
@@ -156,7 +156,6 @@
                     </div>
                 </div>
 
-                <!-- Add Book Form -->
                 <div id="bookform" class="collapse mb-4">
                     <div class="card bg-white border-0 shadow-lg rounded-3">
                         <div class="card-header bg-primary text-white py-3 rounded-top">
@@ -169,6 +168,7 @@
                             <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                                 {% csrf_token %}
                                 <div class="row">
+                                    {# 🛑 الافتراض: المتغير المُمرر يحمل اسم forms وهو iterable من الحقول #}
                                     {% for field in forms %}
                                         <div class="col-md-6 mb-3">
                                             <label for="{{ field.id_for_label }}" class="form-label text-dark fw-bold">
@@ -180,6 +180,7 @@
                                             {% endif %}
                                             {% if field.errors %}
                                                 <div class="invalid-feedback d-block">
+                                                    {# ⚠️ ملاحظة: {{ field.errors }} يعرض الأخطاء. تأكد من أن حقول النموذج تستخدم classes="form-control" #}
                                                     {{ field.errors }}
                                                 </div>
                                             {% endif %}
@@ -200,7 +201,6 @@
                     </div>
                 </div>
 
-                <!-- Books Grid -->
                 <div class="card bg-white border-0 shadow-lg rounded-3">
                     <div class="card-header bg-transparent border-0 py-4">
                         <div class="d-flex justify-content-between align-items-center">
@@ -219,6 +219,7 @@
                                     <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown">
                                         <i class="fas fa-filter"></i> تصفية
                                     </button>
+                                    {# يجب أن تكون الروابط داخل dropdown-menu هي روابط URL فعلية لمرشحات الكتب #}
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="#">جميع الكتب</a>
                                         <a class="dropdown-item" href="#">متاحة للبيع</a>
@@ -233,6 +234,7 @@
                         <div class="row g-4">
                             {% for book in books %}
                                 {% if book.status != "sold" %}
+                                    {# ⚠️ ملاحظة: أسماء الفئات والـ Status المستخدمة في الكلاسات book{{book.category.id}} book{{book.status}} تتطلب كود JavaScript أو jQuery لتعمل كمرشحات #}
                                     <div class="col-xl-4 col-lg-6 col-md-6 hide_books book{{book.category.id}} book{{book.status}}">
                                         <div class="book-card card border-0 shadow-sm h-100 transition-all">
                                             <div class="card-header bg-transparent border-0 p-0 position-relative">
@@ -328,7 +330,9 @@
     </div>
 </div>
 
+{# 🛑 يُنصح بوضع الأنماط في ملف CSS خارجي #}
 <style>
+/* ... (CSS Styles remain the same) ... */
 :root {
     --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -437,6 +441,7 @@
 }
 </style>
 
+{# 🛑 يُنصح بوضع الأكواد في ملف JS خارجي #}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // تأثيرات الظهور
@@ -471,6 +476,30 @@ document.addEventListener('DOMContentLoaded', function() {
             $(this).find('.book-cover').css('transform', 'scale(1)');
         }
     );
+    
+    // ⚠️ ملاحظة: يجب إضافة كود Chart.js هنا أو في ملف خارجي
+    // (مثال لتهيئة Chart.js، إذا كانت البيانات تمرر في متغيرات سياق مثل chart_labels, chart_data)
+    
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctx, {
+        type: 'line', // أو bar
+        data: {
+            labels: [], // Labels from Django context
+            datasets: [{
+                label: 'الأرباح',
+                data: [], // Data from Django context
+                backgroundColor: 'rgba(67, 97, 238, 0.5)',
+                borderColor: '#4361ee',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            // ... خيارات أخرى ...
+        }
+    });
+    
 });
 </script>
 {% endblock %}
