@@ -6,196 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Nouvil</title>
+    <title>تسجيل دخول المالك | Nouvil</title>
     
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{% static 'dist/css/adminlte_ar.min.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     
-    <!-- Custom CSS -->
     <style>
-        :root {
-            writing-mode: horizontal-tb;
-            direction: rtl;
-            text-orientation: mixed;
-        }
-
-        html {
-            writing-mode: horizontal-tb;
-            direction: rtl;
-        }
-
-        body {
-            writing-mode: horizontal-tb;
-            direction: rtl;
-            text-align: right;
-        }
+        :root { writing-mode: horizontal-tb; direction: rtl; text-orientation: mixed; }
+        html { writing-mode: horizontal-tb; direction: rtl; }
+        body { writing-mode: horizontal-tb; direction: rtl; text-align: right; }
 
         /* تنسيقات إضافية للنماذج */
-        .custom-login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        .custom-login-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .custom-login-header {
-            background: linear-gradient(to right, #4361ee, #3a0ca3);
-            color: white;
-            padding: 30px 25px;
-            text-align: center;
-        }
-
-        .image-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto 25px;
-            border: 3px dashed #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-
-        .image-preview:hover {
-            border-color: #4361ee;
-        }
-
-        .image-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
-        .image-preview .placeholder {
-            color: #6c757d;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .file-input-container {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .file-input-label {
-            display: inline-block;
-            background-color: #f8f9fa;
-            color: #212529;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px sold #dee2e6;
-            font-weight: 500;
-        }
-
-        .file-input-label:hover {
-            background-color: #e9ecef;
-            transform: translateY(-2px);
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .file-name {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        .password-container {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #6c757d;
-        }
-
-        .btn-custom-login {
-            background: linear-gradient(to right, #4361ee, #3a0ca3);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .btn-custom-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-
+        .custom-login-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); overflow: hidden; transition: transform 0.3s ease; max-width: 450px; margin: 0 auto; }
+        .custom-login-card:hover { transform: translateY(-5px); }
+        .custom-login-header { background: linear-gradient(to right, #4361ee, #3a0ca3); color: white; padding: 30px 25px; text-align: center; }
+        .image-preview { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 25px; border: 3px dashed #ddd; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; background-color: #f8f9fa; transition: all 0.3s ease; }
+        .image-preview:hover { border-color: #4361ee; }
+        .image-preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .image-preview .placeholder { color: #6c757d; text-align: center; font-size: 14px; }
+        .file-input-container { margin-bottom: 20px; text-align: center; }
+        .file-input-label { display: inline-block; background-color: #f8f9fa; color: #212529; padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; border: 1px solid #dee2e6; font-weight: 500; }
+        .file-input-label:hover { background-color: #e9ecef; transform: translateY(-2px); }
+        .file-input { display: none; }
+        .file-name { margin-top: 8px; font-size: 14px; color: #6c757d; }
+        .password-container { position: relative; }
+        .password-toggle { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6c757d; }
+        .btn-custom-login { background: linear-gradient(to right, #4361ee, #3a0ca3); color: white; border: none; border-radius: 50px; padding: 12px; width: 100%; font-weight: 600; transition: all 0.3s ease; margin-top: 10px; }
+        .btn-custom-login:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease; }
         /* تنسيقات للرسائل */
-        .alert-success {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-
-        .alert-error, .alert-danger {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            border-color: #bee5eb;
-            color: #0c5460;
-        }
+        .alert-success { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .alert-error, .alert-danger { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .alert-info { background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460; }
     </style>
 </head>
 <body dir="rtl" class="hold-transition sidebar-mini">
 
-    <!-- المحتوى الرئيسي -->
     <div class="content-wrapper" style="min-height: 100vh;">
         
-        <!-- محتوى تسجيل الدخول الافتراضي -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
                     <div class="col-md-6">
                         <div class="custom-login-card">
                             <div class="custom-login-header">
-                                <h2>تسجيل الدخول</h2>
-                                <p>مرحباً بك! يرجى إدخال بياناتك وصورة الشخصية</p>
+                                <h2>تسجيل الدخول - المالك</h2>
+                                <p>مرحباً بك! يرجى إدخال بياناتك</p>
                             </div>
                             
                             <div class="card-body">
-                                <!-- عرض الرسائل -->
                                 <div id="messagesContainer">
                                     {% if messages %}
                                         {% for message in messages %}
@@ -209,7 +71,6 @@
                                 <form method="post" enctype="multipart/form-data" id="loginForm" >
                                     {% csrf_token %}
                                     
-                                    <!-- معاينة الصورة -->
                                     <div class="image-preview" id="imagePreview">
                                         <img src="" alt="معاينة الصورة" id="previewImage">
                                         <div class="placeholder" id="imagePlaceholder">
@@ -218,7 +79,6 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- حقل رفع الصورة -->
                                     <div class="file-input-container">
                                         <label class="file-input-label" for="id_image">
                                             <i class="fas fa-cloud-upload-alt me-2"></i> اختر صورة شخصية
@@ -256,27 +116,14 @@
 
     </div>
     
-    <!-- مكتبات JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         $(document).ready(function() {
-            // إخفاء حقل إضافة التصنيف
-            $('#cat_input').hide();
             
-            // زر إضافة التصنيف
-            $('#addcat').click(function(){
-                $('#cat_input').show();
-            });
-            
-            // زر العودة
-            $('#backcat').click(function(e){
-                e.preventDefault();
-                $('#cat_input').hide();
-            });
+            // 🛑 إزالة الدوال غير المستخدمة (مثل addcat, backcat, deleteBook, renewBook)
             
             // معاينة الصورة
             $('#id_image').change(function() {
@@ -316,33 +163,20 @@
 
             // معالجة نموذج تسجيل الدخول
             $('#loginForm').submit(function(e) {
-                // التحقق من صحة البيانات قبل الإرسال
-                const username = $('input[name="user_name"]').val();
-                const password = $('input[name="password"]').val();
+                // 🛑 تم حذف التحقق المحلي لـ ('adel' / '1234')
                 
-                if (username != 'adel' || password != '1234') {
-                    e.preventDefault();
-                    showMessage('يرجى ملء جميع الحقول المطلوبة', 'danger');
-                    return false;
-                }
-                
-                // إضافة رسالة تحميل
-                $('.btn-custom-login').html('<i class="fas fa-spinner fa-spin me-2"></i> جاري التسجيل...');
+                // إضافة رسالة تحميل عند الإرسال للخادم
+                $('.btn-custom-login').html('<i class="fas fa-spinner fa-spin me-2"></i> جاري التحقق...');
                 $('.btn-custom-login').prop('disabled', true);
                 
-                // يمكنك إضافة المزيد من التحقق هنا إذا لزم الأمر
-                return true;
+                // سيتم إرسال النموذج إلى دالة العرض في Django للتحقق من بيانات الاعتماد.
+                return true; 
             });
             
-            // دالة لعرض الرسائل
+            // دالة لعرض الرسائل (قد تكون مفيدة لرسائل التحقق من الحقول المفقودة قبل الإرسال)
             function showMessage(text, type) {
-                // إزالة أي رسائل سابقة
                 $('#messagesContainer').empty();
-                
-                // إنشاء عنصر الرسالة
                 const messageDiv = $('<div>').addClass(`alert alert-${type} fade-in`).text(text);
-                
-                // إضافة الرسالة إلى الحاوية
                 $('#messagesContainer').append(messageDiv);
                 
                 // إزالة الرسالة تلقائياً بعد 5 ثوانٍ
@@ -350,71 +184,8 @@
                     messageDiv.remove();
                 }, 5000);
             }
-            
-            
-            
-            // دوال إدارة المكتبة
-            window.deleteBook = function(bookId) {
-                if (confirm('هل أنت متأكد من حذف هذا الكتاب؟')) {
-                    $.ajax({
-                        url: '/books/delete/' + bookId + '/',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert('تم حذف الكتاب بنجاح');
-                                location.reload();
-                            } else {
-                                alert('حدث خطأ أثناء حذف الكتاب');
-                            }
-                        },
-                        error: function() {
-                            alert('حدث خطأ أثناء حذف الكتاب');
-                        }
-                    });
-                }
-            };
-            
-            window.renewBook = function(bookId) {
-                if (confirm('هل تريد تجديد استعارة هذا الكتاب؟')) {
-                    $.ajax({
-                        url: '/books/renew/' + bookId + '/',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCookie('csrftoken')
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert('تم تجديد الكتاب بنجاح');
-                                location.reload();
-                            } else {
-                                alert('حدث خطأ أثناء تجديد الكتاب');
-                            }
-                        },
-                        error: function() {
-                            alert('حدث خطأ أثناء تجديد الكتاب');
-                        }
-                    });
-                }
-            };
-            
-            // دالة الحصول على CSRF token
-            function getCookie(name) {
-                let cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
+
+            // 🛑 تم حذف دالة getCookie غير المستخدمة 
         });
     </script>
 </body>

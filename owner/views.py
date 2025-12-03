@@ -15,8 +15,25 @@ base_context = {
 
 def owner_login_func(request):
     if request.method == 'POST':
-        return redirect('owner_page_path')
-
+        # 1. جلب البيانات المرسلة من النموذج
+        username_from_form = request.POST.get('user_name')
+        password_from_form = request.POST.get('password')
+        # حقل الصورة موجود أيضاً ولكن لا يتم استخدامه في المصادقة عادةً، لكن لنقم بجلبه كجزء من البيانات
+        # image_file = request.FILES.get('image') 
+        
+        # 2. التحقق من البيانات (هذا هو التحقق الذي كان مفقوداً)
+        # ⚠️ ملاحظة: هذا مثال للتحقق اليدوي. في نظام حقيقي، يجب استخدام نظام مصادقة Django (authenticate/login)
+        if username_from_form == 'adel' and password_from_form == '1234':
+            
+            # ✅ المصادقة ناجحة: يمكنك إضافة رسالة نجاح ثم إعادة التوجيه
+            messages.success(request, 'تم تسجيل الدخول بنجاح! مرحباً بك، أيها المالك.')
+            return redirect('owner_page_path')
+        else:
+            # ❌ المصادقة فاشلة: إضافة رسالة خطأ وإعادة عرض النموذج
+            messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.')
+            # عند فشل التحقق، يجب أن نعود لصفحة تسجيل الدخول
+            
+    # إذا كان الطلب GET أو فشل التحقق في POST، أعد عرض النموذج
     return render(request, 'login_owner.html')
 
 def owner_func (request):
