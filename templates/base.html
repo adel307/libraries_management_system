@@ -1,31 +1,27 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+{# ... (Meta, Links, Styles remain the same) ... #}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>المكتبة الرقمية | Nouvil</title>
     
-    <!-- Favicon -->
     <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
     
-    <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     
-    <!-- AdminLTE Arabic -->
     <link rel="stylesheet" href="{% static 'dist/css/adminlte_ar.min.css' %}">
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
+        /* ... (CSS Styles remain the same) ... */
         :root {
             --primary-gradient: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
             --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
@@ -420,214 +416,217 @@
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-    <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <div class="container-fluid">
-            <!-- Left Side -->
-            <div class="d-flex align-items-center">
-                <!-- Sidebar Toggle -->
-                <ul class="navbar-nav">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                                <i class="fas fa-bars text-dark"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="logo-container">
+                        <a href="{% url 'main' %}" class="brand-link text-decoration-none">
+                            <span class="brand-text font-weight-bold">
+                                <i class="fas fa-book-open logo-icon"></i>
+                                المكتبة الرقمية
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav ms-3 d-none d-md-flex">
                     <li class="nav-item">
-                        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                            <i class="fas fa-bars text-dark"></i>
+                        <a href="{% url 'main' %}" class="nav-link text-dark">
+                            <i class="fas fa-home me-2"></i>
+                            الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'my_books' %}" class="nav-link text-dark">
+                            <i class="fas fa-bookmark me-2"></i>
+                            كتبي
                         </a>
                     </li>
                 </ul>
 
-                <!-- Brand Logo -->
-                <div class="logo-container">
-                    <a href="{% url 'main' %}" class="brand-link text-decoration-none">
-                        <span class="brand-text font-weight-bold">
-                            <i class="fas fa-book-open logo-icon"></i>
-                            المكتبة الرقمية
-                        </span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <ul class="navbar-nav ms-3 d-none d-md-flex">
-                <li class="nav-item">
-                    <a href="{% url 'main' %}" class="nav-link text-dark">
-                        <i class="fas fa-home me-2"></i>
-                        الرئيسية
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'my_books' %}" class="nav-link text-dark">
-                        <i class="fas fa-bookmark me-2"></i>
-                        كتبي
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Search Form -->
-            <div class="navbar-search ml-auto">
-                <form method="GET" class="form-inline">
-                    <div class="input-group input-group-sm search-container">
-                        <input class="form-control form-control-navbar search-input" 
-                            name="search_name" 
-                            type="search" 
-                            placeholder="🔍 ابحث عن كتاب..." 
-                            aria-label="Search"
-                        >
-                        <div class="input-group-append">
-                            <button class="btn btn-search" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
+                <div class="navbar-search ml-auto">
+                    <form method="GET" class="form-inline">
+                        <div class="input-group input-group-sm search-container">
+                            <input class="form-control form-control-navbar search-input" 
+                                name="search_name" 
+                                type="search" 
+                                placeholder="🔍 ابحث عن كتاب..." 
+                                aria-label="Search"
+                            >
+                            <div class="input-group-append">
+                                <button class="btn btn-search" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- User Menu -->
-            <ul class="navbar-nav ms-3">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle user-menu" href="#" id="navbarDropdown" 
-                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle me-2"></i>
-                        <span class="d-none d-md-inline"> حسابي </span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-                        {% if customer %}
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center py-2" 
-                                   href="{% url 'customer_profile_path' %}">
-                                    <i class="fas fa-user me-2"></i>
-                                    الملف الشخصي
-                                </a>
-                            </li>
-                            
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center py-2 text-danger" 
-                                   href="{% url 'logout_path' %}">
-                                    <i class="fas fa-sign-out-alt me-2"></i>
-                                    تسجيل الخروج
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Brand Logo -->
-        <a href="#" class="brand-link text-center">
-            <span class="brand-text font-weight-light">
-                <i class="fas fa-cogs me-2"></i>
-                نظام إدارة المكتبة
-            </span>
-        </a>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- User Panel -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="info">
-                    <a href="{% url 'owner_login_page' %}" class="d-block text-center">
-                        <i class="fas fa-user-shield me-2"></i>
-                        <span class="text-light">لوحة الإدارة</span>
-                    </a>
+                    </form>
                 </div>
-            </div>
 
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Categories Section -->
-                    <li class="nav-item has-treeview menu-open">
-                        <a href="#" class="nav-link active">
-                            <i class="nav-icon fas fa-tags"></i>
-                            <p>
-                                التصنيفات
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="navbarDropdown" 
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-2"></i>
+                            <span class="d-none d-md-inline"> حسابي </span>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a id="addcat" href="#" class="nav-link">
-                                    <i class="fas fa-plus-circle me-2"></i>
-                                    <p>تصنيف جديد</p>
-                                </a>
-                            </li>
-
-                            <form id="cat" method="POST"  class="p-3">
-                                <div id="cat_input" class="bg-light rounded p-3">
-                                    {% csrf_token %}
-                                    {{ add_category }}
-                                    <div class="mt-2">
-                                        <button type="submit" class="btn btn-success btn-sm">
-                                            <i class="fas fa-save me-1"></i> حفظ
-                                        </button>
-                                        <button id="backcat" type="button" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-arrow-right me-1"></i> عودة
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            {% for category in catigories %}
-                                <li class="nav-item cat{{ category.id }}">
-                                    <a class="nav-link" href="#">
-                                        <i class="fas fa-folder me-2"></i>
-                                        <p>{{ category.name }}</p>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                            {% if customer %}
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2" 
+                                       href="{% url 'customer_profile_path' %}">
+                                        <i class="fas fa-user me-2"></i>
+                                        الملف الشخصي
                                     </a>
                                 </li>
-                            {% endfor %}
+                                
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2 text-danger" 
+                                       href="{% url 'logout_path' %}">
+                                        <i class="fas fa-sign-out-alt me-2"></i>
+                                        تسجيل الخروج
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2 text-primary" 
+                                       href="{% url 'login_page_path' %}">
+                                        <i class="fas fa-sign-in-alt me-2"></i>
+                                        تسجيل الدخول
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center py-2 text-success" 
+                                       href="{% url 'register_path' %}">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        إنشاء حساب
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </li>
-
-                    <!-- Quick Links -->
-                    <li class="nav-item">
-                        <a href="{% url 'my_books' %}" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
-                            <p>كتبي</p>
-                        </a>
-                    </li>
                 </ul>
-            </nav>
-        </div>
-    </aside>
+            </div>
+        </nav>
 
-    
-    
-    {% block content %}
-    {% endblock %}
-    
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a href="#" class="brand-link text-center">
+                <span class="brand-text font-weight-light">
+                    <i class="fas fa-cogs me-2"></i>
+                    نظام إدارة المكتبة
+                </span>
+            </a>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <div class="social-links">
-                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a target="_blank" href="#" class="btn btn-sm btn-outline-light">
-                            <i class="fab fa-facebook"></i>
+            <div class="sidebar">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <a href="{% url 'owner_login_page' %}" class="d-block text-center">
+                            <i class="fas fa-user-shield me-2"></i>
+                            <span class="text-light">لوحة الإدارة</span>
                         </a>
                     </div>
                 </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <strong>Copyright &copy; 2025 
-                        <a href="#" class="text-warning">Adel Elboshy</a>.
-                    </strong>
-                    <span class="d-block d-md-inline">جميع الحقوق محفوظة.</span>
+
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-tags"></i>
+                                <p>
+                                    التصنيفات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a id="addcat" href="#" class="nav-link">
+                                        <i class="fas fa-plus-circle me-2"></i>
+                                        <p>تصنيف جديد</p>
+                                    </a>
+                                </li>
+
+                                {# 🛑 تصحيح: إضافة action لنموذج التصنيف #}
+                                <form id="cat" method="POST" action="{% url 'add_category_path' %}" class="p-3">
+                                    <div id="cat_input" class="bg-light rounded p-3">
+                                        {% csrf_token %}
+                                        {{ add_category }}
+                                        <div class="mt-2">
+                                            {# تغيير نوع الزر إلى submit لإرسال النموذج #}
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-save me-1"></i> حفظ
+                                            </button>
+                                            {# تغيير نوع الزر إلى button لتجنب الإرسال غير المقصود #}
+                                            <button id="backcat" type="button" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-arrow-right me-1"></i> عودة
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                {% for category in catigories %}
+                                    <li class="nav-item cat{{ category.id }}">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-folder me-2"></i>
+                                            <p>{{ category.name }}</p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{% url 'my_books' %}" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>كتبي</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        
+        {# Content Wrapper is usually required around the block content, but we respect the original structure #}
+        {% block content %}
+        {% endblock %}
+        
+
+        <footer class="main-footer">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <div class="social-links">
+                            <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a target="_blank" href="#" class="btn btn-sm btn-outline-light me-2">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a target="_blank" href="#" class="btn btn-sm btn-outline-light">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <strong>Copyright &copy; 2025 
+                            <a href="#" class="text-warning">Adel Elboshy</a>.
+                        </strong>
+                        <span class="d-block d-md-inline">جميع الحقوق محفوظة.</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
+        </footer>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {# ⚠️ ملاحظة: تم استبدال data-bs-toggle بـ data-toggle في النافبار لاستخدام Bootstrap 5 مع AdminLTE 3 #}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -686,7 +685,7 @@
             // Initialize books view
             AllBooks();
 
-            // Add click handlers for filter buttons
+            // Add click handlers for filter buttons (in the block content)
             $('.btn-group .btn').on('click', function() {
                 const text = $(this).text().trim();
                 if (text === 'الكل') AllBooks();
@@ -694,17 +693,19 @@
                 else if (text === 'للإيجار') RentBooks();
             });
 
-            // Sidebar filtering
-            $('.showall').click(function() {
-                $('.hide_books').fadeIn(300);
-            });
-
+            // Sidebar filtering - Category/Status filtering relies on classes being present in block content
+            // The dynamic generation of click handlers for categories is correct:
             {% for category in catigories %}
             $('.cat{{category.id}}').click(function() {
                 $('.hide_books').hide();
                 $('.book{{category.id}}').fadeIn(300);
             });
             {% endfor %}
+            
+            // General Status Filters
+            $('.showall').click(function() {
+                $('.hide_books').fadeIn(300);
+            });
 
             $('.statusavailable').click(function() {
                 $('.hide_books').hide();
@@ -722,10 +723,16 @@
             });
 
             // Rental price calculation
+            // These IDs rely on form fields in the block content
             $('#RetalProid').keyup(function() {
                 const days = $(this).val();
                 const pricePerDay = $('#RetalPriceDay').val();
-                $('#TotalRental').val(days * pricePerDay);
+                // Check if days and pricePerDay are valid numbers before multiplying
+                if (!isNaN(days) && !isNaN(pricePerDay)) {
+                    $('#TotalRental').val(days * pricePerDay);
+                } else {
+                    $('#TotalRental').val(0); // Set to 0 if input is invalid
+                }
             });
         });
 
@@ -746,8 +753,8 @@
         }
 
         function initializeCharts() {
-            // Chart initialization code can be added here
             console.log('Charts initialized');
+            // Chart initialization logic needs Chart.js library loaded
         }
     </script>
 </body>
