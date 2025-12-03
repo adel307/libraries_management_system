@@ -43,5 +43,5 @@ class new_category (forms.ModelForm):
         ]
 
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control','name':'search_key'}),
+            'name': forms.TextInput(attrs={'class':'form-control'}),
         }
