@@ -1,103 +1,142 @@
 {% extends 'base.html'%}
+{% load static %}
 
 {% block content%}
-    <div style="direction: rtl;" class="wrapper">
-        <!-- Content Wrapper. Contains page content -->
-        <div   class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div  class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title"> {{selected_book.title}}</h3>
-                </div>
+<div style="direction: rtl;" class="wrapper">
+    <div class="content-wrapper">
+        <div class="container pt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
 
-                <!-- بداية الكتاب -->
-                <div class="col-12 col-sm-12 col-lg-12 hide_books book{{ book.category.id }} book{{ book.status }}">
-                    <form method="POST" enctype="multipart/form-dat">
-                        {% csrf_token %}
-                        <!-- رأس البطاقة -->
-                        <div class="card-header text-muted border-bottom-0 text-center">
-                            <h5 class="mb-0">الكتاب</h5>
+                    <div class="card card-primary shadow-lg">
+                        <div class="card-header">
+                            <h3 class="card-title">تعديل الكتاب: <b>{{ selected_book.title }}</b></h3>
                         </div>
-                        
-                        <!-- جسم البطاقة -->
-                        <div class="card-body pt-0">
-                            <div class="row align-items-center">
-                                <!-- صورة المؤلف على اليمين - حجم أكبر -->
-                                <div class="col-6 col-md-5 text-center">
-                                    {% if selected_book.book_image %}
-                                        <img style=" object-fit: cover;" 
-                                            src="{{ selected_book.book_image.url }}" 
-                                            alt="صورة الكتاب" 
-                                            class="img-fluid rounded shadow-sm"
-                                        >
-                                        {{ update_form.book_image }}
-                                    {% else %}
-                                        <img
-                                            src="" 
-                                            alt="لا توجد صورة" 
-                                            class="img-fluid rounded bg-secondary"
-                                        >
-                                    {% endif %}
-                                </div>
-                                <!-- معلومات الكتاب على اليسار - حجم أكبر -->
-                                <div class="col-6 col-md-7">
-                                    <h2 class="h4 mb-3"><b>{{ update_form.title }}</b></h2>
-                                    <ul class="fa-ul text-muted list-unstyled">
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-    
-                                            <strong>المؤلف:</strong> {{ update_form.auther }}
-                                        </li>
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-    
-                                            <strong>الحالة:</strong> {{ update_form.status }}
-                                        </li>
-                                        {% if selected_book.status == 'available' %}
-                                            <li class="mb-2">
-        
-                                                <span class="fa-li"></span>
-                                                <strong>السعر:</strong> {{ update_form.price }}
-                                            </li>
-                                        {% elif selected_book.status == 'avl_for_rent' or selected_book.status == 'rented' %}
-                                            <li class="mb-2">
-                                                <span class="fa-li"></span>
-                                                <strong>سعر الإيجار لليوم:</strong> {{ update_form.retal_price_day }}
-                                            </li>
-                                            <li class="mb-2">
-                                                <span class="fa-li"></span>
-                                                <strong>مدة الإيجار :</strong> {{ update_form.retal_proid }}
-                                            </li>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="card-body">
+                                
+                                {# رسائل أخطاء النموذج العامة #}
+                                {% if update_form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        {{ update_form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="row">
+                                    
+                                    {# 1. قسم الصورة الحالية وتحميل صورة جديدة #}
+                                    <div class="col-md-4 text-center mb-4">
+                                        <label class="form-label d-block">صورة الغلاف الحالية</label>
+                                        
+                                        {% if selected_book.book_image %}
+                                            <img style="max-height: 250px; object-fit: cover;"
+                                                 src="{{ selected_book.book_image.url }}"
+                                                 alt="صورة الكتاب"
+                                                 class="img-fluid rounded shadow-sm mb-3">
+                                        {% else %}
+                                            <div class="bg-secondary rounded p-5 mb-3 text-white">
+                                                لا توجد صورة
+                                            </div>
                                         {% endif %}
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-    
-                                            <strong>عدد الصفحات:</strong> {{ update_form.pages }}
-                                        </li>
-                                        <li class="mb-2">
-                                            <span class="fa-li"></span>
-    
-                                            <strong>التصنيف:</strong> {{ update_form.catigery }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- تذييل البطاقة --->
-                        <div class="">
-                            {{ update_form.discription }}
-                        </div>
-                        <div class="card-footer py-3">
-                            <button type="submit" class="btn btn-primary" style="color: white;">
-                                حفظ التعديلات
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!-- نهاية الكتاب -->
+                                        
+                                        {# ✅ عرض حقل رفع الصورة #}
+                                        <div class="form-group">
+                                            <label for="{{ update_form.book_image.id_for_label }}">تغيير الصورة:</label>
+                                            {{ update_form.book_image }}
+                                            {% for error in update_form.book_image.errors %}
+                                                <small class="text-danger d-block">{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
 
-                <!-- /.card-header -->
+                                    {# 2. قسم معلومات الكتاب وحقول الإدخال #}
+                                    <div class="col-md-8">
+                                        
+                                        <div class="row">
+                                            <div class="col-12 form-group mb-3">
+                                                <label for="{{ update_form.title.id_for_label }}">عنوان الكتاب:</label>
+                                                {{ update_form.title }}
+                                                {% for error in update_form.title.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+                                            
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.auther.id_for_label }}">المؤلف:</label>
+                                                {{ update_form.auther }}
+                                                {% for error in update_form.auther.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.pages.id_for_label }}">عدد الصفحات:</label>
+                                                {{ update_form.pages }}
+                                                {% for error in update_form.pages.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.category.id_for_label }}">التصنيف:</label>
+                                                {{ update_form.category }}
+                                                {% for error in update_form.category.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.status.id_for_label }}">حالة الكتاب:</label>
+                                                {{ update_form.status }}
+                                                {% for error in update_form.status.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                            {# حقول السعر والإيجار تظهر بناءً على حالة الكتاب المحددة في النموذج الحالي (وليس الكائن القديم) #}
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.price.id_for_label }}">سعر البيع:</label>
+                                                {{ update_form.price }}
+                                                {% for error in update_form.price.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                            <div class="col-md-6 form-group mb-3">
+                                                <label for="{{ update_form.retal_price_day.id_for_label }}">سعر الإيجار اليومي:</label>
+                                                {{ update_form.retal_price_day }}
+                                                {% for error in update_form.retal_price_day.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+                                            
+                                            <div class="col-md-12 form-group mb-3">
+                                                <label for="{{ update_form.retal_proid.id_for_label }}">مدة الإيجار (أيام):</label>
+                                                {{ update_form.retal_proid }}
+                                                {% for error in update_form.retal_proid.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                
+                                {# حقل الوصف (يُفترض أنه textarea) #}
+                                <div class="form-group mt-3">
+                                    <label for="{{ update_form.discription.id_for_label }}">الوصف:</label>
+                                    {{ update_form.discription }}
+                                    {% for error in update_form.discription.errors %}<small class="text-danger d-block">{{ error }}</small>{% endfor %}
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer py-3 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save me-2"></i>
+                                    حفظ التعديلات
+                                </button>
+                                
+                                {# زر التراجع يعود إلى لوحة المالك #}
+                                <a href="{% url 'owner_page_path' %}" class="btn btn-secondary btn-lg">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    إلغاء والعودة
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
