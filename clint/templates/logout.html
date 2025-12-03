@@ -1,30 +1,67 @@
 {% extends 'base.html'%}
+{% load static %}
 
 {% block content%}
-        <div style="direction: rtl;" class="wrapper">
-            <!-- Content Wrapper. Contains page content -->
-            <div   class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <div  class="card card-danger">
-                    <div class="card-header">
-                        <h3 class="card-title">إزالة الحساب</h3>
+<div style="direction: rtl;" class="wrapper">
+    <div class="content-wrapper">
+        <div class="container-fluid pt-3">
+            <div class="row">
+                {# توسيط البطاقة في منتصف الصفحة #}
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    
+                    <div class="card card-danger shadow-lg">
+                        <div class="card-header bg-danger">
+                            {# ✅ تصحيح العنوان #}
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                تسجيل الخروج
+                            </h3>
+                        </div>
+                        
+                        {# ✅ إزالة وسم form المتداخل #}
+                        <form method="POST" class="p-4">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                {# ✅ تصحيح النص #}
+                                <p class="lead p-3 text-center w-100">
+                                    هل أنت متأكد أنك تود **تسجيل الخروج** من حسابك؟
+                                </p>
+                            </div>
+                            
+                            <div class="card-footer d-flex justify-content-center pt-3 mt-4 border-top">
+                                {# ✅ زر تسجيل الخروج (يُرسل النموذج) #}
+                                <button type="submit" class="btn btn-danger btn-lg mx-2">
+                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    تسجيل الخروج
+                                </button>
+                                
+                                {# ✅ زر الرجوع (إلغاء الأمر) #}
+                                <a href="{% url 'main' %}" class="btn btn-secondary btn-lg mx-2">
+                                    <i class="fas fa-times me-2"></i>
+                                    إلغاء الأمر
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form  method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row">
-                            <p class="p-3">هل انت متأكد من أنك تود إلغاء الحساب ؟   </p>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <form method="post">
-                                <button type="submit" class="btn btn-danger">إلغاء</button>
-                                <a href="{% url 'main' %}" type="submit" class="btn btn-success">تراجع</a>
-                            </form>
-                        </div>
-                    </form>
+
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<style>
+    /* تحسينات بسيطة للتوسيط والشكل */
+    .card-footer {
+        background-color: transparent;
+        border-top: 1px solid rgba(0,0,0,.125);
+    }
+    .card-title {
+        font-weight: 600;
+    }
+    .lead {
+        font-weight: 500;
+        color: #343a40;
+    }
+</style>
 {% endblock %}
