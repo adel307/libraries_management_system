@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect , get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from datetime import datetime
-from django.db.models import Sum
+from django.db.models import Sum, F, ExpressionWrapper, DecimalField
 from my_books.models import *
 from main_app.forms import *
 base_context = {
@@ -41,7 +41,21 @@ def owner_func (request):
     total_pay = Book.objects.filter(status='sold').aggregate(Sum('price'))['price__sum'] or 0
 
     # حساب إجمالي الإيجارات
-    total_rental = Book.objects.filter(status='rented').aggregate(Sum('total_rental'))['total_rental__sum'] or 0
+    # 1. إعداد تعبير لحساب الإيجار الكلي (retal_price_day * retal_proid) في SQL
+    # نستخدم ExpressionWrapper لضمان أن النتيجة هي Decimal
+    rental_calc = ExpressionWrapper(
+        F('retal_price_day') * F('retal_proid'), 
+        output_field=DecimalField(max_digits=10, decimal_places=2)
+    )
+
+    # 2. قم بإضافة الحقل المحسوب مؤقتاً (Annotate) على كل كائن Book 
+    # ثم قم بتجميع (Aggregate) هذا الحقل الجديد.
+    total_rental = Book.objects.filter(status__in=['rented', 'avl_for_rent']).annotate(
+        calculated_rental=rental_calc
+    ).aggregate(
+        # تجميع الحقل المحسوب 'calculated_rental'
+        Sum('calculated_rental')
+    )['calculated_rental__sum'] or 0
 
     filtered_books = Book.objects.exclude(status='sold')
     search = request.GET.get('search_name')

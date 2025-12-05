@@ -499,14 +499,14 @@
                             {% else %}
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center py-2 text-primary" 
-                                       href="{% url 'login_page_path' %}">
+                                       href="{% url 'logout_path' %}">
                                         <i class="fas fa-sign-in-alt me-2"></i>
                                         تسجيل الدخول
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center py-2 text-success" 
-                                       href="{% url 'register_path' %}">
+                                       href="{% url 'register_user_path' %}">
                                         <i class="fas fa-user-plus me-2"></i>
                                         إنشاء حساب
                                     </a>
@@ -555,7 +555,14 @@
                                 </li>
 
                                 {# 🛑 تصحيح: إضافة action لنموذج التصنيف #}
-                                <form id="cat" method="POST" action="{% url 'add_category_path' %}" class="p-3">
+                                <!--
+                                action
+                                ="{% 
+                                url 
+                                'add_category_path' 
+                                %}" 
+                                -->
+                                <form id="cat" method="POST" class="p-3">
                                     <div id="cat_input" class="bg-light rounded p-3">
                                         {% csrf_token %}
                                         {{ add_category }}

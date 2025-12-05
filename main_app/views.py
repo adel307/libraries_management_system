@@ -14,7 +14,7 @@ base_context = {
 }
 
 def home(request):
-    if Customer.objects.filter(user_id = request.user.id).first():
+    if request.user.is_authenticated:
         
         filtered_books = Book.objects.exclude(status='sold')
         search = request.GET.get('search_name')
