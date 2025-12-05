@@ -87,7 +87,7 @@ def register_user(request):
     
     return render(request, 'clint/register.html', {'form': form})
 
-def user_logout(request):
+def logout(request):
     """
     تسجيل خروج المستخدم بشكل آمن (إنهاء الجلسة) دون حذف بياناته.
     """
