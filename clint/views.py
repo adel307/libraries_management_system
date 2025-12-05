@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate , logout as auth_logout
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from my_books.models import Category
 from .models import Customer
@@ -87,57 +87,6 @@ def register_user(request):
     
     return render(request, 'clint/register.html', {'form': form})
 
-
-# def customer_list(request):
-#     customers = Customer.objects.all().order_by('-created_at')
-#     context = {
-#         'customers': customers,
-#         'title': 'قائمة العملاء'
-#     }
-#     return render(request, 'clint/customer_list.html', context)
-
-# @login_required
-# def update_customer(request, id):
-#     customer = get_object_or_404(Customer, id=id)
-    
-#     if request.method == 'POST':
-#         form = CustomerForm(request.POST, request.FILES, instance=customer)
-#         if form.is_valid():
-#             try:
-#                 form.save()
-#                 messages.success(request, f'تم تحديث بيانات العميل {customer.name} بنجاح!')
-#                 return redirect('customer_list')  # أو أي صفحة تريد
-#             except Exception as e:
-#                 messages.error(request, f'حدث خطأ أثناء التحديث: {str(e)}')
-#         else:
-#             messages.error(request, 'يرجى تصحيح الأخطاء في النموذج')
-#     else:
-#         form = CustomerForm(instance=customer)
-    
-#     context = {
-#         'form': form,
-#         'title': 'تعديل بيانات العميل',
-#         'customer': customer
-#     }
-#     return render(request, 'clint/customer_form.html', context)
-
-# def edit_customer(request, customer_id):
-#     """تعديل بيانات العميل"""
-#     customer = get_object_or_404(Customer, id=customer_id)
-    
-#     if request.method == 'POST':
-#         form = CustomerForm(request.POST, instance=customer)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'تم تحديث بيانات العميل بنجاح')
-#             return redirect('customer_profile', customer_id=customer.id)
-#     else:
-#         form = CustomerForm(instance=customer)
-    
-#     return render(request, 'edit_customer.html', {
-#         'form': form,
-#         'customer': customer,
-#     })
 def user_logout(request):
     """
     تسجيل خروج المستخدم بشكل آمن (إنهاء الجلسة) دون حذف بياناته.
@@ -156,3 +105,52 @@ def user_logout(request):
     # في حال كان الطلب GET، اعرض صفحة التأكيد على تسجيل الخروج
     # (يفضل تغيير اسم القالب في نظامك ليصبح clint/logout_confirm.html أو ما شابه)
     return render(request, 'logout.html')
+
+def customer_login(request):
+    """
+    تعالج عملية تسجيل دخول العميل باستخدام اسم المستخدم وكلمة المرور.
+    """
+    
+    # إذا كان المستخدم مسجلاً بالفعل، قم بتوجيهه إلى الصفحة الرئيسية
+    if request.user.is_authenticated:
+        # يمكنك تغيير المسار حسب الرابط الرئيسي لصفحة العميل
+        return redirect('main') 
+
+    # --- 1. معالجة طلب الإرسال (POST) ---
+    if request.method == 'POST':
+        # تهيئة نموذج المصادقة بالبيانات المرسلة
+        form = AuthenticationForm(request, data=request.POST)
+        
+        if form.is_valid():
+            # استخراج اسم المستخدم وكلمة المرور من النموذج النظيف
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            
+            # محاولة المصادقة على المستخدم
+            user = authenticate(username=username, password=password)
+            
+            if user is not None:
+                # إذا تمت المصادقة بنجاح، قم بإنشاء جلسة تسجيل دخول له
+                login(request, user)
+                messages.success(request, f"أهلاً بك مجدداً يا {username}! تم تسجيل الدخول بنجاح.")
+                
+                # التوجيه بعد تسجيل الدخول (يمكنك التوجيه إلى أي صفحة تريد)
+                return redirect('main') # استبدل 'main' بالمسار الصحيح
+            else:
+                # فشل المصادقة (خطأ منطقي لم يتم التقاطه بواسطة is_valid)
+                messages.error(request, "اسم المستخدم أو كلمة المرور غير صحيحة.")
+        else:
+            # النموذج غير صالح (مثل حقول فارغة أو خطأ من Django)
+            messages.error(request, "الرجاء تصحيح الأخطاء في النموذج.")
+
+    # --- 2. معالجة طلب العرض (GET) ---
+    else:
+        # إذا كان الطلب GET، اعرض نموذج تسجيل الدخول الفارغ
+        form = AuthenticationForm()
+
+    # إعادة عرض صفحة تسجيل الدخول مع النموذج (سواء كان فارغاً أو يحتوي على أخطاء)
+    context = {
+        'login_form': form,
+        'title': 'تسجيل الدخول',
+    }
+    return render(request, 'clint/login.html', context)
